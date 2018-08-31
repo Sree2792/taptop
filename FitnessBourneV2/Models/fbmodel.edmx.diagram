@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="be4917ecf8e247d8943a9c7d06116b10" Name="Diagram1" >
+        <EntityTypeShape EntityType="fbmodel.FitnessClub" Width="1.5" PointX="2.75" PointY="1" />
+        <EntityTypeShape EntityType="fbmodel.AddressTable" Width="1.5" PointX="7.125" PointY="0.75" />
+        <AssociationConnector Association="fbmodel.AddressTableFitnessClub" />
+        <EntityTypeShape EntityType="fbmodel.MemberTable" Width="1.5" PointX="3.625" PointY="4.25" />
+        <AssociationConnector Association="fbmodel.MemberTableFitnessClub" />
+        <AssociationConnector Association="fbmodel.MemberTableFitnessClub1" />
+        <EntityTypeShape EntityType="fbmodel.EventTable" Width="1.75" PointX="6.625" PointY="4.75" />
+        <AssociationConnector Association="fbmodel.EventTableMemberTable" />
+        <AssociationConnector Association="fbmodel.EventTableMemberTable1" />
+        <EntityTypeShape EntityType="fbmodel.NotificationActionTable" Width="2.25" PointX="3.125" PointY="8.375" />
+        <EntityTypeShape EntityType="fbmodel.NotificationTable" Width="1.75" PointX="3.375" PointY="10.875" />
+        <AssociationConnector Association="fbmodel.NotificationTableNotificationActionTable" />
+        <AssociationConnector Association="fbmodel.NotificationActionTableMemberTable" />
+        <EntityTypeShape EntityType="fbmodel.EventEdit" Width="1.5" PointX="10.5" PointY="6.5" />
+        <AssociationConnector Association="fbmodel.EventEditEventTable" />
+        <AssociationConnector Association="fbmodel.EventEditMemberTable" />
+        <EntityTypeShape EntityType="fbmodel.LocationTable" Width="1.5" PointX="11" PointY="3.75" />
+        <AssociationConnector Association="fbmodel.LocationTableAddressTable" />
+        <AssociationConnector Association="fbmodel.LocationTableEventTable" />
+        <AssociationConnector Association="fbmodel.LocationTableEventEdit" />
+        <AssociationConnector Association="fbmodel.NotificationTableEventEdit" />
+        <AssociationConnector Association="fbmodel.MemberTableAddressTable" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
