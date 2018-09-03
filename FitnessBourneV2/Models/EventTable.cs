@@ -17,8 +17,8 @@ namespace FitnessBourneV2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EventTable()
         {
-            this.MemberTables = new HashSet<MemberTable>();
             this.LocationTables = new HashSet<LocationTable>();
+            this.MemberTables = new HashSet<MemberTable>();
         }
     
         public int Evnt_Id { get; set; }
@@ -30,10 +30,10 @@ namespace FitnessBourneV2.Models
         public int Evnt_Capacity { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberTable> MemberTables { get; set; }
-        public virtual MemberTable EventAdmin { get; set; }
-        public virtual EventEdit EventEdit { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocationTable> LocationTables { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MemberTable> MemberTables { get; set; }
+        public virtual MemberTable Admin { get; set; }
+        public virtual EventEdit EventEdit { get; set; }
     }
 }

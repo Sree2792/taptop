@@ -24,10 +24,10 @@ namespace FitnessBourneV2.Models
         public int Loc_Id { get; set; }
         public string Loc_Ref_Name { get; set; }
     
-        public virtual AddressTable AddressTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventTable> EventTables { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventEdit> EventEdits { get; set; }
+        public virtual AddressTable AddressTable { get; set; }
     }
 }

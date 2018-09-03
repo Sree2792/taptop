@@ -23,9 +23,8 @@ namespace FitnessBourneV2.Models
         public int FC_Id { get; set; }
         public string FC_Ref_Name { get; set; }
     
-        public virtual AddressTable AddressTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MemberTable> MemberTables { get; set; }
-        public virtual MemberTable Owner { get; set; }
+        public virtual AddressTable AddressTable { get; set; }
     }
 }

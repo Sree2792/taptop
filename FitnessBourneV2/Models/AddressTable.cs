@@ -15,17 +15,18 @@ namespace FitnessBourneV2.Models
     public partial class AddressTable
     {
         public int Adr_Id { get; set; }
-        public int Adr_Lat { get; set; }
-        public int Adr_Long { get; set; }
+        public double Adr_Lat { get; set; }
+        public double Adr_Long { get; set; }
         public string Adr_Unit_No { get; set; }
         public string Adr_House_No { get; set; }
         public string Adr_Street_Name { get; set; }
         public string Adr_Suburb_Name { get; set; }
         public string Adr_City_Name { get; set; }
         public string Adr_Zipcode { get; set; }
+        public string Adr_State_Name { get; set; }
     
         public virtual FitnessClub FitnessClub { get; set; }
-        public virtual LocationTable LocationTable { get; set; }
         public virtual MemberTable MemberTable { get; set; }
+        public virtual LocationTable LocationTable { get; set; }
     }
 }

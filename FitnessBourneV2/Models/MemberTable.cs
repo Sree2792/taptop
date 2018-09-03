@@ -23,16 +23,16 @@ namespace FitnessBourneV2.Models
         public int Mem_Id { get; set; }
         public string Mem_Contact_No { get; set; }
         public string Mem_Email_Id { get; set; }
-        public string Mem_Login_Id { get; set; }
         public int FitnessClubFC_Id { get; set; }
+        public string Mem_FirstName { get; set; }
+        public string Mem_GivenName { get; set; }
     
         public virtual FitnessClub FitnessClub { get; set; }
-        public virtual FitnessClub FitnessClubOwner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventTable> EventTables { get; set; }
-        public virtual EventTable AdminOfEvent { get; set; }
+        public virtual EventTable EventAdmin { get; set; }
         public virtual NotificationActionTable NotificationActionTable { get; set; }
-        public virtual EventEdit EventEditCreator { get; set; }
+        public virtual EventEdit EventEdited { get; set; }
         public virtual AddressTable AddressTable { get; set; }
     }
 }

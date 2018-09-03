@@ -17,6 +17,7 @@ namespace FitnessBourneV2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private fbmodelContainer db = new fbmodelContainer();
 
         public AccountController()
         {
@@ -139,7 +140,12 @@ namespace FitnessBourneV2.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+
+            RegisterViewModel passMod = new RegisterViewModel()
+            {
+                listOfClub = db.FitnessClubs.ToList()
+            };
+            return View(passMod);
         }
 
         //
@@ -149,20 +155,68 @@ namespace FitnessBourneV2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            //re inserting 
+            model.listOfClub = db.FitnessClubs.ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.ContactNum };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+
+                    //Add Registered User info to local member table with name , contact number , address and Details
+
+                    MemberTable memObj = new MemberTable()
+                    {
+                        Mem_FirstName = model.FirstName,
+                        Mem_GivenName = model.GivenName,
+                        Mem_Contact_No = model.ContactNum,
+                        Mem_Email_Id = model.ContactNum
+                    };
+
+                    FitnessClub selectdClub = new FitnessClub();
+                    foreach(var item in db.FitnessClubs.ToList())
+                    {
+                        if (item.FC_Id.ToString() == model.selectedClub)
+                        {
+                            selectdClub = item;
+                            break;
+                        }
+                    }
+                    memObj.FitnessClub = selectdClub;
+
+                    string unitNum = "";
+                    if (model.UnitNo != null)
+                    {
+                        unitNum = model.UnitNo;
+                    }
+            
+                    AddressTable adrObj = new AddressTable()
+                    {
+                        Adr_Unit_No = unitNum,
+                        Adr_House_No = model.HouseNo,
+                        Adr_Street_Name = model.StreetName,
+                        Adr_Suburb_Name = model.SuburbName,
+                        Adr_City_Name = model.CityName,
+                        Adr_State_Name = model.StateName,
+                        Adr_Zipcode = model.Zipcode,
+                        Adr_Lat = -37.85,
+                        Adr_Long = 144.03
+                    };
+
+                    memObj.AddressTable = adrObj;
+
+                    db.MemberTables.Add(memObj);
+                    db.SaveChanges();
+              
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

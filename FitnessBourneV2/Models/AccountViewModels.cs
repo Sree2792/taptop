@@ -79,6 +79,54 @@ namespace FitnessBourneV2.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Given Name")]
+        public string GivenName { get; set; }
+
+        [Required]
+        [Phone]
+        [Display(Name = "ContactNum")]
+        public string ContactNum { get; set; }
+
+        [Display(Name = "Unit Number")]
+        public string UnitNo { get; set; }
+
+        [Required]
+        [Display(Name = "House Number")]
+        public string HouseNo { get; set; }
+
+        [Required]
+        [Display(Name = "Street Name")]
+        public string StreetName { get; set; }
+
+        [Required]
+        [Display(Name = "Suburb Name")]
+        public string SuburbName { get; set; }
+
+        [Required]
+        [Display(Name = "City Name")]
+        public string CityName { get; set; }
+
+        [Required]
+        [Display(Name = "State Name")]
+        public string StateName { get; set; }
+
+        [Required]
+        [Display(Name = "Zip Code")]
+        public string Zipcode { get; set; }
+
+        [Required]
+        [Display(Name = "Club")]
+        public string selectedClub { get; set; }
+
+        public FitnessClub selectedClubObj { get; set; }
+
+        public List<FitnessClub> listOfClub { get; set; }
     }
 
     public class ResetPasswordViewModel
