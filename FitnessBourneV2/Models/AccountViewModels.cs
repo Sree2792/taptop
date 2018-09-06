@@ -46,6 +46,15 @@ namespace FitnessBourneV2.Models
         public string Email { get; set; }
     }
 
+    public class clubMap
+    {
+        public string clubName;
+        public string clubAddr;
+        public string ownerName;
+        public double latitude;
+        public double longitude;
+    }
+
     public class LoginViewModel
     {
         [Required]

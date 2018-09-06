@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FitnessBourneV2.Models;
+using System.Collections.Generic;
 
 namespace FitnessBourneV2.Controllers
 {
@@ -224,6 +225,38 @@ namespace FitnessBourneV2.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        public JsonResult GetMap()
+        { 
+            List<clubMap> clubDetail = new List<clubMap>();
+            
+            foreach(var club in db.FitnessClubs.ToList())
+            {
+                string unitAddr = "";
+                if(club.AddressTable.Adr_Unit_No != "")
+                {
+                    unitAddr = club.AddressTable.Adr_Unit_No + "/" + club.AddressTable.Adr_House_No;
+                }else
+                {
+                    unitAddr = club.AddressTable.Adr_House_No;
+                }
+                string address = unitAddr + " " + club.AddressTable.Adr_Street_Name +
+                    ", " + club.AddressTable.Adr_Suburb_Name + ", " + club.AddressTable.Adr_City_Name +
+                    ", " + club.AddressTable.Adr_State_Name + " Zip: " + club.AddressTable.Adr_Zipcode;
+
+                clubMap mapOfClub = new clubMap()
+                {
+                    clubName = club.FC_Ref_Name,
+                    clubAddr = address,
+                    latitude = club.AddressTable.Adr_Lat,
+                    longitude = club.AddressTable.Adr_Long
+                };
+
+                clubDetail.Add(mapOfClub);
+                
+            }
+            return Json(clubDetail, JsonRequestBehavior.AllowGet);
         }
 
         //

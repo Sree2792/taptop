@@ -2,18 +2,39 @@
 @{
     /**/
 
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Member Register";
 }
 <!-- reference to Leaflet CSS -->
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 
 <!-- reference to Leaflet JavaScript -->
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-
-<h2>@ViewBag.Title.</h2>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
 <style>
 
+    body{
+        color:white;
+    }
+
+    .registrBody{
+
+        background-image: url("../Image/loginBG.jpg");
+        background-size: cover;                      
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-color: #080b0e;
+    }
+
+    #titleHeader{
+
+        margin-left:15%;
+    }
+
+    .form-horizontal{
+
+        margin-left:10%;
+    }
     #mapClubs {
         margin-top: 30px;
         width: 900px;
@@ -22,7 +43,7 @@
     }
 
     #mapBlock {
-        background-color: #eb7537;
+        
     }
 
     #mapTitle {
@@ -55,115 +76,119 @@
     }
 </style>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+<h2 id="titleHeader">@ViewBag.Title.</h2>
+<div class="registrBody">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Create a new account.</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.GivenName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.GivenName, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.GivenName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.GivenName, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ContactNum, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.ContactNum, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.ContactNum, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.ContactNum, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.UnitNo, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UnitNo, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.UnitNo, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UnitNo, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.HouseNo, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.HouseNo, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.HouseNo, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.HouseNo, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.StreetName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.StreetName, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.StreetName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.StreetName, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.SuburbName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.SuburbName, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.SuburbName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.SuburbName, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.CityName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.CityName, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.CityName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.CityName, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.StateName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.StateName, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.StateName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.StateName, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Zipcode, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Zipcode, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Zipcode, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Zipcode, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.selectedClub, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @{
-                List<SelectListItem> listItems = new List<SelectListItem>();
+        <div class="form-group">
+            @Html.LabelFor(m => m.selectedClub, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
 
-                foreach (var item in Model.listOfClub)
-                {
-                    listItems.Add(new SelectListItem
+                    foreach (var item in Model.listOfClub)
                     {
-                        Text = item.FC_Ref_Name,
-                        Value = item.FC_Id.ToString()
-                    });
-                }
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = item.FC_Ref_Name,
+                            Value = item.FC_Id.ToString()
+                        });
+                    }
 
-            }
-            @Html.DropDownListFor(m => m.selectedClub, listItems, new { @class = "form-control" })
+                }
+                @Html.DropDownListFor(m => m.selectedClub, listItems, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Register" />
+            </div>
         </div>
-    </div>
-}
+                    }
+</div>
+
 <div class="row oddBlock" id="mapBlock">
     <div class="col-md-8 col-md-offset-2" id='mapClubs'></div>
     <div class="col-md-3">
@@ -177,49 +202,59 @@
         </div>
     </div>
 </div>
-<script>
-    //  create map object, tell it to live in 'map' div and give initial latitude, longitude, zoom values
-    var map = L.map('mapClubs', { scrollWheelZoom: false }).setView([-37.89, 145.00], 11);
-
-    //  add base map tiles from OpenStreetMap and attribution info to 'map' div
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    var mapIcon = L.icon({
-        iconUrl: '../Image/Map_Pin.png',
-        iconSize: [38, 95], // size of the icon
-        popupAnchor: [0, -15]
-    });
-
-    var customOptions =
-        {
-            'maxWidth': '500'
-        };
-
-    var clubList = @Model.listOfClub;
-    var mapLocations = [];
-
-    @foreach (var item in Model.listOfClub)
-    {
-        var stringHtml = "<strong class='popUpTitle'>" + item.FC_Ref_Name +
-                "</strong ></br > <img src='../Image/club1.jpg' alt='maptime logo gif' width='350px' />" +
-                " </ br > < button class='popUpBtn'>JOIN</button>";
-
-        var locLat = item.AddressTable.Adr_Lat;
-        var locLong = item.AddressTable.Adr_Long;
-
-        @:mapLocations.push(["@stringHtml", @locLat, @locLong]);
-    }
- 
-    for (var i = 0; i < mapLocations.length; i++) {
-
-        marker = new L.marker([mapLocations[i][1], mapLocations[i][2]]).bindPopup(mapLocations[i][0], customOptions).addTo(map);
-
-    }
-
-</script>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script>
+
+    
+    $(document).ready(function () {
+        //  create map object, tell it to live in 'map' div and give initial latitude, longitude, zoom values
+        var map = L.map('mapClubs', { scrollWheelZoom: false }).setView([-37.89, 145.00], 11);
+
+        $.ajax({
+            type: "POST",
+            url: '/Account/GetMap/0',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var result = JSON.stringify(data);
+                
+                console.log(data);
+                
+                for (var i = 0; i < result.length; ++i) {
+
+                    L.marker([data[i].latitude, data[i].longitude]).
+                    bindPopup("<strong class='popUpTitle'>" + data[i].clubName + 
+                    "</strong></br>" + "<strong class='popUpAdr'>" + data[i].clubAddr + 
+                    "</strong></br>"+ "<img src='../Image/club1.jpg' alt='maptime logo gif' width='350px'/>" + 
+                    "</br> <button class='popUpBtn'>JOIN</button>",
+                    customOptions).addTo(map);
+                }
+
+            },
+            error: function (xhr) {
+
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+
+        var mapIcon = L.icon({
+            iconUrl: '../Image/Map_Pin.png',
+            iconSize: [38, 95], // size of the icon
+            popupAnchor: [0, -15]
+        });
+
+        L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+            attribution: '© <a href="http://osm.org/copyright" title="OpenStreetMap" target="_blank">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" title="MapQuest" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" width="16" height="16">',
+            subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
+        }).addTo(map);
+
+    });
+
+</script>
+
+
+
+
