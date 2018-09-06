@@ -283,6 +283,7 @@
     <Content Include="Image\club5.jpg" />
     <Content Include="Image\club6.jpg" />
     <Content Include="Image\club7.jpg" />
+    <Content Include="Image\loginBG.jpg" />
     <Content Include="Image\Logo.png" />
     <Content Include="Image\Map_Pin.png" />
     <Content Include="Image\Motiv_Image1.jpg" />
