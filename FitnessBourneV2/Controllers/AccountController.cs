@@ -227,6 +227,8 @@ namespace FitnessBourneV2.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
         public JsonResult GetMap()
         { 
             List<clubMap> clubDetail = new List<clubMap>();
