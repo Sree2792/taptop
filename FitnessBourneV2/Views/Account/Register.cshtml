@@ -183,7 +183,7 @@
                     }
 
                 }
-                @Html.DropDownListFor(m => m.selectedClub, listItems, new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.selectedClub, listItems, new { @class = "form-control dropdown" })
             </div>
         </div>
         <div class="form-group">
@@ -233,10 +233,10 @@
                 for (var i = 0; i < result.length; ++i) {
                     
                     var imageCount = (i + 1).toString();
-                    var popUpData = "<strong class='popUpTitle'>" + data[i].clubName +
-                    "</strong></br>" + "<strong class='popUpAdr'>" + data[i].clubAddr +
-                    "</strong></br>" + "<img src='../Image/club" + imageCount + ".jpg' alt='maptime logo gif' width='350px'/>" +
-                    "</br> <button class='popUpBtn'>JOIN</button>";
+                    var popUpData = '<strong class="popUpTitle">' + data[i].clubName +
+                    '</strong></br>' + '<strong class="popUpAdr">' + data[i].clubAddr +
+                        '</strong></br>' + '<img src="../Image/club' + imageCount + '.jpg" alt="maptime logo gif" width="100px" height="100px" />' +
+                        '</br> <button class="popUpBtn" onclick="clubJoin(\'' + data[i].clubName + '\')">JOIN</button>';
 
                     L.marker([data[i].latitude, data[i].longitude]).
                     bindPopup(popUpData,
@@ -264,6 +264,20 @@
 
     });
 
+    function clubJoin(clubName) {
+
+        //var $option = $('.dropdown').children('option[text="' + clubName + '"]');
+        // and now set the option we want selected
+        //$option.attr('selected', 'selected');​​
+
+        $("select option").each(function () {
+            if ($(this).text() == clubName) {
+                $(this).attr("selected", "selected");
+            }
+                
+        });
+        $(this).parents('div').fadeOut();
+    }
 </script>
 
 
