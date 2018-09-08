@@ -176,7 +176,12 @@ namespace FitnessBourneV2.Controllers
                 db.FitnessClubs.Add(fClub7);
                 db.SaveChanges();
             }
-            return View();
+
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
     }
 }

@@ -17,18 +17,25 @@
         color:white;
     }
 
-    .registrBody{
-
+    #navBarId {
+        display: none;
+    }
+    
+    .registrBody {
         background-image: url("../Image/loginBG.jpg");
-        background-size: cover;                      
+        background-size: cover;
         background-repeat: no-repeat;
         background-position: center center;
         background-color: #080b0e;
     }
 
-    #titleHeader{
+    .formPos{
 
-        margin-left:15%;
+        margin-left:15% !important;
+    } 
+    
+    #titleHeader {
+        margin-left: 15%;
     }
 
     .form-horizontal{
@@ -79,11 +86,15 @@
     .popUpAdr{
         color:black !important;
     }
+
+    #loginLink{
+        margin: 3%;
+    }
 </style>
 
 <h2 id="titleHeader">@ViewBag.Title.</h2>
 <div class="registrBody">
-    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal formPos", role = "form" }))
     {
         @Html.AntiForgeryToken()
         <h4>Create a new account.</h4>
@@ -189,9 +200,12 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" class="btn btn-default" value="Register" />
+                <p id="loginLink">
+                    @Html.ActionLink("Already Registered User", "Login")
+                </p>
             </div>
         </div>
-                    }
+}
 </div>
 
 <div class="row oddBlock" id="mapBlock">
@@ -276,7 +290,7 @@
             }
                 
         });
-        $(this).parents('div').fadeOut();
+        $(".leaflet-popup").hide();
     }
 </script>
 
