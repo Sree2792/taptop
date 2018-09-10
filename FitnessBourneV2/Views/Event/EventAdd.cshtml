@@ -85,7 +85,7 @@ new SelectListItem{ Text="15", Value = "15" }
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Add Event" />
+            <input type="button" class="btn btn-default" onclick="setEdit()" value="Add Event" />
         </div>
     </div>
 }
@@ -108,10 +108,19 @@ new SelectListItem{ Text="15", Value = "15" }
         });
     });
 
-    $.ajax({
+    function setEdit() {
+
+        var locationList = [];
+
+        $('.leaflet-control-container input').each(function () {
+
+            locationList.push(this.value)
+        });
+
+        $.ajax({
         type: "POST",
-        url: '@Url.Action("setSession", "Event")',
-        data: ' {name:"' + screenName + '"}',
+        url: '@Url.Action("EventAdd", "Event")',
+        data: ' {locationList:"' + locationList + '"}',
         ContentType: "application/Json;Charset=utf-8",
         success: function () {
             document.getElementById("mainForm").submit();
@@ -121,6 +130,8 @@ new SelectListItem{ Text="15", Value = "15" }
             alert("Error has occurred..");
         }
     });
+    }
+
 
 </script>
 <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
