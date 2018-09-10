@@ -26,5 +26,6 @@ namespace FitnessBourneV2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MemberTable> MemberTables { get; set; }
         public virtual AddressTable AddressTable { get; set; }
+        public virtual EventTable EventTable { get; set; }
     }
 }

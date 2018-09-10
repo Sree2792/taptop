@@ -33,5 +33,6 @@ namespace FitnessBourneV2.Models
         public virtual DbSet<NotificationTable> NotificationTables { get; set; }
         public virtual DbSet<EventEdit> EventEdits { get; set; }
         public virtual DbSet<LocationTable> LocationTables { get; set; }
+        public virtual DbSet<EventType> EventTypes { get; set; }
     }
 }

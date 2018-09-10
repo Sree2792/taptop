@@ -2,13 +2,11 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/03/2018 14:19:08
--- Generated from EDMX file: C:\Users\sjay0010\source\repos\FitnessBourneV2\FitnessBourneV2\Models\fbmodel.edmx
+-- Date Created: 09/10/2018 10:54:16
+-- Generated from EDMX file: \\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2\FitnessBourneV2\Models\fbmodel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
-GO
-USE [fbmasterdb];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -17,17 +15,11 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_AddressTableFitnessClub]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AddressTables] DROP CONSTRAINT [FK_AddressTableFitnessClub];
-GO
 IF OBJECT_ID(N'[dbo].[FK_MemberTableFitnessClub]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MemberTables] DROP CONSTRAINT [FK_MemberTableFitnessClub];
 GO
 IF OBJECT_ID(N'[dbo].[FK_NotificationTableNotificationActionTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[NotificationActionTables] DROP CONSTRAINT [FK_NotificationTableNotificationActionTable];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LocationTableAddressTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LocationTables] DROP CONSTRAINT [FK_LocationTableAddressTable];
 GO
 IF OBJECT_ID(N'[dbo].[FK_LocationTableEventTable_LocationTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LocationTableEventTable] DROP CONSTRAINT [FK_LocationTableEventTable_LocationTable];
@@ -44,15 +36,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_NotificationTableEventEdit]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[NotificationTables] DROP CONSTRAINT [FK_NotificationTableEventEdit];
 GO
-IF OBJECT_ID(N'[dbo].[FK_MemberTableAddressTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[MemberTables] DROP CONSTRAINT [FK_MemberTableAddressTable];
-GO
-IF OBJECT_ID(N'[dbo].[FK_EventTableMemberTable_EventTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[EventTableMemberTable] DROP CONSTRAINT [FK_EventTableMemberTable_EventTable];
-GO
-IF OBJECT_ID(N'[dbo].[FK_EventTableMemberTable_MemberTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[EventTableMemberTable] DROP CONSTRAINT [FK_EventTableMemberTable_MemberTable];
-GO
 IF OBJECT_ID(N'[dbo].[FK_EventTableMemberTable1]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventTables] DROP CONSTRAINT [FK_EventTableMemberTable1];
 GO
@@ -64,6 +47,18 @@ IF OBJECT_ID(N'[dbo].[FK_EventEditMemberTable]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_EventEditEventTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventEdits] DROP CONSTRAINT [FK_EventEditEventTable];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AddressTableFitnessClub]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FitnessClubs] DROP CONSTRAINT [FK_AddressTableFitnessClub];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AddressTableMemberTable]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[MemberTables] DROP CONSTRAINT [FK_AddressTableMemberTable];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AddressTableLocationTable]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LocationTables] DROP CONSTRAINT [FK_AddressTableLocationTable];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EventTypeEventTable]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EventTables] DROP CONSTRAINT [FK_EventTypeEventTable];
 GO
 
 -- --------------------------------------------------
@@ -94,14 +89,14 @@ GO
 IF OBJECT_ID(N'[dbo].[LocationTables]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LocationTables];
 GO
+IF OBJECT_ID(N'[dbo].[EventTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EventTypes];
+GO
 IF OBJECT_ID(N'[dbo].[LocationTableEventTable]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LocationTableEventTable];
 GO
 IF OBJECT_ID(N'[dbo].[LocationTableEventEdit]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LocationTableEventEdit];
-GO
-IF OBJECT_ID(N'[dbo].[EventTableMemberTable]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[EventTableMemberTable];
 GO
 
 -- --------------------------------------------------
@@ -112,7 +107,8 @@ GO
 CREATE TABLE [dbo].[FitnessClubs] (
     [FC_Id] int IDENTITY(1,1) NOT NULL,
     [FC_Ref_Name] nvarchar(max)  NOT NULL,
-    [AddressTable_Adr_Id] int  NULL
+    [AddressTable_Adr_Id] int  NULL,
+    [EventTable_Evnt_Id] int  NULL
 );
 GO
 
@@ -146,12 +142,12 @@ GO
 -- Creating table 'EventTables'
 CREATE TABLE [dbo].[EventTables] (
     [Evnt_Id] int IDENTITY(1,1) NOT NULL,
-    [Evnt_Type] nvarchar(max)  NOT NULL,
     [Evnt_Is_Private] tinyint  NOT NULL,
     [Evnt_Start_DateTime] datetime  NOT NULL,
     [Evnt_End_DateTime] datetime  NOT NULL,
     [Evnt_Is_Checkd_In] tinyint  NOT NULL,
     [Evnt_Capacity] int  NOT NULL,
+    [EventTypeET_Id] int  NOT NULL,
     [Admin_Mem_Id] int  NOT NULL
 );
 GO
@@ -191,6 +187,13 @@ CREATE TABLE [dbo].[LocationTables] (
 );
 GO
 
+-- Creating table 'EventTypes'
+CREATE TABLE [dbo].[EventTypes] (
+    [ET_Id] int IDENTITY(1,1) NOT NULL,
+    [ET_Name] nvarchar(max)  NOT NULL
+);
+GO
+
 -- Creating table 'LocationTableEventTable'
 CREATE TABLE [dbo].[LocationTableEventTable] (
     [LocationTables_Loc_Id] int  NOT NULL,
@@ -202,13 +205,6 @@ GO
 CREATE TABLE [dbo].[LocationTableEventEdit] (
     [LocationTables_Loc_Id] int  NOT NULL,
     [EventEdits_EE_Id] int  NOT NULL
-);
-GO
-
--- Creating table 'EventTableMemberTable'
-CREATE TABLE [dbo].[EventTableMemberTable] (
-    [EventTables_Evnt_Id] int  NOT NULL,
-    [MemberTables_Mem_Id] int  NOT NULL
 );
 GO
 
@@ -264,6 +260,12 @@ ADD CONSTRAINT [PK_LocationTables]
     PRIMARY KEY CLUSTERED ([Loc_Id] ASC);
 GO
 
+-- Creating primary key on [ET_Id] in table 'EventTypes'
+ALTER TABLE [dbo].[EventTypes]
+ADD CONSTRAINT [PK_EventTypes]
+    PRIMARY KEY CLUSTERED ([ET_Id] ASC);
+GO
+
 -- Creating primary key on [LocationTables_Loc_Id], [EventTables_Evnt_Id] in table 'LocationTableEventTable'
 ALTER TABLE [dbo].[LocationTableEventTable]
 ADD CONSTRAINT [PK_LocationTableEventTable]
@@ -274,12 +276,6 @@ GO
 ALTER TABLE [dbo].[LocationTableEventEdit]
 ADD CONSTRAINT [PK_LocationTableEventEdit]
     PRIMARY KEY CLUSTERED ([LocationTables_Loc_Id], [EventEdits_EE_Id] ASC);
-GO
-
--- Creating primary key on [EventTables_Evnt_Id], [MemberTables_Mem_Id] in table 'EventTableMemberTable'
-ALTER TABLE [dbo].[EventTableMemberTable]
-ADD CONSTRAINT [PK_EventTableMemberTable]
-    PRIMARY KEY CLUSTERED ([EventTables_Evnt_Id], [MemberTables_Mem_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -377,30 +373,6 @@ GO
 CREATE INDEX [IX_FK_NotificationTableEventEdit]
 ON [dbo].[NotificationTables]
     ([EventEdit_EE_Id]);
-GO
-
--- Creating foreign key on [EventTables_Evnt_Id] in table 'EventTableMemberTable'
-ALTER TABLE [dbo].[EventTableMemberTable]
-ADD CONSTRAINT [FK_EventTableMemberTable_EventTable]
-    FOREIGN KEY ([EventTables_Evnt_Id])
-    REFERENCES [dbo].[EventTables]
-        ([Evnt_Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [MemberTables_Mem_Id] in table 'EventTableMemberTable'
-ALTER TABLE [dbo].[EventTableMemberTable]
-ADD CONSTRAINT [FK_EventTableMemberTable_MemberTable]
-    FOREIGN KEY ([MemberTables_Mem_Id])
-    REFERENCES [dbo].[MemberTables]
-        ([Mem_Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_EventTableMemberTable_MemberTable'
-CREATE INDEX [IX_FK_EventTableMemberTable_MemberTable]
-ON [dbo].[EventTableMemberTable]
-    ([MemberTables_Mem_Id]);
 GO
 
 -- Creating foreign key on [Admin_Mem_Id] in table 'EventTables'
@@ -506,6 +478,36 @@ GO
 CREATE INDEX [IX_FK_AddressTableLocationTable]
 ON [dbo].[LocationTables]
     ([AddressTable_Adr_Id]);
+GO
+
+-- Creating foreign key on [EventTypeET_Id] in table 'EventTables'
+ALTER TABLE [dbo].[EventTables]
+ADD CONSTRAINT [FK_EventTypeEventTable]
+    FOREIGN KEY ([EventTypeET_Id])
+    REFERENCES [dbo].[EventTypes]
+        ([ET_Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_EventTypeEventTable'
+CREATE INDEX [IX_FK_EventTypeEventTable]
+ON [dbo].[EventTables]
+    ([EventTypeET_Id]);
+GO
+
+-- Creating foreign key on [EventTable_Evnt_Id] in table 'FitnessClubs'
+ALTER TABLE [dbo].[FitnessClubs]
+ADD CONSTRAINT [FK_EventTableFitnessClub]
+    FOREIGN KEY ([EventTable_Evnt_Id])
+    REFERENCES [dbo].[EventTables]
+        ([Evnt_Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_EventTableFitnessClub'
+CREATE INDEX [IX_FK_EventTableFitnessClub]
+ON [dbo].[FitnessClubs]
+    ([EventTable_Evnt_Id]);
 GO
 
 -- --------------------------------------------------

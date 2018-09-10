@@ -18,22 +18,21 @@ namespace FitnessBourneV2.Models
         public EventTable()
         {
             this.LocationTables = new HashSet<LocationTable>();
-            this.MemberTables = new HashSet<MemberTable>();
         }
     
         public int Evnt_Id { get; set; }
-        public string Evnt_Type { get; set; }
         public byte Evnt_Is_Private { get; set; }
         public System.DateTime Evnt_Start_DateTime { get; set; }
         public System.DateTime Evnt_End_DateTime { get; set; }
         public byte Evnt_Is_Checkd_In { get; set; }
         public int Evnt_Capacity { get; set; }
+        public int EventTypeET_Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocationTable> LocationTables { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberTable> MemberTables { get; set; }
         public virtual MemberTable Admin { get; set; }
         public virtual EventEdit EventEdit { get; set; }
+        public virtual EventType EventType { get; set; }
+        public virtual FitnessClub FitnessClub { get; set; }
     }
 }

@@ -12,6 +12,32 @@ namespace FitnessBourneV2.Controllers
         private fbmodelContainer db = new fbmodelContainer();
         public ActionResult Index()
         {
+            if(db.EventTypes.ToList().Count == 0)
+            {
+                // event type cycling
+                EventType typeOne = new EventType()
+                {
+                    ET_Name = "Cycling"
+                };
+                db.EventTypes.Add(typeOne);
+                db.SaveChanges();
+
+                //event type walking
+                EventType typeTwo = new EventType()
+                {
+                    ET_Name = "Walking"
+                };
+                db.EventTypes.Add(typeTwo);
+                db.SaveChanges();
+
+                // event type Running
+                EventType typeThree = new EventType()
+                {
+                    ET_Name = "Running"
+                };
+                db.EventTypes.Add(typeThree);
+                db.SaveChanges();
+            }
             if(db.FitnessClubs.ToList().Count == 0)
             {
                 //Club 1
@@ -182,6 +208,24 @@ namespace FitnessBourneV2.Controllers
                 return View();
             }
             return RedirectToAction("Login", "Account");
+        }
+
+        public void BtnAction()
+        {
+
+            string screenName = Session["ScreenNavName"].ToString();
+
+            if (screenName == "AddEvent")
+            {
+                //Add Event
+                RedirectToAction("EventAdd", "Event");
+            }
+        }
+
+        [HttpPost]
+        public void setSession(string ItemRows)
+        {
+            Session["ScreenNavName"] = ItemRows;
         }
     }
 }

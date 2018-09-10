@@ -11,87 +11,6 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-<style>
-
-    body{
-        color:white;
-    }
-
-    #navBarId {
-        display: none;
-    }
-    
-    .registrBody {
-        background-image: url("../Image/loginBG.jpg");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-color: #080b0e;
-    }
-
-    .formPos{
-
-        margin-left:15% !important;
-    } 
-    
-    #titleHeader {
-        margin-left: 15%;
-    }
-
-    .form-horizontal{
-
-        margin-left:10%;
-    }
-    #mapClubs {
-        margin-top: 30px;
-        width: 900px;
-        height: 650px;
-        margin-bottom: 30px;
-    }
-
-    #mapBlock {
-        
-    }
-
-    #mapTitle {
-        margin-left: 5%;
-        margin-top: 20%;
-        font-size: 40px;
-        color: white;
-    }
-
-    #mapContent {
-        margin-top: 20%;
-        margin-left: 5%;
-        font-size: 30px;
-        color: white;
-    }
-
-    #clubBanner {
-        margin-left: 40%;
-    }
-
-    .popUpBtn {
-        margin-left: 40%;
-        background-color: #EB7537;
-        margin-top: 5px;
-        color: #FFF;
-    }
-
-    .popUpTitle {
-        font-size: 25px;
-        color:black !important;
-    }
-
-    .popUpAdr{
-        color:black !important;
-    }
-
-    #loginLink{
-        margin: 3%;
-    }
-</style>
-
 <h2 id="titleHeader">@ViewBag.Title.</h2>
 <div class="registrBody">
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal formPos", role = "form" }))
@@ -205,7 +124,7 @@
                 </p>
             </div>
         </div>
-}
+    }
 </div>
 
 <div class="row oddBlock" id="mapBlock">

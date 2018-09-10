@@ -14,12 +14,6 @@ namespace FitnessBourneV2.Models
     
     public partial class MemberTable
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public MemberTable()
-        {
-            this.EventTables = new HashSet<EventTable>();
-        }
-    
         public int Mem_Id { get; set; }
         public string Mem_Contact_No { get; set; }
         public string Mem_Email_Id { get; set; }
@@ -28,8 +22,6 @@ namespace FitnessBourneV2.Models
         public string Mem_GivenName { get; set; }
     
         public virtual FitnessClub FitnessClub { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EventTable> EventTables { get; set; }
         public virtual EventTable EventAdmin { get; set; }
         public virtual NotificationActionTable NotificationActionTable { get; set; }
         public virtual EventEdit EventEdited { get; set; }

@@ -10,330 +10,86 @@
 <!-- reference to Leaflet JavaScript -->
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
-<!--<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
-<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />-->
 
-<style>
-    #navBarId {
-        background-color: #4a4242 !important;
-        border-color: #4a4242 !important;
-    }
 
-    #navMenu {
-        /*background-color:black;*/
-        margin-left: 40%;
-    }
-
-    #fitnessSpan {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        padding-left: 5%;
-    }
-
-    #logoImg {
-        padding-top: 2%;
-        padding-bottom: 2%;
-        padding-right: 2%;
-        padding-left: 8%;
-        width: 90%;
-        height: 90%;
-    }
-
-    #logoBorder {
-        padding: 2px;
-        border: 10px solid #989898;
-        border-radius: 50px;
-        margin-bottom: 30px;
-        background-color: white;
-        height: 300px;
-        width: 300px;
-        margin-left: 24%;
-    }
-
-    #firstBlock {
-        background-color: white;
-    }
-
-    #titlespan {
-        color: #FF6D1D;
-        font-size: 25px;
-        margin-left: 20%;
-    }
-
-    #aboutspan {
-        color: #FF6D1D;
-        margin-bottom: 30px;
-    }
-
-    #mapClubs {
-        margin-top: 30px;
-        width: 900px;
-        height: 650px;
-        margin-bottom: 30px;
-    }
-
-    #mapBlock {
-        #background-color: #eb7537;
-    }
-
-    #imgBlock {
-        #background-color: rgb(135, 134, 134);
-    }
-
-    #mapTitle {
-        margin-left: 5%;
-        margin-top: 20%;
-        font-size: 40px;
-        color: white;
-    }
-
-    #mapContent {
-        margin-top: 20%;
-        margin-left: 5%;
-        font-size: 30px;
-        color: white;
-    }
-
-    #motivBlock {
-        width: 90%;
-        margin-left: 5%;
-        height: 650px;
-    }
-
-    #MotivTxt {
-        position: absolute;
-        top: 20%;
-        left: 45%;
-        transform: translate(-50%, -50%);
-        font-size: 30px;
-    }
-
-    #MotivContainer {
-        position: relative;
-        text-align: center;
-        color: white;
-    }
-
-    #clubBanner {
-        margin-left: 40%;
-    }
-
-    .popUpBtn {
-        margin-left: 40%;
-        background-color: #EB7537;
-        margin-top: 5px;
-        color: #FFF;
-    }
-
-    .popUpTitle {
-        font-size: 25px;
-    }
-</style>
-<!--<div class="row" id="firstBlock">
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-4"  id="fitnessSpan">
-            <span id="titlespan"><b>FITNESS</b><b>BOURNE</b></span>
+@using (Html.BeginForm("BtnAction", "Home", FormMethod.Post, new { @id = "mainForm", @class = "form-horizontal formPos", role = "form" }))
+{
+    <div class="row oddBlock" id="imgBlock">
+        <div class="col-md-6 col-md-offset-3" id="MotivContainer">
+            <img src="~/Image/Motiv_Image1.jpg" id="motivBlock" />
+            <div id="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-4">
-            <div id="logoBorder" >
-                <img src="../Image/Logo.png" id="logoImg" />
+    <div class="row oddBlock" id="imgBlock">
+        <div class="col-md-6 col-md-offset-3" id="MotivContainer">
+             <input type="button" onclick="setNavScreenName('AddEvent')" title="Add Event" />
+        </div>
+    </div>
+
+    <div class="row oddBlock" id="mapBlock">
+        <div class="col-md-8 col-md-offset-2" id='mapClubs'></div>
+        <div class="col-md-3">
+            <div class="row" id="mapTitle">
+                <strong>Choose your club</strong>
+            </div>
+            <div class="row" id="mapContent">
+                <span>
+                    This map shows the list of fitness club we have around melbourne to get your life enriched.
+                </span>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-8 col-sm-offset-2" id="aboutspan">
-            <span><b>
-    Welcome to the leading fitness community in Melbourne. Gear up and choose your club and join many other
-    sporty youthfull members like you. If you are already a Member, join many fun activities open to the members
-    of that club or the events organised by your fitness buddies.
-</b>
+}
 
-            </span>
-        </div>
-    </div>
-</div>-->
-<div class="row oddBlock" id="imgBlock">
-    <div class="col-md-6 col-md-offset-3" id="MotivContainer">
-        <img src="~/Image/Motiv_Image1.jpg" id="motivBlock" />
-        <div id="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
-    </div>
-</div>
-<div class="row oddBlock" id="mapBlock">
-    <div class="col-md-8 col-md-offset-2" id='mapClubs'></div>
-    <div class="col-md-3">
-        <div class="row" id="mapTitle">
-            <strong>Choose your club</strong>
-        </div>
-        <div class="row" id="mapContent">
-            <span>
-                This map shows the list of fitness club we have around melbourne to get your life enriched.
-            </span>
-        </div>
-    </div>
-</div>
-<script>
+    <script>
     //  create map object, tell it to live in 'map' div and give initial latitude, longitude, zoom values
-    var map = L.map('mapClubs', { scrollWheelZoom: false }).setView([-37.89, 145.00], 11);
+var map = L.map('mapClubs', { scrollWheelZoom: false }).setView([-37.89, 145.00], 11);
 
-    //  add base map tiles from OpenStreetMap and attribution info to 'map' div
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+//  add base map tiles from OpenStreetMap and attribution info to 'map' div
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
-    var mapIcon = L.icon({
-        iconUrl: '../Image/Map_Pin.png',
-        iconSize: [38, 95], // size of the icon
-        popupAnchor: [0, -15]
-    });
+var mapIcon = L.icon({
+    iconUrl: '../Image/Map_Pin.png',
+    iconSize: [38, 95], // size of the icon
+    popupAnchor: [0, -15]
+});
 
-    var customOptions =
-        {
-            'maxWidth': '500'
-        };
+var customOptions =
+    {
+        'maxWidth': '500'
+    };
 
-    var mapLocations = [["<strong class='popUpTitle'>Club1</strong></br><img src='../Image/club1.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.831567, 145.038659],
-        ["<strong  class='popUpTitle'>Club2</strong></br><img src='../Image/club2.jpg' alt='maptime logo gif' width='350px'/> </br> <button class='popUpBtn'>JOIN</button>", -37.834651, 144.903168],
-        ["<strong  class='popUpTitle'>Club3</strong></br><img src='../Image/club3.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.941189, 145.0707],
-        ["<strong  class='popUpTitle'>Club4</strong></br><img src='../Image/club4.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.83342, 144.811561],
-        ["<strong  class='popUpTitle'>Club5</strong></br><img src='../Image/club5.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.763951, 144.952477],
-        ["<strong  class='popUpTitle'>Club6</strong></br><img src='../Image/club6.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.878241, 145.020945],
-        ["<strong  class='popUpTitle'>Club7</strong></br><img src='../Image/club7.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.876516, 145.127481]];
+var mapLocations = [["<strong class='popUpTitle'>Club1</strong></br><img src='../Image/club1.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.831567, 145.038659],
+["<strong  class='popUpTitle'>Club2</strong></br><img src='../Image/club2.jpg' alt='maptime logo gif' width='350px'/> </br> <button class='popUpBtn'>JOIN</button>", -37.834651, 144.903168],
+["<strong  class='popUpTitle'>Club3</strong></br><img src='../Image/club3.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.941189, 145.0707],
+["<strong  class='popUpTitle'>Club4</strong></br><img src='../Image/club4.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.83342, 144.811561],
+["<strong  class='popUpTitle'>Club5</strong></br><img src='../Image/club5.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.763951, 144.952477],
+["<strong  class='popUpTitle'>Club6</strong></br><img src='../Image/club6.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.878241, 145.020945],
+["<strong  class='popUpTitle'>Club7</strong></br><img src='../Image/club7.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.876516, 145.127481]];
 
-    for (var i = 0; i < mapLocations.length; i++) {
+for (var i = 0; i < mapLocations.length; i++) {
 
-        marker = new L.marker([mapLocations[i][1], mapLocations[i][2]]).bindPopup(mapLocations[i][0], customOptions).addTo(map);
+    marker = new L.marker([mapLocations[i][1], mapLocations[i][2]]).bindPopup(mapLocations[i][0], customOptions).addTo(map);
 
-    }
+}
 
-</script>
+//Set screenName : Index
+function setNavScreenName(screenName) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Code for mapbox
-<script>
-    L.mapbox.accessToken = 'pk.eyJ1Ijoic3JlZTI3OTIiLCJhIjoiY2pmdzRrN3E3MDdiMzJ4bzhzOGU0MHF2ayJ9.HFSAxgCzW06pY-q3PM_fSg';
-    var mapClubPopups = L.mapbox.map('mapClubs', 'mapbox.light')
-        .setView([-37.89, 145.00], 11);
-    var myLayer = L.mapbox.featureLayer().addTo(mapClubPopups);
-
-    var geojson = [
-        {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [145.038659, -37.831567]
-            },
-            properties: {
-                title: 'Mapbox DC',
-                description: '<img src="~/Image/club2.jpg"',
-                'marker-color': '#eb7537',
-                'marker-size': 'large',
-                image: 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg'
-            }
+    $.ajax({
+        type: "POST",
+        url: '@Url.Action("setSession", "Home")',
+        data: ' {name:"' + screenName + '"}',
+        ContentType: "application/Json;Charset=utf-8",
+        success: function () {
+            document.getElementById("mainForm").submit();
         },
-        {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [144.903168, -37.834651]
-            },
-            properties: {
-                title: 'Mapbox SF',
-                description: '<img src="~/Image/club1.jpg"',
-                'marker-color': '#eb7537',
-                'marker-size': 'large',
-                image: 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [145.0707, -37.941189]
-            },
-            properties: {
-                title: 'Mapbox SF',
-                description: '<img src="~/Image/club3.jpg"',
-                'marker-color': '#eb7537',
-                'marker-size': 'large',
-                image: 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [144.811561, -37.83342]
-            },
-            properties: {
-                title: 'Mapbox SF1',
-                description: '<img src="../Image/club1.jpg" style="width:50px; height:50px;"/>',
-                'marker-color': '#eb7537',
-                'marker-size': 'large'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [144.952477, -37.763951]
-            },
-            properties: {
-                title: 'Mapbox SF2',
-                description: '<button>Click Me</button><img src="https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg"',
-                'marker-color': '#eb7537',
-                'marker-size': 'large',
-                image: 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [145.020945, -37.878241]
-            },
-            properties: {
-                title: 'Mapbox SF3',
-                description: 'vff',
-                'marker-color': '#eb7537',
-                'marker-size': 'large',
-                image: 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [145.127481, -37.876516]
-            },
-            properties: {
-                title: 'Mapbox SF4',
-                description: '<img src="https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg"',
-                'marker-color': '#eb7537',
-                'marker-size': 'large',
-                image: 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg'
-            }
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            alert("Error has occurred..");
         }
-    ];
-
-    myLayer.setGeoJSON(geojson);
-    L.marker.bindPopup
-    mapClubPopups.scrollWheelZoom.disable();
-</script>
-    -->
+    });
+}
+    </script>

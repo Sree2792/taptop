@@ -29,9 +29,13 @@
             </div>
         </div>
     </div>
-    @RenderBody()
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/bootstrap-datetimepicker.css" />
     @RenderSection("scripts", required: false)
+    @RenderBody()
 </body>
 </html>

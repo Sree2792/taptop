@@ -1,0 +1,143 @@
+﻿#navBarId {
+    background-color: #4a4242 !important;
+    border-color: #4a4242 !important;
+}
+
+#navMenu {
+    /*background-color:black;*/
+    margin-left: 40%;
+}
+
+#fitnessSpan {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 5%;
+}
+
+#logoImg {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-right: 2%;
+    padding-left: 8%;
+    width: 90%;
+    height: 90%;
+}
+
+#logoBorder {
+    padding: 2px;
+    border: 10px solid #989898;
+    border-radius: 50px;
+    margin-bottom: 30px;
+    background-color: white;
+    height: 300px;
+    width: 300px;
+    margin-left: 24%;
+}
+
+#firstBlock {
+    background-color: white;
+}
+
+#titlespan {
+    color: #FF6D1D;
+    font-size: 25px;
+    margin-left: 20%;
+}
+
+#aboutspan {
+    color: #FF6D1D;
+    margin-bottom: 30px;
+}
+
+#mapClubs {
+    margin-top: 30px;
+    width: 900px;
+    height: 650px;
+    margin-bottom: 30px;
+}
+
+#mapBlock {
+    #background-color: #eb7537;
+}
+
+#imgBlock {
+    #background-color: rgb(135, 134, 134);
+}
+
+#mapTitle {
+    margin-left: 5%;
+    margin-top: 20%;
+    font-size: 40px;
+    color: white;
+}
+
+#mapContent {
+    margin-top: 20%;
+    margin-left: 5%;
+    font-size: 30px;
+    color: white;
+}
+
+#motivBlock {
+    width: 90%;
+    margin-left: 5%;
+    height: 650px;
+}
+
+#MotivTxt {
+    position: absolute;
+    top: 20%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+}
+
+#MotivContainer {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+#clubBanner {
+    margin-left: 40%;
+}
+
+.popUpBtn {
+    margin-left: 40%;
+    background-color: #EB7537;
+    margin-top: 5px;
+    color: #FFF;
+}
+
+.popUpTitle {
+    font-size: 25px;
+}
+
+.registrBody {
+    background-image: url("../Image/loginBG.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #080b0e;
+}
+
+.formPos {
+    margin-left: 15% !important;
+    color: white;
+}
+
+#titleHeader {
+    margin-left: 15%;
+}
+
+.popUpAdr {
+    color: black !important;
+}
+
+#loginLink {
+    margin: 3%;
+}
+
+.datetimepickerclass{
+    color: black !important;
+}

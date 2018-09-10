@@ -18,7 +18,6 @@
         <AssociationConnector Association="fbmodel.LocationTableEventTable" />
         <AssociationConnector Association="fbmodel.LocationTableEventEdit" />
         <AssociationConnector Association="fbmodel.NotificationTableEventEdit" />
-        <AssociationConnector Association="fbmodel.EventTableMemberTable" />
         <AssociationConnector Association="fbmodel.EventTableMemberTable1" />
         <AssociationConnector Association="fbmodel.NotificationActionTableMemberTable" />
         <AssociationConnector Association="fbmodel.EventEditMemberTable" />
@@ -26,6 +25,9 @@
         <AssociationConnector Association="fbmodel.AddressTableFitnessClub" />
         <AssociationConnector Association="fbmodel.AddressTableMemberTable" />
         <AssociationConnector Association="fbmodel.AddressTableLocationTable" />
+        <EntityTypeShape EntityType="fbmodel.EventType" Width="1.5" PointX="12" PointY="1.875" />
+        <AssociationConnector Association="fbmodel.EventTypeEventTable" />
+        <AssociationConnector Association="fbmodel.EventTableFitnessClub" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
