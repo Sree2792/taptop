@@ -23,6 +23,11 @@
     height: 90%;
 }
 
+#loginBtn {
+    color: rgb(51, 122, 183);
+    font-weight: bold;
+}
+
 #logoBorder {
     padding: 2px;
     border: 10px solid #989898;
