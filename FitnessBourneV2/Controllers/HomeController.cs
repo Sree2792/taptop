@@ -210,7 +210,7 @@ namespace FitnessBourneV2.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        public void BtnAction()
+        public void BtnAction(HomeModel recieved)
         {
 
             string screenName = Session["ScreenNavName"].ToString();

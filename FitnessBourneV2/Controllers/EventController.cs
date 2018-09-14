@@ -32,11 +32,12 @@ namespace FitnessBourneV2.Controllers
             
             return RedirectToAction("EventAdd", "Event");
         }
-        public void setLocation()
+        
+        public void setLocation(List<string> anchorName)
         {
-
+            Session["anchorSelected"] = anchorName;
         }
 
-        
+
     }
 }

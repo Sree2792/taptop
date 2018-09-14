@@ -14,13 +14,15 @@
 
 @using (Html.BeginForm("BtnAction", "Home", FormMethod.Post, new { @id = "mainForm", @class = "form-horizontal formPos", role = "form" }))
 {
-    <div class="row oddBlock" id="imgBlock">
+    <div class="row" id="imgBlock">
         <div class="col-md-6 col-md-offset-3" id="MotivContainer">
-            <img src="~/Image/Motiv_Image1.jpg" id="motivBlock" />
-            <div id="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+            <div id="Img1">
+                <img src="~/Image/Motiv_Image1.jpg" class="motivBlock" />
+                <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+            </div>
         </div>
     </div>
-    <div class="row oddBlock" id="imgBlock">
+    <div class="row">
         <div class="col-md-6 col-md-offset-3" id="MotivContainer">
              <input type="button" onclick="setNavScreenName('AddEvent')" title="Add Event" />
         </div>
@@ -81,15 +83,16 @@ function setNavScreenName(screenName) {
     $.ajax({
         type: "POST",
         url: '@Url.Action("setSession", "Home")',
-        data: ' {name:"' + screenName + '"}',
-        ContentType: "application/Json;Charset=utf-8",
-        success: function () {
+        data: { "anchorName": screenName },
+        success: function (response) {
             document.getElementById("mainForm").submit();
         },
-        error: function (xhr) {
-            console.log(xhr.responseText);
-            alert("Error has occurred..");
+        error: function () {
+
+            alert("Error occured!");
+
         }
+
     });
 }
     </script>

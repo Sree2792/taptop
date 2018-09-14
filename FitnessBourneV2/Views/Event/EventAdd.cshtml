@@ -8,6 +8,19 @@
 <link rel="stylesheet" href="~/Content/leaflet-routing-machine.css" />
 <link rel="stylesheet" href="~/Content/index_route.css" />
 
+  <!-- Load Esri Leaflet from CDN -->
+<script src="https://unpkg.com/esri-leaflet@2.2.3/dist/esri-leaflet.js"
+        integrity="sha512-YZ6b5bXRVwipfqul5krehD9qlbJzc6KOGXYsDjU9HHXW2gK57xmWl2gU6nAegiErAqFXhygKIsWPKbjLPXVb2g=="
+        crossorigin=""></script>
+
+
+<!-- Load Esri Leaflet Geocoder from CDN -->
+<link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.css"
+      integrity="sha512-v5YmWLm8KqAAmg5808pETiccEohtt8rPVMGQ1jA6jqkWVydV5Cuz3nJ9fQ7ittSxvuqsvI9RSGfVoKPaAJZ/AQ=="
+      crossorigin="">
+<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js"
+        integrity="sha512-zdT4Pc2tIrc6uoYly2Wp8jh6EPEWaveqqD3sT0lf5yei19BC1WulGuh5CesB0ldBKZieKGD7Qyf/G0jdSe016A=="
+        crossorigin=""></script>
 
 @using (Html.BeginForm("EventSave", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", role = "form" }))
 {
@@ -116,20 +129,20 @@ new SelectListItem{ Text="15", Value = "15" }
 
             locationList.push(this.value)
         });
-
         $.ajax({
-        type: "POST",
-        url: '@Url.Action("EventAdd", "Event")',
-        data: ' {locationList:"' + locationList + '"}',
-        ContentType: "application/Json;Charset=utf-8",
-        success: function () {
-            document.getElementById("mainForm").submit();
-        },
-        error: function (xhr) {
-            console.log(xhr.responseText);
-            alert("Error has occurred..");
-        }
-    });
+            type: "POST",
+            url: '@Url.Action("setLocation", "Event")',
+            data: { "anchorName": locationList },
+            success: function (response) {
+                document.getElementById("mainForm").submit();
+            },
+            error: function () {
+
+                alert("Error occured!");
+
+            }
+
+        });
     }
 
 
