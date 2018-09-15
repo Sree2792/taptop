@@ -1,50 +1,97 @@
 ﻿body, html {
     height: 200%;
-}
-
-#one, #two, #three, #four, #five, #six {
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-}
-
-
-#one {
-    background-color: aqua;
-    top: 0px;
+    color:white;
 }
 
 #two {
-    background-color: transparent;
-    top: 100%;
-    color: red;
-}
-
-#three {
-    background-color: #0a0;
-    top: 200%;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    background-color: white;
+    color:black;
 }
 
 #four {
-    background-color: #a05;
-    top: 300%;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 80%;
+    position: absolute;
+    background-color: white;
+    color: black;
+}
+
+#one, #three, #five {
+    top: 0px;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 80%;
+    position: absolute;
+}
+
+#two {
+    top: 80%;
+}
+
+#three {
+    top: 130%;
+}
+
+#four {
+    top: 210%;
 }
 
 #five {
-    background-color: black;
-    top: 400%;
+    top: 290%;
 }
 
 #six {
-    background-color: brown;
-    top: 500%;
+    top: 370%;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 20%;
+    position: absolute;
+    background-color: white;
+    color: black;
 }
 
-.eventImg{
+#EventTitle {
+    font-size: 50px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
 
-    margin:5%;
-    width:100%;
-    height:100%;
+.eventImg {
+    margin: 5%;
+    width: 100%;
+    height: 300px;
+}
+
+.motivBlock {
+    width: 90%;
+    margin-top: 10%;
+    height: 500px;
+}
+
+.motivBlock2 {
+    width: 90%;
+    height: 600px;
+}
+
+.MotivTxt {
+    position: absolute;
+    top: 75%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+}
+
+#MotivContainer {
+    position: relative;
+    text-align: center;
+    color: white;
 }

@@ -83,26 +83,6 @@
     color: white;
 }
 
-.motivBlock {
-    width: 90%;
-    margin-left: 5%;
-    height: 650px;
-}
-
-.MotivTxt {
-    position: absolute;
-    top: 20%;
-    left: 45%;
-    transform: translate(-50%, -50%);
-    font-size: 30px;
-}
-
-#MotivContainer {
-    position: relative;
-    text-align: center;
-    color: white;
-}
-
 #clubBanner {
     margin-left: 40%;
 }

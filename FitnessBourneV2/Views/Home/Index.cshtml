@@ -12,7 +12,7 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="~/Scripts/HomeIndex.js"></script>
 
-@using (Html.BeginForm("BtnAction", "Home", FormMethod.Post, new { @id = "mainForm", @class = "form-horizontal formPos", role = "form" }))
+@using (Html.BeginForm("BtnAction", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
 
     <div id="one" class="row" style="position: fixed; top: 0px;">
@@ -38,35 +38,62 @@
     <div id="three" class="row">
         <div class="col-md-8 col-md-offset-2" id="MotivContainer">
             <div>
-                <img src="~/Image/Motiv_Image2.jpg" class="motivBlock" />
+                <img src="~/Image/Motiv_Image2.jpg" class="motivBlock2" />
                 <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
             </div>
         </div>
     </div>
     <div id="four" class="row">
-        <div class="col-md-4">
-            <img src="~/Image/Cycling.jpg" alt="Cycling" class="eventImg" />
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <span><strong id="EventTitle">Events</strong></span>
+            </div>
         </div>
-        <div class="col-md-4">
-            <img src="~/Image/walking.jpg" alt="Walking" class="eventImg" />
+        <div class="row">
+            <div class="col-md-4">
+                <img src="~/Image/Cycling.jpg" alt="Cycling" class="eventImg" />
+                <div class="col-md-1 col-md-offset-5">
+                    <input type="button" onclick="eventView('Cycling')" value="Cycling"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <img src="~/Image/walking.jpg" alt="Walking" class="eventImg" />
+                <div class="col-md-1 col-md-offset-5">
+                    <input type="button" onclick="eventView('Walking')" value="Walking" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <img src="~/Image/running.jpg" alt="Running" class="eventImg" />
+                <div class="col-md-1 col-md-offset-5">
+                    <input type="button" onclick="eventView('Running')" value="Running" />
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-            <img src="~/Image/running.jpg" alt="Running" class="eventImg" />
+        <div class="row">
+            <input style="float:right; margin-right:5%;" type="button" value="Add"/>
         </div>
+        
     </div>
     <div id="five" class="row">
         <div class="col-md-8 col-md-offset-2" id="MotivContainer">
             <div>
-                <img src="~/Image/Motiv_Image3.jpg" class="motivBlock" />
+                <img src="~/Image/Motiv_Image3.jpg" class="motivBlock2" />
                 <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
             </div>
         </div>
     </div>
     <div id="six" class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div>
-                <img src="~/Image/Motiv_Image2.jpg" class="motivBlock" />
-                <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <h1>Contact Us</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <span><strong>Developer Team</strong></span>
+                <span>Email Id: sjay0010@student.monash.edu</span>
+                <span><strong>Admin</strong></span>
+                <span>Email Id: sreejith2792@admin.fitnessbourne.edu</span>
             </div>
         </div>
     </div>
