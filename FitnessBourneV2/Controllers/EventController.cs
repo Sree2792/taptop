@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FitnessBourneV2.Models;
+using GoogleMaps.LocationServices;
 
 namespace FitnessBourneV2.Controllers
 {
@@ -36,6 +37,15 @@ namespace FitnessBourneV2.Controllers
         public void setLocation(List<string> anchorName)
         {
             Session["anchorSelected"] = anchorName;
+
+            //Install-Package GoogleMaps.LocationServices -Version 1.2.0.1 
+            var address = anchorName[0];
+
+            var locationService = new GoogleLocationService();
+            var point = locationService.GetLatLongFromAddress(address);
+
+            var latitude = point.Latitude;
+            var longitude = point.Longitude;
         }
 
 

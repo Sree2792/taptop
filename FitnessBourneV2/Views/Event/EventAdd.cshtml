@@ -22,6 +22,8 @@
         integrity="sha512-zdT4Pc2tIrc6uoYly2Wp8jh6EPEWaveqqD3sT0lf5yei19BC1WulGuh5CesB0ldBKZieKGD7Qyf/G0jdSe016A=="
         crossorigin=""></script>
 
+
+
 @using (Html.BeginForm("EventSave", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", role = "form" }))
 {
 
@@ -132,6 +134,17 @@ new SelectListItem{ Text="15", Value = "15" }
             }
         });
 
+        var mapMain = L.map('mapRoute');
+        mapMain.on('geosearch_showlocation', function (result) {
+            //console.log('zoom to: ' + result.Location.Label);
+            thisLatLon = result.Location.X + " " + result.Location.Y;
+            alert(thisLatLon);
+
+        });
+
+      
+
+
         var errorDispString = "Provide both start and end location to register the event";
 
         if (locationList.length < 2) {
@@ -139,6 +152,8 @@ new SelectListItem{ Text="15", Value = "15" }
             // Start and End location required
             alert(errorDispString)
         } else {
+
+
 
             $.ajax({
                 type: "POST",
