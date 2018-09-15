@@ -6,93 +6,69 @@
 
 <!-- reference to Leaflet CSS -->
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/HomeIndex.css">
 
 <!-- reference to Leaflet JavaScript -->
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-
-
+<script src="~/Scripts/HomeIndex.js"></script>
 
 @using (Html.BeginForm("BtnAction", "Home", FormMethod.Post, new { @id = "mainForm", @class = "form-horizontal formPos", role = "form" }))
 {
-    <div class="row" id="imgBlock">
-        <div class="col-md-6 col-md-offset-3" id="MotivContainer">
-            <div id="Img1">
+
+    <div id="one" class="row" style="position: fixed; top: 0px;">
+        <div class="col-md-8 col-md-offset-2" id="MotivContainer">
+            <div>
                 <img src="~/Image/Motiv_Image1.jpg" class="motivBlock" />
                 <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3" id="MotivContainer">
-             <input type="button" onclick="setNavScreenName('AddEvent')" title="Add Event" />
-        </div>
-    </div>
-
-    <div class="row oddBlock" id="mapBlock">
-        <div class="col-md-8 col-md-offset-2" id='mapClubs'></div>
-        <div class="col-md-3">
-            <div class="row" id="mapTitle">
-                <strong>Choose your club</strong>
+    <div id="two" class="row">
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <h1>ABOUT</h1>
             </div>
-            <div class="row" id="mapContent">
-                <span>
-                    This map shows the list of fitness club we have around melbourne to get your life enriched.
-                </span>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <span><strong>We are a fitness club that helps people engage in Fitness activities.</strong></span>
             </div>
         </div>
     </div>
+    <div id="three" class="row">
+        <div class="col-md-8 col-md-offset-2" id="MotivContainer">
+            <div>
+                <img src="~/Image/Motiv_Image2.jpg" class="motivBlock" />
+                <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+            </div>
+        </div>
+    </div>
+    <div id="four" class="row">
+        <div class="col-md-4">
+            <img src="~/Image/Cycling.jpg" alt="Cycling" class="eventImg" />
+        </div>
+        <div class="col-md-4">
+            <img src="~/Image/walking.jpg" alt="Walking" class="eventImg" />
+        </div>
+        <div class="col-md-4">
+            <img src="~/Image/running.jpg" alt="Running" class="eventImg" />
+        </div>
+    </div>
+    <div id="five" class="row">
+        <div class="col-md-8 col-md-offset-2" id="MotivContainer">
+            <div>
+                <img src="~/Image/Motiv_Image3.jpg" class="motivBlock" />
+                <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+            </div>
+        </div>
+    </div>
+    <div id="six" class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div>
+                <img src="~/Image/Motiv_Image2.jpg" class="motivBlock" />
+                <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+            </div>
+        </div>
+    </div>
 }
 
-    <script>
-    //  create map object, tell it to live in 'map' div and give initial latitude, longitude, zoom values
-var map = L.map('mapClubs', { scrollWheelZoom: false }).setView([-37.89, 145.00], 11);
-
-//  add base map tiles from OpenStreetMap and attribution info to 'map' div
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-var mapIcon = L.icon({
-    iconUrl: '../Image/Map_Pin.png',
-    iconSize: [38, 95], // size of the icon
-    popupAnchor: [0, -15]
-});
-
-var customOptions =
-    {
-        'maxWidth': '500'
-    };
-
-var mapLocations = [["<strong class='popUpTitle'>Club1</strong></br><img src='../Image/club1.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.831567, 145.038659],
-["<strong  class='popUpTitle'>Club2</strong></br><img src='../Image/club2.jpg' alt='maptime logo gif' width='350px'/> </br> <button class='popUpBtn'>JOIN</button>", -37.834651, 144.903168],
-["<strong  class='popUpTitle'>Club3</strong></br><img src='../Image/club3.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.941189, 145.0707],
-["<strong  class='popUpTitle'>Club4</strong></br><img src='../Image/club4.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.83342, 144.811561],
-["<strong  class='popUpTitle'>Club5</strong></br><img src='../Image/club5.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.763951, 144.952477],
-["<strong  class='popUpTitle'>Club6</strong></br><img src='../Image/club6.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.878241, 145.020945],
-["<strong  class='popUpTitle'>Club7</strong></br><img src='../Image/club7.jpg' alt='maptime logo gif' width='350px'/></br> <button class='popUpBtn'>JOIN</button>", -37.876516, 145.127481]];
-
-for (var i = 0; i < mapLocations.length; i++) {
-
-    marker = new L.marker([mapLocations[i][1], mapLocations[i][2]]).bindPopup(mapLocations[i][0], customOptions).addTo(map);
-
-}
-
-//Set screenName : Index
-function setNavScreenName(screenName) {
-
-    $.ajax({
-        type: "POST",
-        url: '@Url.Action("setSession", "Home")',
-        data: { "anchorName": screenName },
-        success: function (response) {
-            document.getElementById("mainForm").submit();
-        },
-        error: function () {
-
-            alert("Error occured!");
-
-        }
-
-    });
-}
-    </script>

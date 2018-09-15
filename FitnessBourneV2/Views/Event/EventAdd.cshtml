@@ -129,20 +129,30 @@ new SelectListItem{ Text="15", Value = "15" }
 
             locationList.push(this.value)
         });
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("setLocation", "Event")',
-            data: { "anchorName": locationList },
-            success: function (response) {
-                document.getElementById("mainForm").submit();
-            },
-            error: function () {
 
-                alert("Error occured!");
+        var errorDispString = "Provide both start and end location to register the event";
 
-            }
+        if (locationList.length < 2) {
 
-        });
+            // Start and End location required
+            alert(errorDispString)
+        } else {
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("setLocation", "Event")',
+                data: { "anchorName": locationList },
+                success: function (response) {
+                    document.getElementById("mainForm").submit();
+                },
+                error: function () {
+
+                    alert("Error in contacting server!");
+
+                }
+            });
+        }
+
     }
 
 

@@ -224,6 +224,7 @@
     <Compile Include="Models\EventEdit.cs">
       <DependentUpon>fbmodel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EventHomeModel.cs" />
     <Compile Include="Models\EventTable.cs">
       <DependentUpon>fbmodel.tt</DependentUpon>
     </Compile>
@@ -280,6 +281,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Fitbourne.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\HomeIndex.css" />
     <Content Include="Content\index_route.css" />
     <Content Include="Content\leaflet-routing-machine.css" />
     <Content Include="Content\leaflet.css" />
@@ -295,6 +297,7 @@
     <Content Include="Image\club5.jpg" />
     <Content Include="Image\club6.jpg" />
     <Content Include="Image\club7.jpg" />
+    <Content Include="Image\Cycling.jpg" />
     <Content Include="Image\leaflet.routing.icons.png" />
     <Content Include="Image\leaflet.routing.icons.svg" />
     <Content Include="Image\loginBG.jpg" />
@@ -304,6 +307,8 @@
     <Content Include="Image\Motiv_Image2.jpg" />
     <Content Include="Image\Motiv_Image3.jpg" />
     <Content Include="Image\routing-icon.png" />
+    <Content Include="Image\running.jpg" />
+    <Content Include="Image\walking.jpg" />
     <Content Include="Models\fbmodel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>fbmodel.Context.cs</LastGenOutput>
@@ -410,6 +415,7 @@
     <Content Include="Scripts\config.js" />
     <Content Include="Scripts\Control.Geocoder.js" />
     <Content Include="Scripts\FitbourneScript.js" />
+    <Content Include="Scripts\HomeIndex.js" />
     <Content Include="Scripts\index_route.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -461,6 +467,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Event\EventAdd.cshtml" />
+    <Content Include="Views\Event\EventHome.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

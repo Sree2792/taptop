@@ -11,7 +11,7 @@ namespace FitnessBourneV2.Controllers
     {
         private fbmodelContainer db = new fbmodelContainer();
         // GET: Event
-        public ActionResult Index()
+        public ActionResult EventHome()
         {
             return View();
         }

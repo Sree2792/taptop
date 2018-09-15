@@ -1,0 +1,50 @@
+﻿body, html {
+    height: 200%;
+}
+
+#one, #two, #three, #four, #five, #six {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+
+#one {
+    background-color: aqua;
+    top: 0px;
+}
+
+#two {
+    background-color: transparent;
+    top: 100%;
+    color: red;
+}
+
+#three {
+    background-color: #0a0;
+    top: 200%;
+}
+
+#four {
+    background-color: #a05;
+    top: 300%;
+}
+
+#five {
+    background-color: black;
+    top: 400%;
+}
+
+#six {
+    background-color: brown;
+    top: 500%;
+}
+
+.eventImg{
+
+    margin:5%;
+    width:100%;
+    height:100%;
+}
