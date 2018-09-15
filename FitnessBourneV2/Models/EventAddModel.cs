@@ -10,6 +10,7 @@ namespace FitnessBourneV2.Models
     {
         public int eventID;
 
+        [Required]
         [Display(Name = "Event Type")]
         public string eventTypeName;
 
@@ -17,20 +18,26 @@ namespace FitnessBourneV2.Models
         public bool isPrivate;
         public bool isCheckIn;
 
+        [Required]
         [Display(Name = "Event start time")]
         public DateTime startDateTime;
 
+        [Required]
         [Display(Name = "Event end time")]
         public DateTime endDateTime;
 
+        [Required]
         [Display(Name = "Event capacity")]
         public Int32 mem_capacity;
 
+        [Required]
         [Display(Name = "Club Name")]
         public Int32 clubName;
 
+        [Required]
         public MemberTable eventAdmin;
         public EventEdit editedEvent;
+
 
         [Display(Name = "Location One")]
         public string Location1;

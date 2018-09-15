@@ -28,9 +28,46 @@ namespace FitnessBourneV2.Controllers
             return View(eventAdd);
         }
 
+        //Pending
         public ActionResult EventSave(EventAddModel eventSave)
         {
-            
+
+            if (!ModelState.IsValid)
+            {
+                return View(eventSave);
+            }
+            else
+            {
+                var locationList = Session["anchorSelected"];
+
+                int eventType = 1;
+
+                foreach(var record in db.EventTypes.ToList())
+                {
+                    if (record.ET_Name == eventSave.eventTypeName)
+                    {
+                        eventType = record.ET_Id;
+                    }
+                }
+
+                MemberTable userRecord = (MemberTable)Session["UserLoggedIn"];
+
+
+                EventTable eventCreated = new EventTable()
+                {
+                    Evnt_Is_Private = Convert.ToByte(eventSave.isPrivate),
+                    Evnt_Capacity = eventSave.mem_capacity,
+                    Evnt_Start_DateTime = eventSave.startDateTime,
+                    Evnt_End_DateTime = eventSave.endDateTime,
+                    EventTypeET_Id = eventType,
+                    Admin = userRecord
+                };
+
+                db.EventTables.Add(eventCreated);
+                db.SaveChanges();
+
+            }
+
             return RedirectToAction("EventAdd", "Event");
         }
         
@@ -39,13 +76,6 @@ namespace FitnessBourneV2.Controllers
             Session["anchorSelected"] = anchorName;
 
             //Install-Package GoogleMaps.LocationServices -Version 1.2.0.1 
-            var address = anchorName[0];
-
-            var locationService = new GoogleLocationService();
-            var point = locationService.GetLatLongFromAddress(address);
-
-            var latitude = point.Latitude;
-            var longitude = point.Longitude;
         }
 
 

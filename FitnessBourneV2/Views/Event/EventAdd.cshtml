@@ -8,23 +8,8 @@
 <link rel="stylesheet" href="~/Content/leaflet-routing-machine.css" />
 <link rel="stylesheet" href="~/Content/index_route.css" />
 
-  <!-- Load Esri Leaflet from CDN -->
-<script src="https://unpkg.com/esri-leaflet@2.2.3/dist/esri-leaflet.js"
-        integrity="sha512-YZ6b5bXRVwipfqul5krehD9qlbJzc6KOGXYsDjU9HHXW2gK57xmWl2gU6nAegiErAqFXhygKIsWPKbjLPXVb2g=="
-        crossorigin=""></script>
 
-
-<!-- Load Esri Leaflet Geocoder from CDN -->
-<link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.css"
-      integrity="sha512-v5YmWLm8KqAAmg5808pETiccEohtt8rPVMGQ1jA6jqkWVydV5Cuz3nJ9fQ7ittSxvuqsvI9RSGfVoKPaAJZ/AQ=="
-      crossorigin="">
-<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js"
-        integrity="sha512-zdT4Pc2tIrc6uoYly2Wp8jh6EPEWaveqqD3sT0lf5yei19BC1WulGuh5CesB0ldBKZieKGD7Qyf/G0jdSe016A=="
-        crossorigin=""></script>
-
-
-
-@using (Html.BeginForm("EventSave", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", role = "form" }))
+@using (Html.BeginForm("EventSave", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", @id= "mainForm", role = "form" }))
 {
 
     @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -78,23 +63,23 @@
         @Html.LabelFor(m => m.mem_capacity, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.mem_capacity, new List<SelectListItem>
-{
-new SelectListItem{ Text="1", Value = "1" },
-new SelectListItem{ Text="2", Value = "2" },
-new SelectListItem{ Text="3", Value = "3" },
-new SelectListItem{ Text="4", Value = "4" },
-new SelectListItem{ Text="5", Value = "5" },
-new SelectListItem{ Text="6", Value = "6" },
-new SelectListItem{ Text="7", Value = "7" },
-new SelectListItem{ Text="8", Value = "8" },
-new SelectListItem{ Text="9", Value = "9" },
-new SelectListItem{ Text="10", Value = "10" },
-new SelectListItem{ Text="11", Value = "11" },
-new SelectListItem{ Text="12", Value = "12" },
-new SelectListItem{ Text="13", Value = "13" },
-new SelectListItem{ Text="14", Value = "14" },
-new SelectListItem{ Text="15", Value = "15" }
-}, new { @class = "form-control" })
+            {
+            new SelectListItem{ Text="1", Value = "1" },
+            new SelectListItem{ Text="2", Value = "2" },
+            new SelectListItem{ Text="3", Value = "3" },
+            new SelectListItem{ Text="4", Value = "4" },
+            new SelectListItem{ Text="5", Value = "5" },
+            new SelectListItem{ Text="6", Value = "6" },
+            new SelectListItem{ Text="7", Value = "7" },
+            new SelectListItem{ Text="8", Value = "8" },
+            new SelectListItem{ Text="9", Value = "9" },
+            new SelectListItem{ Text="10", Value = "10" },
+            new SelectListItem{ Text="11", Value = "11" },
+            new SelectListItem{ Text="12", Value = "12" },
+            new SelectListItem{ Text="13", Value = "13" },
+            new SelectListItem{ Text="14", Value = "14" },
+            new SelectListItem{ Text="15", Value = "15" }
+            }, new { @class = "form-control" })
         </div>
     </div>
 
@@ -134,16 +119,6 @@ new SelectListItem{ Text="15", Value = "15" }
             }
         });
 
-        var mapMain = L.map('mapRoute');
-        mapMain.on('geosearch_showlocation', function (result) {
-            //console.log('zoom to: ' + result.Location.Label);
-            thisLatLon = result.Location.X + " " + result.Location.Y;
-            alert(thisLatLon);
-
-        });
-
-      
-
 
         var errorDispString = "Provide both start and end location to register the event";
 
@@ -152,8 +127,6 @@ new SelectListItem{ Text="15", Value = "15" }
             // Start and End location required
             alert(errorDispString)
         } else {
-
-
 
             $.ajax({
                 type: "POST",
@@ -180,6 +153,5 @@ new SelectListItem{ Text="15", Value = "15" }
 <script src="~/Scripts/Control.Geocoder.js"></script>
 <script src="~/Scripts/config.js"></script>
 <script src="~/Scripts/index_route.js"></script>
-
 
 
