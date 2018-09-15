@@ -188,7 +188,7 @@ namespace FitnessBourneV2.Controllers
                         Mem_FirstName = model.FirstName,
                         Mem_GivenName = model.GivenName,
                         Mem_Contact_No = model.ContactNum,
-                        Mem_Email_Id = model.ContactNum
+                        Mem_Email_Id = model.Email
                     };
 
                     FitnessClub selectdClub = new FitnessClub();
