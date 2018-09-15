@@ -127,7 +127,9 @@ new SelectListItem{ Text="15", Value = "15" }
 
         $('.leaflet-control-container input').each(function () {
 
-            locationList.push(this.value)
+            if (this.value != "") {
+                locationList.push(this.value);
+            }
         });
 
         var errorDispString = "Provide both start and end location to register the event";

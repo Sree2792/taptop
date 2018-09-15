@@ -26,6 +26,12 @@ var control = L.Routing.control(L.extend(window.lrmConfig, {
 })).addTo(mapMain);
 var geocodeService = L.esri.Geocoding.geocodeService();
 
+map.on('click', function (e) {
+    geocodeService.reverse().latlng(e.latlng).run(function (error, result) {
+        L.marker(result.latlng).addTo(map).bindPopup(result.address.Match_addr).openPopup();
+    });
+});
+
 mapMain.on('click', function (e) {
     //var marker = new L.marker(e.latlng).addTo(mapMain);
 

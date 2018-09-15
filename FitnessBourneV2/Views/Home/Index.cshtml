@@ -19,19 +19,19 @@
         <div class="col-md-8 col-md-offset-2" id="MotivContainer">
             <div>
                 <img src="~/Image/Motiv_Image1.jpg" class="motivBlock" />
-                <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+                <div class="MotivTxt" id="MotivTxtDiv1"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
             </div>
         </div>
     </div>
     <div id="two" class="row">
         <div class="row">
             <div class="col-md-2 col-md-offset-5">
-                <h1>ABOUT</h1>
+                <h1 id="AboutTitle">ABOUT</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <span><strong>We are a fitness club that helps people engage in Fitness activities.</strong></span>
+            <div class="col-md-6 col-md-offset-3">
+                <span id="AboutContent">We believe good health is the cornerstone of a great life. Good health is more than just fitness and much more than conforming to a particular body image. We as a club offers you several facilities to achieve the same and enable you to organise several events with like minded people to make good healh joyfull.</span>
             </div>
         </div>
     </div>
@@ -39,14 +39,14 @@
         <div class="col-md-8 col-md-offset-2" id="MotivContainer">
             <div>
                 <img src="~/Image/Motiv_Image2.jpg" class="motivBlock2" />
-                <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+                <div class="MotivTxt" id="MotivTxtDiv2"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
             </div>
         </div>
     </div>
     <div id="four" class="row">
         <div class="row">
             <div class="col-md-2 col-md-offset-5">
-                <span><strong id="EventTitle">Events</strong></span>
+                <h1 id="EventTitle">Events</h1>
             </div>
         </div>
         <div class="row">
@@ -70,30 +70,30 @@
             </div>
         </div>
         <div class="row">
-            <input style="float:right; margin-right:5%;" type="button" value="Add"/>
+            <input style="float:right; margin-right:5%;" type="button" value="Add" onclick="location.href='@Url.Action("EventAdd","Event")'" />
         </div>
         
     </div>
     <div id="five" class="row">
-        <div class="col-md-8 col-md-offset-2" id="MotivContainer">
-            <div>
-                <img src="~/Image/Motiv_Image3.jpg" class="motivBlock2" />
-                <div class="MotivTxt"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" id="MotivContainer">
+                <div>
+                    <img src="~/Image/Motiv_Image3.jpg" class="motivBlock2" />
+                    <div class="MotivTxt" id="MotivTxtDiv3"><strong>"NOW IS THE TIME TO START LIVING THE LIFE YOU ALWAYS IMAGINED"</strong></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div id="six" class="row">
-        <div class="row">
+        <div class="row contactUs">
             <div class="col-md-2 col-md-offset-5">
-                <h1>Contact Us</h1>
+                <h1 id="ContactTitle">Contact Us</h1>
             </div>
         </div>
-        <div class="row">
+        <div class="row contactUs">
             <div class="col-md-8 col-md-offset-2">
-                <span><strong>Developer Team</strong></span>
-                <span>Email Id: sjay0010@student.monash.edu</span>
-                <span><strong>Admin</strong></span>
-                <span>Email Id: sreejith2792@admin.fitnessbourne.edu</span>
+                <span><strong>Developer Team</strong></span><br />
+                <span>Email Id: sjay0010@student.monash.edu</span><br /><br /><br />
+                <span><strong>Admin</strong></span><br />
+                <span>Email Id: sreejith2792@admin.fitnessbourne.edu</span><br />
             </div>
         </div>
     </div>
