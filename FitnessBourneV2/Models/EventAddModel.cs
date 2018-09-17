@@ -8,51 +8,37 @@ namespace FitnessBourneV2.Models
 {
     public class EventAddModel
     {
-        public int eventID;
+        public int eventID { get; set; }
 
         [Required]
         [Display(Name = "Event Type")]
-        public string eventTypeName;
+        public string eventTypeName { get; set; }
 
         [Display(Name = "Is the event private to your club members?")]
-        public bool isPrivate;
-        public bool isCheckIn;
+        public bool isPrivate { get; set; }
+        public bool isCheckIn { get; set; }
 
         [Required]
         [Display(Name = "Event start time")]
-        public DateTime startDateTime;
+        public String startDateTime { get; set; }
 
         [Required]
         [Display(Name = "Event end time")]
-        public DateTime endDateTime;
+        public String endDateTime { get; set; }
 
         [Required]
         [Display(Name = "Event capacity")]
-        public Int32 mem_capacity;
+        public string mem_capacity { get; set; }
 
-        [Required]
         [Display(Name = "Club Name")]
-        public Int32 clubName;
+        public Int32 clubName { get; set; }
 
-        [Required]
-        public MemberTable eventAdmin;
-        public EventEdit editedEvent;
+        public MemberTable eventAdmin { get; set; }
+        public EventType eventType { get; set; }
+        public EventEdit editedEvent { get; set; }
 
-
-        [Display(Name = "Location One")]
-        public string Location1;
-
-        [Display(Name = "Location Two")]
-        public string Location2;
-
-        [Display(Name = "Location Three")]
-        public string Location3;
-
-        [Display(Name = "Location Four")]
-        public string Location4;
-        
-        public List<FitnessClub> clubList;
-        public List<EventType> eventType;
+        public FitnessClub clubList { get; set; }
+        public List<EventType> eventTypeOptions { get; set; }
 
     }
 }

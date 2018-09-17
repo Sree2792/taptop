@@ -2,11 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/10/2018 10:54:16
--- Generated from EDMX file: \\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2\FitnessBourneV2\Models\fbmodel.edmx
+-- Date Created: 09/17/2018 17:20:45
+-- Generated from EDMX file: \\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2018\FitnessBourneV2\Models\fbmodel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
+GO
+USE [fbmasterdb];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -59,6 +61,9 @@ IF OBJECT_ID(N'[dbo].[FK_AddressTableLocationTable]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_EventTypeEventTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventTables] DROP CONSTRAINT [FK_EventTypeEventTable];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EventTableFitnessClub]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FitnessClubs] DROP CONSTRAINT [FK_EventTableFitnessClub];
 GO
 
 -- --------------------------------------------------
@@ -148,6 +153,7 @@ CREATE TABLE [dbo].[EventTables] (
     [Evnt_Is_Checkd_In] tinyint  NOT NULL,
     [Evnt_Capacity] int  NOT NULL,
     [EventTypeET_Id] int  NOT NULL,
+    [Evnt_NavigDetails] nvarchar(max)  NOT NULL,
     [Admin_Mem_Id] int  NOT NULL
 );
 GO

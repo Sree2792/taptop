@@ -205,6 +205,7 @@ namespace FitnessBourneV2.Controllers
 
             if (Request.IsAuthenticated)
             {
+                Session["UserLoggedIn"] = User.Identity.Name;
                 return View();
             }
             return RedirectToAction("Login", "Account");

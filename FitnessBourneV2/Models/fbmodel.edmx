@@ -129,6 +129,7 @@
     <Property Name="Evnt_Is_Checkd_In" Type="tinyint" Nullable="false" />
     <Property Name="Evnt_Capacity" Type="int" Nullable="false" />
     <Property Name="EventTypeET_Id" Type="int" Nullable="false" />
+    <Property Name="Evnt_NavigDetails" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Admin_Mem_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="NotificationActionTables">
@@ -524,6 +525,7 @@
           <NavigationProperty Name="EventType" Relationship="fbmodel.EventTypeEventTable" FromRole="EventTable" ToRole="EventType" />
           <Property Name="EventTypeET_Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FitnessClub" Relationship="fbmodel.EventTableFitnessClub" FromRole="EventTable" ToRole="FitnessClub" />
+          <Property Name="Evnt_NavigDetails" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="NotificationActionTable">
           <Key>
@@ -694,6 +696,7 @@
           <ScalarProperty Name="Evnt_Is_Checkd_In" ColumnName="Evnt_Is_Checkd_In" />
           <ScalarProperty Name="Evnt_Capacity" ColumnName="Evnt_Capacity" />
           <ScalarProperty Name="EventTypeET_Id" ColumnName="EventTypeET_Id" />
+          <ScalarProperty Name="Evnt_NavigDetails" ColumnName="Evnt_NavigDetails" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

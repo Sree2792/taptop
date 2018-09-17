@@ -19,7 +19,7 @@
             @{
                 List<SelectListItem> listItems = new List<SelectListItem>();
 
-                foreach (var item in Model.eventType)
+                foreach (var item in Model.eventTypeOptions)
                 {
                     listItems.Add(new SelectListItem
                     {
@@ -56,7 +56,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-10 col-md-offset-2">
-            <label>@Html.CheckBoxFor(m => m.isPrivate, new { id = "privateCheck" })&nbsp;Is the event private to your club members?</label>
+            @Html.CheckBoxFor(m => m.isPrivate, new { id = "privateCheck" })&nbsp;<label>Is the event private to your club members?</label>
         </div>
     </div>
     <div class="form-group">
@@ -90,14 +90,13 @@
     </div>
 }
 
-<div class="form-group">
-    @Html.LabelFor(m => m.Location1, new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-        <div id="mapRoute" class="mapRouteClass"></div>
-    </div>
+
+<div class="col-md-10">
+    <div id="mapRoute" class="mapRouteClass"></div>
 </div>
 <script>
 
+    //Date formatting
     $(function () {
         $('#datetimepickerStart').datetimepicker({
             format: 'YYYY-MM-DD HH:mm'
@@ -110,8 +109,8 @@
 
     function setEdit() {
 
+        //Location list entered
         var locationList = [];
-
         $('.leaflet-control-container input').each(function () {
 
             if (this.value != "") {
@@ -119,8 +118,27 @@
             }
         });
 
+        //Direction string list
+        var directionTxt = [];
 
+        //Distance text
+        var distanceTxt = $('.leaflet-routing-alt h3').text();
+        directionTxt.push(distanceTxt);
+
+        //Loop through direction element
+        $('.leaflet-routing-alt table tbody tr').each(function () {
+
+            var directionTxt = this.getElementsByTagName("td")[1].innerHTML;
+            directionTxt.push(directionTxt)
+        });
+
+        //Add error string
         var errorDispString = "Provide both start and end location to register the event";
+
+        //Complete map direction and distance details
+        var mapList = [];
+        mapList.push(locationList);
+        mapList.push(directionTxt);
 
         if (locationList.length < 2) {
 
@@ -131,8 +149,9 @@
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("setLocation", "Event")',
-                data: { "anchorName": locationList },
+                data: { "anchorName": mapList },
                 success: function (response) {
+
                     document.getElementById("mainForm").submit();
                 },
                 error: function () {

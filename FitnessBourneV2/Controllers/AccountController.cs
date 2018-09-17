@@ -81,14 +81,7 @@ namespace FitnessBourneV2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    foreach (var record in db.MemberTables.ToList())
-                    {
-                        if (record.Mem_Email_Id == model.Email)
-                        {
-                            Session["UserLoggedIn"] = record;
-                            break;
-                        }
-                    }
+                    Session["UserLoggedIn"] = model.Email;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -227,7 +220,7 @@ namespace FitnessBourneV2.Controllers
                     db.SaveChanges();
 
 
-                    Session["UserLoggedIn"] = memObj;
+                    Session["UserLoggedIn"] = model.Email;
 
 
                     return RedirectToAction("Index", "Home");

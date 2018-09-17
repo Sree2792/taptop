@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model '\\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2\FitnessBourneV2\Models\fbmodel.edmx'. 
+﻿// T4 code generation is enabled for model '\\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2018\FitnessBourneV2\Models\fbmodel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
