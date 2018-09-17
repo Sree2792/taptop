@@ -27,6 +27,7 @@ namespace FitnessBourneV2.Models
         public byte Evnt_Is_Checkd_In { get; set; }
         public int Evnt_Capacity { get; set; }
         public int EventTypeET_Id { get; set; }
+        public string Evnt_NavigDetails { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocationTable> LocationTables { get; set; }
