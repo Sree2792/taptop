@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services;
 using FitnessBourneV2.Models;
 using GoogleMaps.LocationServices;
 
@@ -37,7 +38,7 @@ namespace FitnessBourneV2.Controllers
             else
             {
                 //add location
-                List<String> locationList = (List<String>)Session["anchorSelected"];
+                List<String> locationList = (List<String>)Session["locationList"];
 
                 List<LocationTable> localList = new List<LocationTable>();
                 foreach(var adrString in locationList)
@@ -95,6 +96,15 @@ namespace FitnessBourneV2.Controllers
                     }
                 }
 
+                //generate navigation details
+                List<String> directionList = (List<String>)Session["directionlist"];
+
+                String navDetails = "";
+                foreach(string stringTxt in directionList)
+                {
+                    navDetails = navDetails + stringTxt + ":;:";
+                }
+
                 //Check for Fitness club if private
                 if (eventSave.isPrivate)
                 {
@@ -109,6 +119,7 @@ namespace FitnessBourneV2.Controllers
                         EventTypeET_Id = eventType,
                         Admin = adminRecord,
                         LocationTables = localList,
+                        Evnt_NavigDetails = navDetails,
                         FitnessClub = adminRecord.FitnessClub
                     };
 
@@ -127,7 +138,8 @@ namespace FitnessBourneV2.Controllers
                         Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime),
                         EventTypeET_Id = eventType,
                         Admin = adminRecord,
-                        LocationTables = localList
+                        LocationTables = localList,
+                        Evnt_NavigDetails = navDetails
                     };
 
                     db.EventTables.Add(eventCreated);
@@ -138,13 +150,41 @@ namespace FitnessBourneV2.Controllers
             return RedirectToAction("Index", "Home");
         }
         
-        public void setLocation(List<string> anchorName)
+        [WebMethod]
+        public void setLocation(List<string> anchorname)
         {
-            Session["locationList"] = anchorName[0];
-            Session["directionlist"] = anchorName[1];
+            bool isDirection = false;
+            List<string> locationList = new List<string>();
+            List<string> directionList = new List<string>();
+
+            foreach (var textStr in anchorname)
+            {
+                if(textStr == ";;;;")
+                {
+                    isDirection = true;
+                }
+                else
+                {
+                    //Add all other elements other than delimiter
+                    //check if location or direction
+                    if (isDirection)
+                    {
+                        //populate direction
+                        directionList.Add(textStr);
+                    }
+                    else
+                    {
+                        //populate location
+                        locationList.Add(textStr);
+
+                    }
+                }
+            }
+
+            Session["locationList"] = locationList;
+            Session["directionlist"] = directionList;
             //Install-Package GoogleMaps.LocationServices -Version 1.2.0.1 
         }
-
 
     }
 }

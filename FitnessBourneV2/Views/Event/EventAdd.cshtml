@@ -118,29 +118,27 @@
             }
         });
 
-        //Direction string list
-        var directionTxt = [];
+        //Keep copy of locations only
+        var locRefList = locationList;
+
+        //Direction string list after placing a delimiter in locationList (;;;;)
+        locationList.push(";;;;")
 
         //Distance text
         var distanceTxt = $('.leaflet-routing-alt h3').text();
-        directionTxt.push(distanceTxt);
+        locationList.push(distanceTxt);
 
         //Loop through direction element
         $('.leaflet-routing-alt table tbody tr').each(function () {
 
-            var directionTxt = this.getElementsByTagName("td")[1].innerHTML;
-            directionTxt.push(directionTxt)
+            var directionTxtSTR = this.getElementsByTagName("td")[1].innerHTML;
+            locationList.push(directionTxtSTR)
         });
 
         //Add error string
         var errorDispString = "Provide both start and end location to register the event";
 
-        //Complete map direction and distance details
-        var mapList = [];
-        mapList.push(locationList);
-        mapList.push(directionTxt);
-
-        if (locationList.length < 2) {
+        if (locRefList.length < 2) {
 
             // Start and End location required
             alert(errorDispString)
@@ -149,7 +147,7 @@
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("setLocation", "Event")',
-                data: { "anchorName": mapList },
+                data: {"anchorname": locationList},
                 success: function (response) {
 
                     document.getElementById("mainForm").submit();
@@ -163,8 +161,6 @@
         }
 
     }
-
-
 </script>
 <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
 <!--<script src="~/Scripts/leaflet.js"></script>-->
