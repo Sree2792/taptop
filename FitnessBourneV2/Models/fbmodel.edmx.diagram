@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="fbmodel.AddressTable" Width="1.5" PointX="7.125" PointY="0.75" />
         <EntityTypeShape EntityType="fbmodel.MemberTable" Width="1.5" PointX="3.625" PointY="4.25" />
         <AssociationConnector Association="fbmodel.MemberTableFitnessClub" />
-        <EntityTypeShape EntityType="fbmodel.EventTable" Width="1.75" PointX="6.625" PointY="4.75" />
+        <EntityTypeShape EntityType="fbmodel.EventTable" Width="1.75" PointX="7.75" PointY="4.75" />
         <EntityTypeShape EntityType="fbmodel.NotificationActionTable" Width="2.25" PointX="3.125" PointY="8.375" />
         <EntityTypeShape EntityType="fbmodel.NotificationTable" Width="1.75" PointX="3.375" PointY="10.875" />
         <AssociationConnector Association="fbmodel.NotificationTableNotificationActionTable" />
@@ -28,6 +28,9 @@
         <EntityTypeShape EntityType="fbmodel.EventType" Width="1.5" PointX="12" PointY="1.875" />
         <AssociationConnector Association="fbmodel.EventTypeEventTable" />
         <AssociationConnector Association="fbmodel.EventTableFitnessClub" />
+        <EntityTypeShape EntityType="fbmodel.EventMembers" Width="1.5" PointX="5.75" PointY="5" />
+        <AssociationConnector Association="fbmodel.EventMembersEventTable" />
+        <AssociationConnector Association="fbmodel.EventMembersMemberTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

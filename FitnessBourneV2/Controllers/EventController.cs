@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services;
 using FitnessBourneV2.Models;
-using GoogleMaps.LocationServices;
 
 namespace FitnessBourneV2.Controllers
 {
@@ -13,8 +12,101 @@ namespace FitnessBourneV2.Controllers
     {
         private fbmodelContainer db = new fbmodelContainer();
         // GET: Event
-        public ActionResult EventHome()
+        public ActionResult EventHome(string type)
         {
+            List < EventTable > eventList = db.EventTables.ToList();
+            List<EventTable> eventsFiltered = new List<EventTable>();
+
+            foreach (EventTable subRecord in eventList)
+            {
+                //filter on event type
+                if(subRecord.EventType.ET_Name == type)
+                {
+                    eventsFiltered.Add(subRecord);
+                }
+            }
+
+            EventHomeModel modelToView = new EventHomeModel();
+            modelToView.EventypeInView = type.ToUpper();
+
+            List<EventListForType> eventListRefined = new List<EventListForType>();
+            //Populate the model for view
+            foreach(EventTable subRec in eventsFiltered)
+            {
+                //setting record up
+                string navInstr = "";
+                string distanceStr = "";
+
+                string[] words = subRec.Evnt_NavigDetails.Split(';');
+
+                int counter = 0;
+
+                //Splitting navigation string to essential components
+                foreach (string content in words)
+                {
+                    if(counter == 0)
+                    {
+                        distanceStr = content;
+                    }else
+                    {
+                        if(counter == 1)
+                        {
+                            navInstr = content;
+                        }
+                        else
+                        {
+                            navInstr = navInstr + " -> " + content;
+                        }
+                        
+                    }
+                    counter = counter + 1;
+                }
+
+                //Setting location feeds
+                List<LocationTable> locList = subRec.LocationTables.ToList();
+                int startId = locList.Count;
+                int stopId = 0;
+                string startLoc = "";
+                string stopLoc = "";
+                List<string> checkPointList = new List<string>();
+                string checkPoint = "";
+                //getting location string
+                foreach(LocationTable record in locList)
+                {
+                    if (startId > record.Loc_Id)
+                    {
+                        startLoc = record.Loc_Ref_Name;
+                        startId = record.Loc_Id;
+                    }
+                    if (stopId < record.Loc_Id)
+                    {
+                        stopLoc = record.Loc_Ref_Name;
+                        stopId = record.Loc_Id;
+                    }
+                    checkPointList.Add(record.Loc_Ref_Name);
+                }
+                //remove start and stop from check points
+                checkPointList.Remove(startLoc);
+                checkPointList.Remove(stopLoc);
+
+                //Setting up check point string
+                checkPoint = String.Join(" -> ", checkPointList.ToArray());
+
+                //setting up joined members list
+                
+
+                EventListForType eventToPass = new EventListForType()
+                {
+                    eventStartTime = subRec.Evnt_Start_DateTime.ToString(),
+                    eventEndTime = subRec.Evnt_End_DateTime.ToString(),
+                    totalCapacity = subRec.Evnt_Capacity.ToString(),
+                    navInstructions = navInstr,
+                    totalDistance = distanceStr,
+                    checkPoints = checkPoint,
+                    startLoc = startLoc,
+                    stopLoc = stopLoc
+                };
+            }
             return View();
         }
 
@@ -102,7 +194,7 @@ namespace FitnessBourneV2.Controllers
                 String navDetails = "";
                 foreach(string stringTxt in directionList)
                 {
-                    navDetails = navDetails + stringTxt + ":;:";
+                    navDetails = navDetails + stringTxt + ";";
                 }
 
                 //Check for Fitness club if private

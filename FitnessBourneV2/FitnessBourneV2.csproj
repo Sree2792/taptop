@@ -228,6 +228,9 @@
       <DependentUpon>fbmodel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EventHomeModel.cs" />
+    <Compile Include="Models\EventMembers.cs">
+      <DependentUpon>fbmodel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EventTable.cs">
       <DependentUpon>fbmodel.tt</DependentUpon>
     </Compile>

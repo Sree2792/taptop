@@ -2,13 +2,11 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/17/2018 17:20:45
--- Generated from EDMX file: \\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2018\FitnessBourneV2\Models\fbmodel.edmx
+-- Date Created: 09/19/2018 16:45:13
+-- Generated from EDMX file: C:\Users\JSY81CL\Source\Repos\taptop\FitnessBourneV2\Models\fbmodel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
-GO
-USE [fbmasterdb];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -200,6 +198,14 @@ CREATE TABLE [dbo].[EventTypes] (
 );
 GO
 
+-- Creating table 'EventMembers'
+CREATE TABLE [dbo].[EventMembers] (
+    [EvMem_Id] int IDENTITY(1,1) NOT NULL,
+    [EventTable_Evnt_Id] int  NULL,
+    [MemberTable_Mem_Id] int  NULL
+);
+GO
+
 -- Creating table 'LocationTableEventTable'
 CREATE TABLE [dbo].[LocationTableEventTable] (
     [LocationTables_Loc_Id] int  NOT NULL,
@@ -270,6 +276,12 @@ GO
 ALTER TABLE [dbo].[EventTypes]
 ADD CONSTRAINT [PK_EventTypes]
     PRIMARY KEY CLUSTERED ([ET_Id] ASC);
+GO
+
+-- Creating primary key on [EvMem_Id] in table 'EventMembers'
+ALTER TABLE [dbo].[EventMembers]
+ADD CONSTRAINT [PK_EventMembers]
+    PRIMARY KEY CLUSTERED ([EvMem_Id] ASC);
 GO
 
 -- Creating primary key on [LocationTables_Loc_Id], [EventTables_Evnt_Id] in table 'LocationTableEventTable'
@@ -514,6 +526,36 @@ GO
 CREATE INDEX [IX_FK_EventTableFitnessClub]
 ON [dbo].[FitnessClubs]
     ([EventTable_Evnt_Id]);
+GO
+
+-- Creating foreign key on [EventTable_Evnt_Id] in table 'EventMembers'
+ALTER TABLE [dbo].[EventMembers]
+ADD CONSTRAINT [FK_EventMembersEventTable]
+    FOREIGN KEY ([EventTable_Evnt_Id])
+    REFERENCES [dbo].[EventTables]
+        ([Evnt_Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_EventMembersEventTable'
+CREATE INDEX [IX_FK_EventMembersEventTable]
+ON [dbo].[EventMembers]
+    ([EventTable_Evnt_Id]);
+GO
+
+-- Creating foreign key on [MemberTable_Mem_Id] in table 'EventMembers'
+ALTER TABLE [dbo].[EventMembers]
+ADD CONSTRAINT [FK_EventMembersMemberTable]
+    FOREIGN KEY ([MemberTable_Mem_Id])
+    REFERENCES [dbo].[MemberTables]
+        ([Mem_Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_EventMembersMemberTable'
+CREATE INDEX [IX_FK_EventMembersMemberTable]
+ON [dbo].[EventMembers]
+    ([MemberTable_Mem_Id]);
 GO
 
 -- --------------------------------------------------

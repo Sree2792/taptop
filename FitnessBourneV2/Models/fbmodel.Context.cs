@@ -34,5 +34,6 @@ namespace FitnessBourneV2.Models
         public virtual DbSet<EventEdit> EventEdits { get; set; }
         public virtual DbSet<LocationTable> LocationTables { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
+        public virtual DbSet<EventMembers> EventMembers { get; set; }
     }
 }
