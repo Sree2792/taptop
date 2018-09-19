@@ -14,7 +14,7 @@
             
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                @for (int i = 1; i < Model.eventListForType.Count; i++)
+                @for (int i = 1; i < Model.eventList.Count; i++)
                 {
                     var pos = '"' + i.ToString() + '"';
                     <li data-target="#myCarousel" data-slide-to=@pos></li>
@@ -23,7 +23,7 @@
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
-                @for (int j = 0; j < Model.eventListForType.Count; j++)
+                @for (int j = 0; j < Model.eventList.Count; j++)
                 {
                     var className = "item";
                     if (j == 0)
@@ -41,10 +41,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                @Html.TextBoxFor(m => m.eventListForType[j].eventStartTime, new { @class = "eventStartDT", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.eventList[j].eventStartTime, new { @class = "eventStartDT", @readonly = "readonly" })
                             </div>
                             <div class="col-md-3">
-                                @Html.TextBoxFor(m => m.eventListForType[j].eventEndTime, new { @class = "eventEndDT", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.eventList[j].eventEndTime, new { @class = "eventEndDT", @readonly = "readonly" })
                             </div>
                         </div>
                         <div class="row">
@@ -54,7 +54,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.eventListForType[j].checkPoints, new { @class = "checkPointLoc", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.eventList[j].checkPoints, new { @class = "checkPointLoc", @readonly = "readonly" })
                             </div>
                         </div>
                         <div class="row">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.eventListForType[j].totalDistance, new { @class = "totalDistance", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.eventList[j].totalDistance, new { @class = "totalDistance", @readonly = "readonly" })
                             </div>
                         </div>
                         <div class="row">
@@ -74,7 +74,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.eventListForType[j].navInstructions, new { @class = "navInstruction", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.eventList[j].navInstructions, new { @class = "navInstruction", @readonly = "readonly" })
                             </div>
                         </div>
                         <div class="row">
@@ -87,10 +87,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                @Html.TextBoxFor(m => m.eventListForType[j].seatAvailblity, new { @class = "seatavailability", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.eventList[j].seatAvailblity, new { @class = "seatavailability", @readonly = "readonly" })
                             </div>
                             <div class="col-md-3">
-                                @Html.TextBoxFor(m => m.eventListForType[j].totalCapacity, new { @class = "totalcapacity", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.eventList[j].totalCapacity, new { @class = "totalcapacity", @readonly = "readonly" })
                             </div>
                         </div>
                     </div>
