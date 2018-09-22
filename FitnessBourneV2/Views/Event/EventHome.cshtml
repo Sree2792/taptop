@@ -178,7 +178,7 @@
         type: "POST",
         url: '@Url.Action("getLocation", "Event")',
         contentType: "application/json; charset=utf-8",
-        data: { "anchorname": counter },
+        data: { "anchorname": counter.toString() },
         dataType: 'json',
         async: false,
         success: function (data) {
