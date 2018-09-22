@@ -32,11 +32,11 @@ namespace FitnessBourneV2.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocationTable> LocationTables { get; set; }
-        public virtual MemberTable Admin { get; set; }
         public virtual EventEdit EventEdit { get; set; }
         public virtual EventType EventType { get; set; }
         public virtual FitnessClub FitnessClub { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventMembers> EventMembers { get; set; }
+        public virtual MemberTable MemberTable { get; set; }
     }
 }

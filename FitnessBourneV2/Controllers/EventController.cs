@@ -182,7 +182,7 @@ namespace FitnessBourneV2.Controllers
                 MemberTable adminRecord = new MemberTable();
                 foreach(var record in db.MemberTables.ToList())
                 {
-                    if(record.Mem_Email_Id == Session["UserLoggedIn"].ToString())
+                    if(record.Mem_Email_Id == User.Identity.Name)
                     {
                         adminRecord = record;
                     }
@@ -209,7 +209,7 @@ namespace FitnessBourneV2.Controllers
                         Evnt_Start_DateTime = Convert.ToDateTime(eventSave.startDateTime),
                         Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime),
                         EventTypeET_Id = eventType,
-                        Admin = adminRecord,
+                        MemberTable = adminRecord,
                         LocationTables = localList,
                         Evnt_NavigDetails = navDetails,
                         FitnessClub = adminRecord.FitnessClub
@@ -229,9 +229,10 @@ namespace FitnessBourneV2.Controllers
                         Evnt_Start_DateTime = Convert.ToDateTime(eventSave.startDateTime),
                         Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime),
                         EventTypeET_Id = eventType,
-                        Admin = adminRecord,
+                        MemberTable = adminRecord,
                         LocationTables = localList,
-                        Evnt_NavigDetails = navDetails
+                        Evnt_NavigDetails = navDetails,
+                        EventMembers = new List<EventMembers>()
                     };
 
                     db.EventTables.Add(eventCreated);
