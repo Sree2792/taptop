@@ -180,16 +180,26 @@
         contentType: "application/json; charset=utf-8",
         data: { "anchorname": counter },
         dataType: 'json',
+        async: false,
         success: function (data) {
 
             //get result of map string
             var result = JSON.stringify(data);
 
             //Add enough input labels to the map
-            for (var i = 0; i < result.length; ++i) {
-
-
+            var inputClicks = result.length - 2;
+            for (var j = 0; j < inputClicks; ++j)
+            {
+                $('.leaflet-routing-add-waypoint').trigger('click');
             }
+
+            //Add text to label
+            var itr = 0;
+            $('.leaflet-control-container input').each(function () {
+
+                this.value = result[itr];
+                itr = itr + 1;
+            });
         },
         error: function () {
 

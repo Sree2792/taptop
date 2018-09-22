@@ -72,7 +72,7 @@ namespace FitnessBourneV2.Controllers
 
                     //Setting location feeds
                     List<LocationTable> locList = subRec.LocationTables.ToList();
-                    int startId = locList.Count;
+                    int startId = locList[0].Loc_Id;
                     int stopId = 0;
                     string startLoc = "";
                     string stopLoc = "";
@@ -81,7 +81,7 @@ namespace FitnessBourneV2.Controllers
                     //getting location string
                     foreach (LocationTable record in locList)
                     {
-                        if (startId > record.Loc_Id)
+                        if (startId >= record.Loc_Id)
                         {
                             startLoc = record.Loc_Ref_Name;
                             startId = record.Loc_Id;
@@ -307,7 +307,7 @@ namespace FitnessBourneV2.Controllers
         }
 
 
-        [WebMethod]
+        [HttpPost]
         public JsonResult getLocation(string counter)
         {
 
