@@ -99,7 +99,12 @@ namespace FitnessBourneV2.Controllers
                     checkPoint = String.Join(" -> ", checkPointList.ToArray());
 
                     //setting up joined members list
-
+                    string seatOccupied = "0";
+                    if(subRec.EventMembers.Count > 0)
+                    {
+                        // seat occupied
+                        seatOccupied = subRec.EventMembers.Count.ToString();
+                    }
 
                     EventListForType eventToPass = new EventListForType()
                     {
@@ -110,7 +115,8 @@ namespace FitnessBourneV2.Controllers
                         totalDistance = distanceStr,
                         checkPoints = checkPoint,
                         startLoc = startLoc,
-                        stopLoc = stopLoc
+                        stopLoc = stopLoc,
+                        seatAvailblity = seatOccupied
                     };
 
                     //Pass event

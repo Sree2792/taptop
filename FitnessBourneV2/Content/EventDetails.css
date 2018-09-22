@@ -1,11 +1,29 @@
-﻿body{
+﻿.labelTxt {
+    
     color: white;
 }
 
-.navInstructions {
-    width: 300px;
+.txtBox {
+
+    width:280px;
+}
+
+#navInstrTxt, #checkTxt {
+    width: 1000px;
+    max-width: 1000px;
 }
 
 .checkPointLoc{
+    
     width: 300px;
+}
+
+#PageSlider{
+    
+    height:80px;
+}
+
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.4;
 }
