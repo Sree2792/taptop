@@ -53,19 +53,19 @@
             <div class="col-md-4">
                 <img src="~/Image/Cycling.jpg" alt="Cycling" class="eventImg" />
                 <div class="col-md-1 col-md-offset-5">
-                    <input type="button" onclick="eventView('Cycling')" value="Cycling"/>
+                    <input type="button" onclick="location.href='@Url.Action("EventHome","Event", new { type = "Cycling"})'" value="Cycling"/>
                 </div>
             </div>
             <div class="col-md-4">
                 <img src="~/Image/walking.jpg" alt="Walking" class="eventImg" />
                 <div class="col-md-1 col-md-offset-5">
-                    <input type="button" onclick="eventView('Walking')" value="Walking" />
+                    <input type="button" onclick="location.href='@Url.Action("EventHome","Event", new { type = "Walking"})'" value="Walking" />
                 </div>
             </div>
             <div class="col-md-4">
                 <img src="~/Image/running.jpg" alt="Running" class="eventImg" />
                 <div class="col-md-1 col-md-offset-5">
-                    <input type="button" onclick="eventView('Running')" value="Running" />
+                    <input type="button" onclick="location.href='@Url.Action("EventHome","Event",  new {type = "Running"})'"  value="Running" />
                 </div>
             </div>
         </div>

@@ -15,99 +15,118 @@ namespace FitnessBourneV2.Controllers
         public ActionResult EventHome(string type)
         {
             List < EventTable > eventList = db.EventTables.ToList();
+
             List<EventTable> eventsFiltered = new List<EventTable>();
 
             foreach (EventTable subRecord in eventList)
             {
                 //filter on event type
-                if(subRecord.EventType.ET_Name == type)
+                if (subRecord.EventType.ET_Name == type)
                 {
                     eventsFiltered.Add(subRecord);
                 }
             }
 
-            EventHomeModel modelToView = new EventHomeModel();
-            modelToView.EventypeInView = type.ToUpper();
-
-            List<EventListForType> eventListRefined = new List<EventListForType>();
-            //Populate the model for view
-            foreach(EventTable subRec in eventsFiltered)
+            if (eventsFiltered.Count > 0)
             {
-                //setting record up
-                string navInstr = "";
-                string distanceStr = "";
+                
 
-                string[] words = subRec.Evnt_NavigDetails.Split(';');
+                EventHomeModel modelToView = new EventHomeModel();
+                modelToView.EventypeInView = type.ToUpper();
 
-                int counter = 0;
-
-                //Splitting navigation string to essential components
-                foreach (string content in words)
+                List<EventListForType> eventListRefined = new List<EventListForType>();
+                //Populate the model for view
+                foreach (EventTable subRec in eventsFiltered)
                 {
-                    if(counter == 0)
+                    //setting record up
+                    string navInstr = "";
+                    string distanceStr = "";
+
+                    string[] words = subRec.Evnt_NavigDetails.Split(';');
+
+                    int counter = 0;
+
+                    //Splitting navigation string to essential components
+                    foreach (string content in words)
                     {
-                        distanceStr = content;
-                    }else
-                    {
-                        if(counter == 1)
+                        if (counter == 0)
                         {
-                            navInstr = content;
+                            distanceStr = content;
                         }
                         else
                         {
-                            navInstr = navInstr + " -> " + content;
+                            if (counter == 1)
+                            {
+                                navInstr = content;
+                            }
+                            else
+                            {
+                                navInstr = navInstr + " -> " + content;
+                            }
+
                         }
-                        
+                        counter = counter + 1;
                     }
-                    counter = counter + 1;
+
+                    //Setting location feeds
+                    List<LocationTable> locList = subRec.LocationTables.ToList();
+                    int startId = locList.Count;
+                    int stopId = 0;
+                    string startLoc = "";
+                    string stopLoc = "";
+                    List<string> checkPointList = new List<string>();
+                    string checkPoint = "";
+                    //getting location string
+                    foreach (LocationTable record in locList)
+                    {
+                        if (startId > record.Loc_Id)
+                        {
+                            startLoc = record.Loc_Ref_Name;
+                            startId = record.Loc_Id;
+                        }
+                        if (stopId < record.Loc_Id)
+                        {
+                            stopLoc = record.Loc_Ref_Name;
+                            stopId = record.Loc_Id;
+                        }
+                        checkPointList.Add(record.Loc_Ref_Name);
+                    }
+                    //remove start and stop from check points
+                    checkPointList.Remove(startLoc);
+                    checkPointList.Remove(stopLoc);
+
+                    //Setting up check point string
+                    checkPoint = String.Join(" -> ", checkPointList.ToArray());
+
+                    //setting up joined members list
+
+
+                    EventListForType eventToPass = new EventListForType()
+                    {
+                        eventStartTime = subRec.Evnt_Start_DateTime.ToString(),
+                        eventEndTime = subRec.Evnt_End_DateTime.ToString(),
+                        totalCapacity = subRec.Evnt_Capacity.ToString(),
+                        navInstructions = navInstr,
+                        totalDistance = distanceStr,
+                        checkPoints = checkPoint,
+                        startLoc = startLoc,
+                        stopLoc = stopLoc
+                    };
+
+                    //Pass event
+                    eventListRefined.Add(eventToPass);
                 }
 
-                //Setting location feeds
-                List<LocationTable> locList = subRec.LocationTables.ToList();
-                int startId = locList.Count;
-                int stopId = 0;
-                string startLoc = "";
-                string stopLoc = "";
-                List<string> checkPointList = new List<string>();
-                string checkPoint = "";
-                //getting location string
-                foreach(LocationTable record in locList)
-                {
-                    if (startId > record.Loc_Id)
-                    {
-                        startLoc = record.Loc_Ref_Name;
-                        startId = record.Loc_Id;
-                    }
-                    if (stopId < record.Loc_Id)
-                    {
-                        stopLoc = record.Loc_Ref_Name;
-                        stopId = record.Loc_Id;
-                    }
-                    checkPointList.Add(record.Loc_Ref_Name);
-                }
-                //remove start and stop from check points
-                checkPointList.Remove(startLoc);
-                checkPointList.Remove(stopLoc);
+                // add refined event list
+                modelToView.eventList = eventListRefined;
 
-                //Setting up check point string
-                checkPoint = String.Join(" -> ", checkPointList.ToArray());
-
-                //setting up joined members list
-                
-
-                EventListForType eventToPass = new EventListForType()
-                {
-                    eventStartTime = subRec.Evnt_Start_DateTime.ToString(),
-                    eventEndTime = subRec.Evnt_End_DateTime.ToString(),
-                    totalCapacity = subRec.Evnt_Capacity.ToString(),
-                    navInstructions = navInstr,
-                    totalDistance = distanceStr,
-                    checkPoints = checkPoint,
-                    startLoc = startLoc,
-                    stopLoc = stopLoc
-                };
+                return View(modelToView);
             }
-            return View();
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
 
         public ActionResult EventAdd()
