@@ -10,7 +10,9 @@
 <div class="row" id="DetailsPane">
     <div class="col-md-10 col-md-offset-1" id="DetailsCol">
         <div class="row">
-            <h1>@Model.EventypeInView</h1>
+            <div class="col-md-2 col-md-offset-5">
+                <h1 style="color:white;">@Model.EventypeInView</h1>
+            </div>
         </div>
         <div id="myCarousel" class="row carousel slide" data-interval="false">
 
@@ -144,3 +146,57 @@
 <script src="~/Scripts/Control.Geocoder.js"></script>
 <script src="~/Scripts/config.js"></script>
 <script src="~/Scripts/index_route.js"></script>
+<script>
+    var counter = 0
+    $('#myCarousel').bind('slide.bs.carousel', function (e) {
+
+        var endCount = @Model.eventList.Count;
+
+        if (e.direction == "left") {
+
+            //Manipulate change
+            if (counter == endCount-1) {
+
+                counter = 0;
+            }
+
+            counter = counter + 1;
+        }
+        if (e.direction == "right") {
+
+            //Manipulate change
+            if (counter == 0) {
+
+                counter = endCount - 1;
+            }
+
+            counter = counter - 1;
+        }
+
+        //get data for map
+        $.ajax({
+        type: "POST",
+        url: '@Url.Action("getLocation", "Event")',
+        contentType: "application/json; charset=utf-8",
+        data: { "anchorname": counter },
+        dataType: 'json',
+        success: function (data) {
+
+            //get result of map string
+            var result = JSON.stringify(data);
+
+            //Add enough input labels to the map
+            for (var i = 0; i < result.length; ++i) {
+
+
+            }
+        },
+        error: function () {
+
+            alert("Error in contacting server!");
+
+        }
+        });
+        alert(e.direction);
+    });
+</script>

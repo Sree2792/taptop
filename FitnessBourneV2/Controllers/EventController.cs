@@ -14,9 +14,11 @@ namespace FitnessBourneV2.Controllers
         // GET: Event
         public ActionResult EventHome(string type)
         {
-            List < EventTable > eventList = db.EventTables.ToList();
+            List<EventTable> eventList = db.EventTables.ToList();
 
             List<EventTable> eventsFiltered = new List<EventTable>();
+
+            Session["EventType"] = type;
 
             foreach (EventTable subRecord in eventList)
             {
@@ -29,7 +31,7 @@ namespace FitnessBourneV2.Controllers
 
             if (eventsFiltered.Count > 0)
             {
-                
+
 
                 EventHomeModel modelToView = new EventHomeModel();
                 modelToView.EventypeInView = type.ToUpper();
@@ -100,7 +102,7 @@ namespace FitnessBourneV2.Controllers
 
                     //setting up joined members list
                     string seatOccupied = "0";
-                    if(subRec.EventMembers.Count > 0)
+                    if (subRec.EventMembers.Count > 0)
                     {
                         // seat occupied
                         seatOccupied = subRec.EventMembers.Count.ToString();
@@ -132,7 +134,7 @@ namespace FitnessBourneV2.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            
+
         }
 
         public ActionResult EventAdd()
@@ -158,7 +160,7 @@ namespace FitnessBourneV2.Controllers
                 List<String> locationList = (List<String>)Session["locationList"];
 
                 List<LocationTable> localList = new List<LocationTable>();
-                foreach(var adrString in locationList)
+                foreach (var adrString in locationList)
                 {
                     List<string> adressObj = adrString.Split(',').ToList<string>();
 
@@ -173,7 +175,7 @@ namespace FitnessBourneV2.Controllers
                         Adr_Unit_No = "",
                         Adr_Lat = 0,
                         Adr_Long = 0
-                        
+
                     };
 
                     //Add address to DB
@@ -195,7 +197,7 @@ namespace FitnessBourneV2.Controllers
 
                 // Event type linking
                 int eventType = 1;
-                foreach(var record in db.EventTypes.ToList())
+                foreach (var record in db.EventTypes.ToList())
                 {
                     if (record.ET_Id == Int32.Parse(eventSave.eventTypeName))
                     {
@@ -205,9 +207,9 @@ namespace FitnessBourneV2.Controllers
 
                 //Member registeration
                 MemberTable adminRecord = new MemberTable();
-                foreach(var record in db.MemberTables.ToList())
+                foreach (var record in db.MemberTables.ToList())
                 {
-                    if(record.Mem_Email_Id == User.Identity.Name)
+                    if (record.Mem_Email_Id == User.Identity.Name)
                     {
                         adminRecord = record;
                     }
@@ -217,7 +219,7 @@ namespace FitnessBourneV2.Controllers
                 List<String> directionList = (List<String>)Session["directionlist"];
 
                 String navDetails = "";
-                foreach(string stringTxt in directionList)
+                foreach (string stringTxt in directionList)
                 {
                     navDetails = navDetails + stringTxt + ";";
                 }
@@ -267,7 +269,7 @@ namespace FitnessBourneV2.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        
+
         [WebMethod]
         public void setLocation(List<string> anchorname)
         {
@@ -277,7 +279,7 @@ namespace FitnessBourneV2.Controllers
 
             foreach (var textStr in anchorname)
             {
-                if(textStr == ";;;;")
+                if (textStr == ";;;;")
                 {
                     isDirection = true;
                 }
@@ -304,5 +306,34 @@ namespace FitnessBourneV2.Controllers
             //Install-Package GoogleMaps.LocationServices -Version 1.2.0.1 
         }
 
+
+        [WebMethod]
+        public JsonResult getLocation(string counter)
+        {
+
+            List<EventTable> eventList = db.EventTables.ToList();
+            String type = Session["EventType"].ToString();
+            List<EventTable> eventsFiltered = new List<EventTable>();
+
+            foreach (EventTable subRecord in eventList)
+            {
+                //filter on event type
+                if (subRecord.EventType.ET_Name == type)
+                {
+                    eventsFiltered.Add(subRecord);
+                }
+            }
+
+            // Event table in view
+            EventTable subRec = eventsFiltered[Int32.Parse(counter)];
+
+            List<string> locationString = new List<string>();
+            foreach (LocationTable locTble in subRec.LocationTables)
+            {
+                locationString.Add(locTble.Loc_Ref_Name);
+            }
+            return Json(locationString, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

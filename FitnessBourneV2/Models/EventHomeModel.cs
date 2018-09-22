@@ -24,5 +24,6 @@ namespace FitnessBourneV2.Models
         public string totalCapacity { get; set; }
 
         public List<LocationTable> listOfLocations { get; set; }
+        public List<string> locationString { get; set; }
     }
 }
