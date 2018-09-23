@@ -145,8 +145,8 @@
 <script>
     function routeMap() {
 
-        $('.leaflet-routing-reverse-waypoints').trigger('click');
-        $('.leaflet-routing-reverse-waypoints').trigger('click');
+        //$('.leaflet-routing-reverse-waypoints').trigger('click');
+        //$('.leaflet-routing-reverse-waypoints').trigger('click');
     }
 
     var counter = 0
@@ -199,11 +199,16 @@
             $('.leaflet-control-container input').each(function () {
 
                 this.value = data[itr];
-                itr = itr + 1;
 
-                if (itr == data.length) {
-                    routeMap();
-                }
+                // create enter key press
+                e = jQuery.Event("keypress")
+                e.which = 13
+
+                //trigger on text box
+                this.trigger(e);
+                //this.keypress().trigger(e)
+
+                itr = itr + 1;
             });
         },
         failure: function (data) {
