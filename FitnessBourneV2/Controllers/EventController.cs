@@ -307,8 +307,9 @@ namespace FitnessBourneV2.Controllers
         }
 
 
+        [WebMethod]
         [HttpPost]
-        public JsonResult getLocation(string counter)
+        public JsonResult GetLocation(string counter)
         {
 
             List<EventTable> eventList = db.EventTables.ToList();

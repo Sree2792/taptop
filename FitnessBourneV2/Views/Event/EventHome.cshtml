@@ -141,11 +141,7 @@
         <div id="mapRoute" class="mapRouteClass disabledbutton"></div>
     </div>
 </div>
-<script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
-<script src="~/Scripts/leaflet-routing-machine.js"></script>
-<script src="~/Scripts/Control.Geocoder.js"></script>
-<script src="~/Scripts/config.js"></script>
-<script src="~/Scripts/index_route.js"></script>
+
 <script>
     var counter = 0
     $('#myCarousel').bind('slide.bs.carousel', function (e) {
@@ -176,11 +172,11 @@
         //get data for map
         $.ajax({
         type: "POST",
-        url: '@Url.Action("getLocation", "Event")',
+        url: '@Url.Action("setLocation", "Event")',
         contentType: "application/json; charset=utf-8",
         data: { "anchorname": counter.toString() },
         dataType: 'json',
-        async: false,
+        async: true,
         success: function (data) {
 
             //get result of map string
@@ -210,3 +206,8 @@
         alert(e.direction);
     });
 </script>
+<script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+<script src="~/Scripts/leaflet-routing-machine.js"></script>
+<script src="~/Scripts/Control.Geocoder.js"></script>
+<script src="~/Scripts/config.js"></script>
+<script src="~/Scripts/index_route.js"></script>
