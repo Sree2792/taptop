@@ -143,6 +143,12 @@
 </div>
 
 <script>
+    function routeMap() {
+
+        $('.leaflet-routing-reverse-waypoints').trigger('click');
+        $('.leaflet-routing-reverse-waypoints').trigger('click');
+    }
+
     var counter = 0
     $('#myCarousel').bind('slide.bs.carousel', function (e) {
 
@@ -194,6 +200,10 @@
 
                 this.value = data[itr];
                 itr = itr + 1;
+
+                if (itr == data.length) {
+                    routeMap();
+                }
             });
         },
         failure: function (data) {
@@ -204,6 +214,8 @@
         }
         });
     });
+
+    
 </script>
 <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
 <script src="~/Scripts/leaflet-routing-machine.js"></script>

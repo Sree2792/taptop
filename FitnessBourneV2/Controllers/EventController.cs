@@ -331,8 +331,21 @@ namespace FitnessBourneV2.Controllers
             foreach (LocationTable locTble in subRec.LocationTables)
             {
                 // Address string
-                var addrStr = locTble.AddressTable.Adr_Unit_No + ", " + locTble.AddressTable.Adr_House_No + ", " + locTble.AddressTable.Adr_Street_Name + ", " +
-                    locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name + ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode;
+                var addrStr = "";
+
+                if (locTble.AddressTable.Adr_Unit_No != "")
+                {
+                    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
+                }
+
+                if (locTble.AddressTable.Adr_House_No != "")
+                {
+                    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
+                }
+
+                addrStr =  locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
+                    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
+                
                 // Append address string to list
                 locationString.Add(addrStr);
             }
