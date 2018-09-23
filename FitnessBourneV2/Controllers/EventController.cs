@@ -308,8 +308,7 @@ namespace FitnessBourneV2.Controllers
 
 
         [WebMethod]
-        [HttpPost]
-        public JsonResult GetLocation(string counter)
+        public JsonResult GetLocation(int counterVal)
         {
 
             List<EventTable> eventList = db.EventTables.ToList();
@@ -326,12 +325,16 @@ namespace FitnessBourneV2.Controllers
             }
 
             // Event table in view
-            EventTable subRec = eventsFiltered[Int32.Parse(counter)];
+            EventTable subRec = eventsFiltered[counterVal];
 
             List<string> locationString = new List<string>();
             foreach (LocationTable locTble in subRec.LocationTables)
             {
-                locationString.Add(locTble.Loc_Ref_Name);
+                // Address string
+                var addrStr = locTble.AddressTable.Adr_Unit_No + ", " + locTble.AddressTable.Adr_House_No + ", " + locTble.AddressTable.Adr_Street_Name + ", " +
+                    locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name + ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode;
+                // Append address string to list
+                locationString.Add(addrStr);
             }
             return Json(locationString, JsonRequestBehavior.AllowGet);
 

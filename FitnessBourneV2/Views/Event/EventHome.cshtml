@@ -172,38 +172,37 @@
         //get data for map
         $.ajax({
         type: "POST",
-        url: '@Url.Action("setLocation", "Event")',
-        contentType: "application/json; charset=utf-8",
-        data: { "anchorname": counter.toString() },
+        url: '@Url.Action("GetLocation", "Event")',
+        data: { "counterVal": counter},
         dataType: 'json',
         async: true,
         success: function (data) {
 
-            //get result of map string
-            var result = JSON.stringify(data);
-
             //Add enough input labels to the map
-            var inputClicks = result.length - 2;
-            for (var j = 0; j < inputClicks; ++j)
-            {
-                $('.leaflet-routing-add-waypoint').trigger('click');
+            var inputClicks = data.length - 2;
+
+            if (inputClicks > 0) {
+
+                for (var j = 0; j < inputClicks; ++j) {
+                    $('.leaflet-routing-add-waypoint').trigger('click');
+                }
             }
 
             //Add text to label
             var itr = 0;
             $('.leaflet-control-container input').each(function () {
 
-                this.value = result[itr];
+                this.value = data[itr];
                 itr = itr + 1;
             });
         },
-        error: function () {
-
-            alert("Error in contacting server!");
-
+        failure: function (data) {
+            alert(data.d);
+        },
+        error: function (data) {
+            alert(data.d);
         }
         });
-        alert(e.direction);
     });
 </script>
 <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
