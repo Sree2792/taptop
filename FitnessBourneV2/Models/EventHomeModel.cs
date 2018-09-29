@@ -13,6 +13,7 @@ namespace FitnessBourneV2.Models
 
     public class EventListForType
     {
+        public int eventID { get; set; }
         public string startLoc { get; set; }
         public string stopLoc { get; set; }
         public string checkPoints { get; set; }

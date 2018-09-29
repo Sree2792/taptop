@@ -7,146 +7,174 @@
 <link rel="stylesheet" href="~/Content/leaflet-routing-machine.css" />
 <link rel="stylesheet" href="~/Content/index_route.css" />
 <link rel="stylesheet" type="text/css" href="~/Content/EventDetails.css">
-<div class="row" id="DetailsPane">
-    <div class="col-md-10 col-md-offset-1" id="DetailsCol">
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <h1 style="color:white;">@Model.EventypeInView</h1>
-            </div>
-        </div>
-        <div id="myCarousel" class="row carousel slide" data-interval="false">
-
-            <!-- Left Indicator -->
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-
-            <!-- Indicators -->
+@using (Html.BeginForm("EventSave", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
+{
+    <div class="row" id="DetailsPane">
+        <div class="col-md-10 col-md-offset-1" id="DetailsCol">
             <div class="row">
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner col-md-8 col-md-offset-2">
-                    @for (int j = 0; j < Model.eventList.Count; j++)
-                    {
-                        var className = "item";
-                        if (j == 0)
-                        {
-                            className = className + " active";
-                        }
-                        <div class="@className">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="labelTxt">Event Start Datetime :</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="labelTxt">Event End Datetime  :</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    @Html.TextBoxFor(m => m.eventList[j].eventStartTime, new { @class = "eventStartDT txtBox", @readonly = "readonly" })
-                                </div>
-                                <div class="col-md-3">
-                                    @Html.TextBoxFor(m => m.eventList[j].eventEndTime, new { @class = "eventEndDT txtBox", @readonly = "readonly" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="labelTxt">Event Start Location :</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="labelTxt">Event End Location  :</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    @Html.TextBoxFor(m => m.eventList[j].startLoc, new { @class = "eventStartDT txtBox", @readonly = "readonly" })
-                                </div>
-                                <div class="col-md-3">
-                                    @Html.TextBoxFor(m => m.eventList[j].stopLoc, new { @class = "eventEndDT txtBox", @readonly = "readonly" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="labelTxt">Event Check Point Locations :</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(m => m.eventList[j].checkPoints, new { @class = "checkPointLoc", @readonly = "readonly", @id = "checkTxt" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="labelTxt">Total Distance :</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    @Html.TextBoxFor(m => m.eventList[j].totalDistance, new { @class = "totalDistance", @readonly = "readonly" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="labelTxt">Navigation Directions :</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(m => m.eventList[j].navInstructions, new { @class = "navInstruction", @readonly = "readonly", @id = "navInstrTxt" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="labelTxt">Seat Availability :</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="labelTxt">Total Capacity  :</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    @Html.TextBoxFor(m => m.eventList[j].seatAvailblity, new { @class = "seatavailability txtBox", @readonly = "readonly" })
-                                </div>
-                                <div class="col-md-3">
-                                    @Html.TextBoxFor(m => m.eventList[j].totalCapacity, new { @class = "totalcapacity txtBox", @readonly = "readonly" })
-                                </div>
-                            </div>
-                        </div>
-                    }
+                <div class="col-md-2 col-md-offset-5">
+                    <h1 style="color:white;">@Model.EventypeInView</h1>
                 </div>
             </div>
-            <div class="row" id="PageSlider">
-                <!--Slider pages-->
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    @for (int i = 1; i < Model.eventList.Count; i++)
-                    {
-                        var pos = '"' + i.ToString() + '"';
-                        <li data-target="#myCarousel" data-slide-to=@pos></li>
-                    }
-                </ol>
-            </div>
+            <div id="myCarousel" class="row carousel slide" data-interval="false">
 
-            <!-- Right controls -->
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <span class="sr-only">Next</span>
-            </a>
+                <!-- Left Indicator -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+
+                <!-- Indicators -->
+                <div class="row">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner col-md-8 col-md-offset-2">
+                        @for (int j = 0; j < Model.eventList.Count; j++)
+                        {
+                            var className = "item";
+                            if (j == 0)
+                            {
+                                className = className + " active";
+                            }
+                            <div class="@className">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Event Start Datetime :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Event End Datetime  :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[j].eventStartTime, new { @class = "eventStartDT txtBox", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[j].eventEndTime, new { @class = "eventEndDT txtBox", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Event Start Location :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Event End Location  :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[j].startLoc, new { @class = "eventStartDT txtBox", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[j].stopLoc, new { @class = "eventEndDT txtBox", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labelTxt">Event Check Point Locations :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(m => m.eventList[j].checkPoints, new { @class = "checkPointLoc", @readonly = "readonly", @id = "checkTxt" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labelTxt">Total Distance :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.eventList[j].totalDistance, new { @class = "totalDistance", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labelTxt">Navigation Directions :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(m => m.eventList[j].navInstructions, new { @class = "navInstruction", @readonly = "readonly", @id = "navInstrTxt" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Seat Availability :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Total Capacity  :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[j].seatAvailblity, new { @class = "seatavailability txtBox", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[j].totalCapacity, new { @class = "totalcapacity txtBox", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-md-offset-3">
+                                        <button class="" onclick="joinEvent(@Model.eventList[j].eventID)">   JOIN   </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="row" id="PageSlider">
+                    <!--Slider pages-->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        @for (int i = 1; i < Model.eventList.Count; i++)
+                        {
+                            var pos = '"' + i.ToString() + '"';
+                            <li data-target="#myCarousel" data-slide-to=@pos></li>
+                        }
+                    </ol>
+                </div>
+
+                <!-- Right controls -->
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
         </div>
     </div>
-</div>
-<div class="row" id="MapPane">
-    <div class="col-md-10 col-md-offset-1" id="MapOuterContainer">
-        <div id="mapRoute" class="mapRouteClass disabledbutton"></div>
+}
+    <div class="row" id="MapPane">
+        <div class="col-md-10 col-md-offset-1" id="MapOuterContainer">
+            <div id="mapRoute" class="mapRouteClass disabledbutton"></div>
+        </div>
     </div>
-</div>
 
-<script>
+    <script>
     function routeMap() {
 
         //$('.leaflet-routing-reverse-waypoints').trigger('click');
         //$('.leaflet-routing-reverse-waypoints').trigger('click');
+    }
+
+    function joinEvent(eventNum) {
+
+        alert(eventNum)
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("joinEvent", "Event")',
+            data: { "anchorname": eventNum},
+            success: function (response) {
+
+                document.getElementById("mainForm").submit();
+            },
+            error: function () {
+
+                alert("Error in contacting server!");
+
+            }
+        });
     }
 
     var counter = 0
@@ -201,12 +229,11 @@
                 this.value = data[itr];
 
                 // create enter key press
-                e = jQuery.Event("keypress")
-                e.which = 13
-
-                //trigger on text box
-                this.trigger(e);
-                //this.keypress().trigger(e)
+                e = jQuery.Event("keypress");
+                e.which = 13; //choose the one you want
+                this.keypress(function () {
+                    alert('keypress triggered')
+                }).trigger(e);
 
                 itr = itr + 1;
             });
@@ -220,10 +247,10 @@
         });
     });
 
-    
-</script>
-<script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
-<script src="~/Scripts/leaflet-routing-machine.js"></script>
-<script src="~/Scripts/Control.Geocoder.js"></script>
-<script src="~/Scripts/config.js"></script>
-<script src="~/Scripts/index_route.js"></script>
+
+    </script>
+    <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+    <script src="~/Scripts/leaflet-routing-machine.js"></script>
+    <script src="~/Scripts/Control.Geocoder.js"></script>
+    <script src="~/Scripts/config.js"></script>
+    <script src="~/Scripts/index_route.js"></script>

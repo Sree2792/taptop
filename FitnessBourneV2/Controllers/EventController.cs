@@ -11,6 +11,14 @@ namespace FitnessBourneV2.Controllers
     public class EventController : Controller
     {
         private fbmodelContainer db = new fbmodelContainer();
+
+        // event home refresh
+        public ActionResult EventRefresh(EventHomeModel eventObj)
+        {
+            return RedirectToAction("EventHome", "Event", eventObj.EventypeInView);
+        }
+
+
         // GET: Event
         public ActionResult EventHome(string type)
         {
@@ -20,12 +28,43 @@ namespace FitnessBourneV2.Controllers
 
             Session["EventType"] = type;
 
+            //get login member table
+            MemberTable loginUser = new MemberTable();
+            foreach (MemberTable record in db.MemberTables.ToList())
+            {
+                if (record.Mem_Email_Id == User.Identity.Name)
+                {
+                    loginUser = record;
+                    break;
+                }
+            }
+
             foreach (EventTable subRecord in eventList)
             {
-                //filter on event type
-                if (subRecord.EventType.ET_Name == type)
+                //filter if member already joined
+                bool memToJoin = true;
+
+                if (subRecord.EventMembers.Count > 0)
                 {
-                    eventsFiltered.Add(subRecord);
+                    memToJoin = false;
+                }
+
+                //filter on event type , club if private
+                if (subRecord.EventType.ET_Name == type && memToJoin)
+                {
+                    if (Convert.ToBoolean(subRecord.Evnt_Is_Private))
+                    {
+                        //only same club events
+                        if (subRecord.FitnessClub == loginUser.FitnessClub)
+                        {
+                            eventsFiltered.Add(subRecord);
+                        }
+                    }
+                    else
+                    {
+                        eventsFiltered.Add(subRecord);
+                    }
+
                 }
             }
 
@@ -118,7 +157,8 @@ namespace FitnessBourneV2.Controllers
                         checkPoints = checkPoint,
                         startLoc = startLoc,
                         stopLoc = stopLoc,
-                        seatAvailblity = seatOccupied
+                        seatAvailblity = seatOccupied,
+                        eventID = subRec.Evnt_Id
                     };
 
                     //Pass event
@@ -315,12 +355,34 @@ namespace FitnessBourneV2.Controllers
             String type = Session["EventType"].ToString();
             List<EventTable> eventsFiltered = new List<EventTable>();
 
+            //get login member table
+            MemberTable loginUser = new MemberTable();
+            foreach (MemberTable record in db.MemberTables.ToList())
+            {
+                if (record.Mem_Email_Id == User.Identity.Name)
+                {
+                    loginUser = record;
+                    break;
+                }
+            }
             foreach (EventTable subRecord in eventList)
             {
                 //filter on event type
                 if (subRecord.EventType.ET_Name == type)
                 {
-                    eventsFiltered.Add(subRecord);
+                    if (Convert.ToBoolean(subRecord.Evnt_Is_Private))
+                    {
+                        //only same club events
+                        if (subRecord.FitnessClub == loginUser.FitnessClub)
+                        {
+                            eventsFiltered.Add(subRecord);
+                        }
+                    }
+                    else
+                    {
+                        eventsFiltered.Add(subRecord);
+                    }
+
                 }
             }
 
@@ -343,14 +405,39 @@ namespace FitnessBourneV2.Controllers
                     addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
                 }
 
-                addrStr =  locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
+                addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
                     ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
-                
+
                 // Append address string to list
                 locationString.Add(addrStr);
             }
             return Json(locationString, JsonRequestBehavior.AllowGet);
 
+        }
+
+        [WebMethod]
+        public void joinEvent(Int32 anchorname)
+        {
+            //get login member table
+            MemberTable loginUser = new MemberTable();
+            foreach (MemberTable record in db.MemberTables.ToList())
+            {
+                if (record.Mem_Email_Id == User.Identity.Name)
+                {
+                    loginUser = record;
+                    break;
+                }
+            }
+
+            //get event joined
+            EventTable eventDet = db.EventTables.Find(anchorname);
+
+            //get event member table
+            EventMembers membEvent = new EventMembers();
+            membEvent.MemberTable = loginUser;
+            membEvent.EventTable = eventDet;
+            db.EventMembers.Add(membEvent);
+            db.SaveChanges();
         }
     }
 }
