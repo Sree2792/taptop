@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="~/Content/leaflet-routing-machine.css" />
 <link rel="stylesheet" href="~/Content/index_route.css" />
 <link rel="stylesheet" type="text/css" href="~/Content/EventDetails.css">
-@using (Html.BeginForm("EventSave", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
+@using (Html.BeginForm("EventRefresh", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
 {
     <div class="row" id="DetailsPane">
         <div class="col-md-10 col-md-offset-1" id="DetailsCol">
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-10">
-                                        @Html.TextAreaFor(m => m.eventList[j].checkPoints, new { @class = "checkPointLoc", @readonly = "readonly", @id = "checkTxt" })
+                                        @Html.TextAreaFor(m => m.eventList[j].checkPoints, new { @class = "checkPointLoc txtBox", @readonly = "readonly", @id = "checkTxt" })
                                     </div>
                                 </div>
                                 <div class="row">
@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        @Html.TextBoxFor(m => m.eventList[j].totalDistance, new { @class = "totalDistance", @readonly = "readonly" })
+                                        @Html.TextBoxFor(m => m.eventList[j].totalDistance, new { @class = "totalDistance txtBox", @readonly = "readonly" })
                                     </div>
                                 </div>
                                 <div class="row">
@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-10">
-                                        @Html.TextAreaFor(m => m.eventList[j].navInstructions, new { @class = "navInstruction", @readonly = "readonly", @id = "navInstrTxt" })
+                                        @Html.TextAreaFor(m => m.eventList[j].navInstructions, new { @class = "navInstruction txtBox", @readonly = "readonly", @id = "navInstrTxt" })
                                     </div>
                                 </div>
                                 <div class="row">
@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3 col-md-offset-3">
-                                        <button class="" onclick="joinEvent(@Model.eventList[j].eventID)">   JOIN   </button>
+                                        <button class="" type="button" onclick="joinEvent(@Model.eventList[j].eventID)">   JOIN   </button>
                                     </div>
                                 </div>
 
@@ -231,9 +231,9 @@
                 // create enter key press
                 e = jQuery.Event("keypress");
                 e.which = 13; //choose the one you want
-                this.keypress(function () {
-                    alert('keypress triggered')
-                }).trigger(e);
+                //this.keypress(function () {
+                    //alert('keypress triggered')
+                //}).trigger(e);
 
                 itr = itr + 1;
             });

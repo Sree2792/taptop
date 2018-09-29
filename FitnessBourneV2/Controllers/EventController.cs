@@ -15,11 +15,12 @@ namespace FitnessBourneV2.Controllers
         // event home refresh
         public ActionResult EventRefresh(EventHomeModel eventObj)
         {
-            return RedirectToAction("EventHome", "Event", eventObj.EventypeInView);
+            string typeStr = Session["EventType"].ToString();
+            return RedirectToAction("EventHome", "Event", new { type = typeStr });
         }
 
 
-        // GET: Event
+        // GET: Event view and join
         public ActionResult EventHome(string type)
         {
             List<EventTable> eventList = db.EventTables.ToList();
@@ -177,6 +178,7 @@ namespace FitnessBourneV2.Controllers
 
         }
 
+        // add an event
         public ActionResult EventAdd()
         {
             EventAddModel eventAdd = new EventAddModel()
@@ -186,7 +188,7 @@ namespace FitnessBourneV2.Controllers
             return View(eventAdd);
         }
 
-        //Pending
+        // Save the new event
         public ActionResult EventSave(EventAddModel eventSave)
         {
 
@@ -365,10 +367,19 @@ namespace FitnessBourneV2.Controllers
                     break;
                 }
             }
+
             foreach (EventTable subRecord in eventList)
             {
-                //filter on event type
-                if (subRecord.EventType.ET_Name == type)
+                //filter if member already joined
+                bool memToJoin = true;
+
+                if (subRecord.EventMembers.Count > 0)
+                {
+                    memToJoin = false;
+                }
+
+                //filter on event type , club if private
+                if (subRecord.EventType.ET_Name == type && memToJoin)
                 {
                     if (Convert.ToBoolean(subRecord.Evnt_Is_Private))
                     {
