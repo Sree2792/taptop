@@ -123,7 +123,7 @@
                                     <button class="" type="button" onclick="deleteEvent(@Model.listOfEventJoined[j].eventID)">   Remove   </button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="" type="button" onclick="location.href='@Url.Action("EventHome","Event",  new {id = @Model.listOfEventJoined[j].eventID})'">   Edit   </button>
+                                    <button class="" type="button" onclick="location.href='@Url.Action("EventHome","Event",  new {eventID = @Model.listOfEventJoined[j].eventID})'">   Edit   </button>
                                 </div>
                             </div>
 

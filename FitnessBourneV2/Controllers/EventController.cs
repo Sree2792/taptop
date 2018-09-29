@@ -472,7 +472,7 @@ namespace FitnessBourneV2.Controllers
 
         }
 
-
+        // get location for event to edit
         [WebMethod]
         public JsonResult GetLocationOnEdit(int counterVal)
         {
