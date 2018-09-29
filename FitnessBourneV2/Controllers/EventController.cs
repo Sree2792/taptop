@@ -215,8 +215,8 @@ namespace FitnessBourneV2.Controllers
                 eventAdmin = loginUser,
                 isPrivate = Convert.ToBoolean(eventObj.Evnt_Is_Private),
                 isCheckIn = Convert.ToBoolean(eventObj.Evnt_Is_Checkd_In),
-                endDateTime = eventObj.Evnt_End_DateTime.ToString(),
-                startDateTime = eventObj.Evnt_Start_DateTime.ToString(),
+                endDateTime = eventObj.Evnt_End_DateTime.Date.ToString("yyyy-MM-dd HH:mm"),
+                startDateTime = eventObj.Evnt_Start_DateTime.ToString("yyyy-MM-dd HH:mm"),
                 isEditMode = true,
                 mem_capacity = eventObj.Evnt_Capacity.ToString(),
                 eventID = eventObj.Evnt_Id
@@ -224,7 +224,138 @@ namespace FitnessBourneV2.Controllers
             return View(eventAdd);
         }
 
-        // add an event
+        //update the event
+        public ActionResult EventSaveOnEdit(EventAddModel eventSave)
+        {
+            //Event table on edit
+            EventTable eventObjOnEdit = (EventTable)Session["EventToEdit"];
+
+            //add location
+            List<String> locationList = (List<String>)Session["locationList"];
+
+            List<LocationTable> localList = new List<LocationTable>();
+            foreach (var adrString in locationList)
+            {
+                List<string> adressObj = adrString.Split(',').ToList<string>();
+
+                AddressTable tableAdr = new AddressTable()
+                {
+                    Adr_Street_Name = adressObj[0],
+                    Adr_Suburb_Name = adressObj[1] + ", " + adressObj[2],
+                    Adr_City_Name = adressObj[3],
+                    Adr_State_Name = adressObj[4],
+                    Adr_Zipcode = adressObj[5],
+                    Adr_House_No = "",
+                    Adr_Unit_No = "",
+                    Adr_Lat = 0,
+                    Adr_Long = 0
+
+                };
+
+                db.AddressTables.Add(tableAdr);
+                db.SaveChanges();
+
+                LocationTable tableLoc = new LocationTable()
+                {
+                    AddressTable = tableAdr,
+                    Loc_Ref_Name = adressObj[0]
+                };
+
+                //Add Location to DB
+                db.LocationTables.Add(tableLoc);
+                db.SaveChanges();
+
+                localList.Add(tableLoc);
+            }
+
+            //maintain location table if empty
+            if(localList.Count == 0)
+            {
+                localList = eventObjOnEdit.LocationTables.ToList();
+            }
+
+            // Event type linking
+            int eventType = 1;
+            foreach (var record in db.EventTypes.ToList())
+            {
+                if (record.ET_Name == eventSave.eventTypeName)
+                {
+                    eventType = record.ET_Id;
+                }
+            }
+
+            //Member registeration
+            MemberTable adminRecord = new MemberTable();
+            foreach (var record in db.MemberTables.ToList())
+            {
+                if (record.Mem_Email_Id == User.Identity.Name)
+                {
+                    adminRecord = record;
+                }
+            }
+
+            //generate navigation details
+            List<String> directionList = (List<String>)Session["directionlist"];
+
+            String navDetails = "";
+            foreach (string stringTxt in directionList)
+            {
+                navDetails = navDetails + stringTxt + ";";
+            }
+
+            if(navDetails == "")
+            {
+                navDetails = eventObjOnEdit.Evnt_NavigDetails;
+            }
+
+            if (eventSave.isPrivate)
+            {
+                //Limited to Fitness Club members
+                //Add event to DB
+                EventTable eventCreated = new EventTable()
+                {
+                    Evnt_Is_Private = Convert.ToByte(eventSave.isPrivate),
+                    Evnt_Capacity = Int32.Parse(eventSave.mem_capacity),
+                    Evnt_Start_DateTime = Convert.ToDateTime(eventSave.startDateTime),
+                    Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime),
+                    EventTypeET_Id = eventType,
+                    MemberTable = adminRecord,
+                    LocationTables = localList,
+                    Evnt_NavigDetails = navDetails,
+                    FitnessClub = adminRecord.FitnessClub,
+                    Evnt_Id = eventObjOnEdit.Evnt_Id,
+                    EventMembers = eventObjOnEdit.EventMembers.ToList()
+                };
+
+                db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            else
+            {
+                //Add event to DB
+                EventTable eventCreated = new EventTable()
+                {
+                    Evnt_Is_Private = Convert.ToByte(eventSave.isPrivate),
+                    Evnt_Capacity = Int32.Parse(eventSave.mem_capacity),
+                    Evnt_Start_DateTime = Convert.ToDateTime(eventSave.startDateTime),
+                    Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime),
+                    EventTypeET_Id = eventType,
+                    MemberTable = adminRecord,
+                    LocationTables = localList,
+                    Evnt_NavigDetails = navDetails,
+                    Evnt_Id = eventObjOnEdit.Evnt_Id,
+                    EventMembers = eventObjOnEdit.EventMembers.ToList()
+                };
+
+                db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+            
+            return RedirectToAction("Index", "Home");
+        }
+
+            // add an event
         public ActionResult EventAdd()
         {
             EventAddModel eventAdd = new EventAddModel()

@@ -39,9 +39,10 @@ namespace FitnessBourneV2.Controllers
                 //get the members and check if login user there
                 foreach(EventMembers eveMemObj in memObj)
                 {
-                    if (eveMemObj.EvMem_Id == loginUser.Mem_Id)
+                    if (eveMemObj.MemberTable.Mem_Id == loginUser.Mem_Id)
                     {
                         eventsJoined.Add(tableObj);
+                        break;
                     }
                 }
             }
