@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="~/Content/leaflet-routing-machine.css" />
 <link rel="stylesheet" href="~/Content/index_route.css" />
 <link rel="stylesheet" type="text/css" href="~/Content/EventDetails.css">
-@using (Html.BeginForm("EventDelete", "EventJoined", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
+@using (Html.BeginForm("EventJoin", "EventJoined", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
 {
     <div class="row" id="DetailsPane">
         <div class="col-md-10 col-md-offset-1" id="DetailsCol">
@@ -123,7 +123,7 @@
                                     <button class="" type="button" onclick="deleteEvent(@Model.listOfEventJoined[j].eventID)">   Remove   </button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="" type="button" onclick="editEvent(@Model.listOfEventJoined[j].eventID)">   Edit   </button>
+                                    <button class="" type="button" onclick="location.href='@Url.Action("EventHome","Event",  new {id = @Model.listOfEventJoined[j].eventID})'">   Edit   </button>
                                 </div>
                             </div>
 
@@ -165,12 +165,31 @@
         //$('.leaflet-routing-reverse-waypoints').trigger('click');
     }
 
+    function editEvent(eventNum) {
+
+        alert(eventNum)
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("editEvent", "EventJoined")',
+            data: { "anchorname": eventNum},
+            success: function (response) {
+
+                document.getElementById("mainForm").submit();
+            },
+            error: function () {
+
+                alert("Error in contacting server!");
+
+            }
+        });
+    }
+
     function deleteEvent(eventNum) {
 
         alert(eventNum)
         $.ajax({
             type: "POST",
-            url: '@Url.Action("joinEvent", "Event")',
+            url: '@Url.Action("deleteEvent", "EventJoined")',
             data: { "anchorname": eventNum},
             success: function (response) {
 

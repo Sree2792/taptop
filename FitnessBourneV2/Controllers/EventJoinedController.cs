@@ -160,7 +160,15 @@ namespace FitnessBourneV2.Controllers
             };
 
             // event joined
-            return View(eveJoinModel);
+            if(eventJoin.Count > 0)
+            {
+                return View(eveJoinModel);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
 
         [WebMethod]
@@ -201,5 +209,70 @@ namespace FitnessBourneV2.Controllers
             }
             return Json(locationString, JsonRequestBehavior.AllowGet);
         }
+
+        [WebMethod]
+        public void deleteEvent(Int32 anchorname)
+        {
+            //get login member table
+            MemberTable loginUser = new MemberTable();
+            foreach (MemberTable record in db.MemberTables.ToList())
+            {
+                if (record.Mem_Email_Id == User.Identity.Name)
+                {
+                    loginUser = record;
+                    break;
+                }
+            }
+
+            //get event joined
+            EventTable eventDet = db.EventTables.Find(anchorname);
+
+            //get event member table
+            List<EventMembers> eventMembers = db.EventMembers.ToList();
+
+            //scan through to delete event
+            foreach (EventMembers memObj in eventMembers)
+            {
+                if(memObj.MemberTable.Mem_Id == loginUser.Mem_Id && memObj.EventTable.Evnt_Id == eventDet.Evnt_Id)
+                {
+                    db.EventMembers.Remove(memObj);
+                    db.SaveChanges();
+                    break;
+                }
+            }
+        }
+
+        [WebMethod]
+        public void editEvent(Int32 anchorname)
+        {
+            //get login member table
+            MemberTable loginUser = new MemberTable();
+            foreach (MemberTable record in db.MemberTables.ToList())
+            {
+                if (record.Mem_Email_Id == User.Identity.Name)
+                {
+                    loginUser = record;
+                    break;
+                }
+            }
+
+            //get event joined
+            EventTable eventDet = db.EventTables.Find(anchorname);
+
+            //get event member table
+            List<EventMembers> eventMembers = db.EventMembers.ToList();
+
+            //scan through to delete event
+            foreach (EventMembers memObj in eventMembers)
+            {
+                if (memObj.MemberTable.Mem_Id == loginUser.Mem_Id && memObj.EventTable.Evnt_Id == eventDet.Evnt_Id)
+                {
+                    db.EventMembers.Remove(memObj);
+                    db.SaveChanges();
+                    break;
+                }
+            }
+        }
+
     }
 }

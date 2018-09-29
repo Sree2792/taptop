@@ -178,6 +178,52 @@ namespace FitnessBourneV2.Controllers
 
         }
 
+        // edit an event
+        public ActionResult EventEdit(Int32 eventID)
+        {
+            //edit event
+            EventTable eventObj = db.EventTables.Find(eventID);
+            Session["EventToEdit"] = eventObj;
+
+            //Event type
+            string eventTypeSTR = "";
+            foreach(EventType type in db.EventTypes.ToList())
+            {
+                if(eventObj.EventTypeET_Id == type.ET_Id)
+                {
+                    eventTypeSTR = type.ET_Name;
+                    break;
+                }
+            }
+
+            //get login member table
+            MemberTable loginUser = new MemberTable();
+            foreach (MemberTable record in db.MemberTables.ToList())
+            {
+                if (record.Mem_Email_Id == User.Identity.Name)
+                {
+                    loginUser = record;
+                    break;
+                }
+            }
+
+            //Event to edit
+            EventAddModel eventAdd = new EventAddModel()
+            {
+                eventTypeOptions = db.EventTypes.ToList(),
+                eventTypeName = eventTypeSTR,
+                eventAdmin = loginUser,
+                isPrivate = Convert.ToBoolean(eventObj.Evnt_Is_Private),
+                isCheckIn = Convert.ToBoolean(eventObj.Evnt_Is_Checkd_In),
+                endDateTime = eventObj.Evnt_End_DateTime.ToString(),
+                startDateTime = eventObj.Evnt_Start_DateTime.ToString(),
+                isEditMode = true,
+                mem_capacity = eventObj.Evnt_Capacity.ToString(),
+                eventID = eventObj.Evnt_Id
+            };
+            return View(eventAdd);
+        }
+
         // add an event
         public ActionResult EventAdd()
         {
@@ -402,6 +448,39 @@ namespace FitnessBourneV2.Controllers
 
             List<string> locationString = new List<string>();
             foreach (LocationTable locTble in subRec.LocationTables)
+            {
+                // Address string
+                var addrStr = "";
+
+                if (locTble.AddressTable.Adr_Unit_No != "")
+                {
+                    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
+                }
+
+                if (locTble.AddressTable.Adr_House_No != "")
+                {
+                    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
+                }
+
+                addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
+                    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
+
+                // Append address string to list
+                locationString.Add(addrStr);
+            }
+            return Json(locationString, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        [WebMethod]
+        public JsonResult GetLocationOnEdit(int counterVal)
+        {
+            // Event table on edit
+            EventTable eventTable = db.EventTables.Find(counterVal);
+
+            List<string> locationString = new List<string>();
+            foreach (LocationTable locTble in eventTable.LocationTables)
             {
                 // Address string
                 var addrStr = "";

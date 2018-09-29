@@ -36,7 +36,7 @@ namespace FitnessBourneV2.Models
         public MemberTable eventAdmin { get; set; }
         public EventType eventType { get; set; }
         public EventEdit editedEvent { get; set; }
-
+        public bool isEditMode { get; set; } 
         public FitnessClub clubList { get; set; }
         public List<EventType> eventTypeOptions { get; set; }
 

@@ -180,6 +180,14 @@
     var counter = 0
     $('#myCarousel').bind('slide.bs.carousel', function (e) {
 
+        var spanCount = 0;
+        $('.leaflet-routing-geocoder').each(function () {
+
+            //close text labels
+            $(this).addClass('deleteClass');
+        });
+
+
         var endCount = @Model.eventList.Count;
 
         if (e.direction == "left") {

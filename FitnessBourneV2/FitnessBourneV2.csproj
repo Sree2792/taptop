@@ -479,6 +479,7 @@
     <Content Include="Views\Event\EventAdd.cshtml" />
     <Content Include="Views\Event\EventHome.cshtml" />
     <Content Include="Views\EventJoined\EventJoin.cshtml" />
+    <Content Include="Views\Event\EventEdit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

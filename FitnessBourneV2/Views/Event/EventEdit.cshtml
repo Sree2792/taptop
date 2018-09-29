@@ -1,0 +1,171 @@
+﻿@model FitnessBourneV2.Models.EventAddModel
+
+@{
+    ViewBag.Title = "EventEdit";
+}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+<!--<link rel="stylesheet" href="~/Content/leaflet.css" />-->
+<link rel="stylesheet" href="~/Content/leaflet-routing-machine.css" />
+<link rel="stylesheet" href="~/Content/index_route.css" />
+
+
+@using (Html.BeginForm("EventSaveOnEdit", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
+{
+
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.eventTypeName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+
+                foreach (var item in Model.eventTypeOptions)
+                {
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = item.ET_Name,
+                        Value = item.ET_Id.ToString()
+                    });
+                }
+
+            }
+            @Html.DropDownListFor(m => m.eventTypeName, listItems, new { @class = "form-control dropdown" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.startDateTime, new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            <div class='input-group date datetimepickerclass' id='datetimepickerStart'>
+                @Html.TextBoxFor(m => m.startDateTime, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.endDateTime, new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            <div class='input-group date datetimepickerclass' id='datetimepickerEnd'>
+                @Html.TextBoxFor(m => m.endDateTime, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+            @Html.CheckBoxFor(m => m.isPrivate, new { id = "privateCheck" })&nbsp;<label>Is the event private to your club members?</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.mem_capacity, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.mem_capacity, new List<SelectListItem>
+        {
+        new SelectListItem{ Text="1", Value = "1" },
+        new SelectListItem{ Text="2", Value = "2" },
+        new SelectListItem{ Text="3", Value = "3" },
+        new SelectListItem{ Text="4", Value = "4" },
+        new SelectListItem{ Text="5", Value = "5" },
+        new SelectListItem{ Text="6", Value = "6" },
+        new SelectListItem{ Text="7", Value = "7" },
+        new SelectListItem{ Text="8", Value = "8" },
+        new SelectListItem{ Text="9", Value = "9" },
+        new SelectListItem{ Text="10", Value = "10" },
+        new SelectListItem{ Text="11", Value = "11" },
+        new SelectListItem{ Text="12", Value = "12" },
+        new SelectListItem{ Text="13", Value = "13" },
+        new SelectListItem{ Text="14", Value = "14" },
+        new SelectListItem{ Text="15", Value = "15" }
+        }, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" class="btn btn-default" onclick="setEdit()" value="Add Event" />
+        </div>
+    </div>
+}
+
+
+<div class="col-md-10">
+    <div id="mapRoute" class="mapRouteClass"></div>
+</div>
+<script>
+
+    //Date formatting
+    $(function () {
+        $('#datetimepickerStart').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
+
+        $('#datetimepickerEnd').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
+    });
+
+    function setEdit() {
+
+        //Location list entered
+        var locationList = [];
+        $('.leaflet-control-container input').each(function () {
+
+            if (this.value != "") {
+                locationList.push(this.value);
+            }
+        });
+
+        //Keep copy of locations only
+        var locRefList = locationList;
+
+        //Direction string list after placing a delimiter in locationList (;;;;)
+        locationList.push(";;;;")
+
+        //Distance text
+        var distanceTxt = $('.leaflet-routing-alt h3').text();
+        locationList.push(distanceTxt);
+
+        //Loop through direction element
+        $('.leaflet-routing-alt table tbody tr').each(function () {
+
+            var directionTxtSTR = this.getElementsByTagName("td")[1].innerHTML;
+            locationList.push(directionTxtSTR)
+        });
+
+        //Add error string
+        var errorDispString = "Provide both start and end location to register the event";
+
+        if (locRefList.length < 2) {
+
+            // Start and End location required
+            alert(errorDispString)
+        } else {
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("setLocation", "Event")',
+                data: {"anchorname": locationList},
+                success: function (response) {
+
+                    document.getElementById("mainForm").submit();
+                },
+                error: function () {
+
+                    alert("Error in contacting server!");
+
+                }
+            });
+        }
+
+    }
+</script>
+<script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+<!--<script src="~/Scripts/leaflet.js"></script>-->
+<script src="~/Scripts/leaflet-routing-machine.js"></script>
+<script src="~/Scripts/Control.Geocoder.js"></script>
+<script src="~/Scripts/config.js"></script>
+<script src="~/Scripts/index_route.js"></script>
+
