@@ -334,7 +334,7 @@ namespace FitnessBourneV2.Controllers
                     LocationTables = localList,
                     Evnt_NavigDetails = navDetails,
                     FitnessClub = adminRecord.FitnessClub,
-                    EventMembers = eventObjOnEdit.EventMembers.ToList(),
+                    EventMembers = eventObjOnEdit.EventMembers
                    
                 };
 
@@ -342,15 +342,20 @@ namespace FitnessBourneV2.Controllers
                 db.EventTables.Add(eventCreated);
                 db.SaveChanges();
 
+                // Event just added
+                EventTable tableObj = db.EventTables.ToList()[db.EventTables.ToList().Count - 1];
+
                 //Add event to DB
                 EventEdit eventToEdit = new EventEdit()
                 {
-                    EventTable = eventObjOnEdit,
+                    EventTable = tableObj,
                     LocationTables = localList,
                     Creator = loginUser,
                     EE_EventIdToEdit = eventObjOnEdit.Evnt_Id,
                     EE_DateTime = DateTime.Now
                 };
+                db.EventEdits.Add(eventToEdit);
+                db.SaveChanges();
 
             }
             else
@@ -366,11 +371,26 @@ namespace FitnessBourneV2.Controllers
                     MemberTable = adminRecord,
                     LocationTables = localList,
                     Evnt_NavigDetails = navDetails,
-                    Evnt_Id = eventObjOnEdit.Evnt_Id,
-                    EventMembers = eventObjOnEdit.EventMembers.ToList()
+                    EventMembers = eventObjOnEdit.EventMembers
                 };
 
-                db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
+                //db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
+                db.EventTables.Add(eventCreated);
+                db.SaveChanges();
+
+                // Event just added
+                EventTable tableObj = db.EventTables.ToList()[db.EventTables.ToList().Count - 1];
+
+                //Add event to DB
+                EventEdit eventToEdit = new EventEdit()
+                {
+                    EventTable = tableObj,
+                    LocationTables = localList,
+                    Creator = loginUser,
+                    EE_EventIdToEdit = eventObjOnEdit.Evnt_Id,
+                    EE_DateTime = DateTime.Now
+                };
+                db.EventEdits.Add(eventToEdit);
                 db.SaveChanges();
             }
             
