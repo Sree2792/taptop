@@ -11,10 +11,9 @@
         <AssociationConnector Association="fbmodel.MemberTableFitnessClub" />
         <EntityTypeShape EntityType="fbmodel.EventTable" Width="1.75" PointX="7.75" PointY="4.75" />
         <EntityTypeShape EntityType="fbmodel.NotificationActionTable" Width="2.25" PointX="3.125" PointY="8.375" />
-        <EntityTypeShape EntityType="fbmodel.NotificationTable" Width="1.75" PointX="3.375" PointY="10.875" />
-        <AssociationConnector Association="fbmodel.NotificationTableNotificationActionTable" />
+        <EntityTypeShape EntityType="fbmodel.NotificationTable" Width="1.75" PointX="3.375" PointY="11.125" />
         <EntityTypeShape EntityType="fbmodel.EventEdit" Width="1.5" PointX="10.5" PointY="6.5" />
-        <EntityTypeShape EntityType="fbmodel.LocationTable" Width="1.5" PointX="11" PointY="3.75" />
+        <EntityTypeShape EntityType="fbmodel.LocationTable" Width="1.5" PointX="12" PointY="1.375" />
         <AssociationConnector Association="fbmodel.LocationTableEventTable" />
         <AssociationConnector Association="fbmodel.LocationTableEventEdit" />
         <AssociationConnector Association="fbmodel.NotificationTableEventEdit" />
@@ -24,13 +23,14 @@
         <AssociationConnector Association="fbmodel.AddressTableFitnessClub" />
         <AssociationConnector Association="fbmodel.AddressTableMemberTable" />
         <AssociationConnector Association="fbmodel.AddressTableLocationTable" />
-        <EntityTypeShape EntityType="fbmodel.EventType" Width="1.5" PointX="12" PointY="1.875" />
+        <EntityTypeShape EntityType="fbmodel.EventType" Width="1.5" PointX="10.125" PointY="4" />
         <AssociationConnector Association="fbmodel.EventTypeEventTable" />
         <AssociationConnector Association="fbmodel.EventTableFitnessClub" />
         <EntityTypeShape EntityType="fbmodel.EventMembers" Width="1.5" PointX="5.75" PointY="5" />
         <AssociationConnector Association="fbmodel.EventMembersEventTable" />
         <AssociationConnector Association="fbmodel.EventMembersMemberTable" />
         <AssociationConnector Association="fbmodel.EventTableMemberTable" />
+        <AssociationConnector Association="fbmodel.NotificationTableNotificationActionTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

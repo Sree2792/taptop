@@ -24,8 +24,8 @@ namespace FitnessBourneV2.Models
         public string Notif_Type { get; set; }
         public string Notif_Message { get; set; }
     
+        public virtual EventEdit EventEdit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NotificationActionTable> NotificationActionTables { get; set; }
-        public virtual EventEdit EventEdit { get; set; }
     }
 }

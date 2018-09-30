@@ -319,6 +319,36 @@ namespace FitnessBourneV2.Controllers
                 navDetails = eventObjOnEdit.Evnt_NavigDetails;
             }
 
+            
+            //Notification table set up for event
+            NotificationTable notifTable = new NotificationTable()
+            {
+                Notif_Type = "Event Edit",
+                Notif_Message = "Confirm event edit for event ID: " + eventObjOnEdit.Evnt_Id.ToString() + " created by you."
+            };
+
+            // save changes to notification added
+            db.NotificationTables.Add(notifTable);
+            db.SaveChanges();
+
+            //Notification object
+            NotificationTable tbleSaved = db.NotificationTables.ToList()[db.NotificationTables.ToList().Count - 1];
+
+            foreach(EventMembers memObj in eventObjOnEdit.EventMembers)
+            {
+                MemberTable mem = db.MemberTables.Find(memObj.MemberTable.Mem_Id);
+
+                NotificationActionTable notifAct = new NotificationActionTable()
+                {
+                    NA_Decision = "NO",
+                    NotificationTableNotif_Id = tbleSaved.Notif_Id,
+                    MemberTable = mem
+                };
+
+                db.NotificationActionTables.Add(notifAct);
+                db.SaveChanges();
+            }
+
             if (eventSave.isPrivate)
             {
                 //Limited to Fitness Club members
@@ -333,8 +363,7 @@ namespace FitnessBourneV2.Controllers
                     MemberTable = adminRecord,
                     LocationTables = localList,
                     Evnt_NavigDetails = navDetails,
-                    FitnessClub = adminRecord.FitnessClub,
-                    EventMembers = eventObjOnEdit.EventMembers
+                    FitnessClub = adminRecord.FitnessClub
                    
                 };
 
@@ -352,7 +381,8 @@ namespace FitnessBourneV2.Controllers
                     LocationTables = localList,
                     Creator = loginUser,
                     EE_EventIdToEdit = eventObjOnEdit.Evnt_Id,
-                    EE_DateTime = DateTime.Now
+                    EE_DateTime = DateTime.Now,
+                    NotificationTable = tbleSaved
                 };
                 db.EventEdits.Add(eventToEdit);
                 db.SaveChanges();
@@ -370,8 +400,7 @@ namespace FitnessBourneV2.Controllers
                     EventTypeET_Id = eventType,
                     MemberTable = adminRecord,
                     LocationTables = localList,
-                    Evnt_NavigDetails = navDetails,
-                    EventMembers = eventObjOnEdit.EventMembers
+                    Evnt_NavigDetails = navDetails
                 };
 
                 //db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
@@ -388,7 +417,8 @@ namespace FitnessBourneV2.Controllers
                     LocationTables = localList,
                     Creator = loginUser,
                     EE_EventIdToEdit = eventObjOnEdit.Evnt_Id,
-                    EE_DateTime = DateTime.Now
+                    EE_DateTime = DateTime.Now,
+                    NotificationTable = tbleSaved
                 };
                 db.EventEdits.Add(eventToEdit);
                 db.SaveChanges();
