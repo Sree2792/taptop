@@ -277,6 +277,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\fbmasterdb.mdf" />
+    <Content Include="App_Data\fbmasterdb_log.ldf">
+      <DependentUpon>fbmasterdb.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -477,9 +481,7 @@
     <Content Include="Views\EventJoined\EventJoin.cshtml" />
     <Content Include="Views\Event\EventEdit.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
