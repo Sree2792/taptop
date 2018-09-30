@@ -230,6 +230,17 @@ namespace FitnessBourneV2.Controllers
             //Event table on edit
             EventTable eventObjOnEdit = (EventTable)Session["EventToEdit"];
 
+            //get login member table
+            MemberTable loginUser = new MemberTable();
+            foreach (MemberTable record in db.MemberTables.ToList())
+            {
+                if (record.Mem_Email_Id == User.Identity.Name)
+                {
+                    loginUser = record;
+                    break;
+                }
+            }
+
             //add location
             List<String> locationList = (List<String>)Session["locationList"];
 
@@ -311,7 +322,7 @@ namespace FitnessBourneV2.Controllers
             if (eventSave.isPrivate)
             {
                 //Limited to Fitness Club members
-                //Add event to DB
+                
                 EventTable eventCreated = new EventTable()
                 {
                     Evnt_Is_Private = Convert.ToByte(eventSave.isPrivate),
@@ -323,12 +334,23 @@ namespace FitnessBourneV2.Controllers
                     LocationTables = localList,
                     Evnt_NavigDetails = navDetails,
                     FitnessClub = adminRecord.FitnessClub,
-                    Evnt_Id = eventObjOnEdit.Evnt_Id,
-                    EventMembers = eventObjOnEdit.EventMembers.ToList()
+                    EventMembers = eventObjOnEdit.EventMembers.ToList(),
+                   
                 };
 
-                db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
+                //db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
+                db.EventTables.Add(eventCreated);
                 db.SaveChanges();
+
+                //Add event to DB
+                EventEdit eventToEdit = new EventEdit()
+                {
+                    EventTable = eventObjOnEdit,
+                    LocationTables = localList,
+                    Creator = loginUser,
+                    EE_EventIdToEdit = eventObjOnEdit.Evnt_Id,
+                    EE_DateTime = DateTime.Now
+                };
 
             }
             else

@@ -165,6 +165,7 @@
     </Key>
     <Property Name="EE_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EE_DateTime" Type="datetime" Nullable="false" />
+    <Property Name="EE_EventIdToEdit" Type="int" Nullable="false" />
     <Property Name="Creator_Mem_Id" Type="int" Nullable="false" />
     <Property Name="EventTable_Evnt_Id" Type="int" Nullable="false" />
   </EntityType>
@@ -621,6 +622,7 @@
           <NavigationProperty Name="NotificationTable" Relationship="fbmodel.NotificationTableEventEdit" FromRole="EventEdit" ToRole="NotificationTable" />
           <NavigationProperty Name="Creator" Relationship="fbmodel.EventEditMemberTable" FromRole="EventEdit" ToRole="MemberTable" />
           <NavigationProperty Name="EventTable" Relationship="fbmodel.EventEditEventTable" FromRole="EventEdit" ToRole="EventTable" />
+          <Property Name="EE_EventIdToEdit" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="LocationTable">
           <Key>
@@ -791,6 +793,7 @@
         <MappingFragment StoreEntitySet="EventEdits">
           <ScalarProperty Name="EE_Id" ColumnName="EE_Id" />
           <ScalarProperty Name="EE_DateTime" ColumnName="EE_DateTime" />
+          <ScalarProperty Name="EE_EventIdToEdit" ColumnName="EE_EventIdToEdit" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

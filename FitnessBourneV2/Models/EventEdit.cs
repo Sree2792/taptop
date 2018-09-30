@@ -22,6 +22,7 @@ namespace FitnessBourneV2.Models
     
         public int EE_Id { get; set; }
         public System.DateTime EE_DateTime { get; set; }
+        public int EE_EventIdToEdit { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocationTable> LocationTables { get; set; }

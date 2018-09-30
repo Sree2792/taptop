@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/22/2018 20:32:56
+-- Date Created: 09/30/2018 23:06:02
 -- Generated from EDMX file: \\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2018\FitnessBourneV2\Models\fbmodel.edmx
 -- --------------------------------------------------
 
@@ -36,9 +36,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_NotificationTableEventEdit]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[NotificationTables] DROP CONSTRAINT [FK_NotificationTableEventEdit];
 GO
-IF OBJECT_ID(N'[dbo].[FK_EventTableMemberTable1]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[EventTables] DROP CONSTRAINT [FK_EventTableMemberTable1];
-GO
 IF OBJECT_ID(N'[dbo].[FK_NotificationActionTableMemberTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[NotificationActionTables] DROP CONSTRAINT [FK_NotificationActionTableMemberTable];
 GO
@@ -68,6 +65,9 @@ IF OBJECT_ID(N'[dbo].[FK_EventMembersEventTable]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_EventMembersMemberTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventMembers] DROP CONSTRAINT [FK_EventMembersMemberTable];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EventTableMemberTable]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EventTables] DROP CONSTRAINT [FK_EventTableMemberTable];
 GO
 
 -- --------------------------------------------------
@@ -187,6 +187,7 @@ GO
 CREATE TABLE [dbo].[EventEdits] (
     [EE_Id] int IDENTITY(1,1) NOT NULL,
     [EE_DateTime] datetime  NOT NULL,
+    [EE_EventIdToEdit] int  NOT NULL,
     [Creator_Mem_Id] int  NOT NULL,
     [EventTable_Evnt_Id] int  NOT NULL
 );
