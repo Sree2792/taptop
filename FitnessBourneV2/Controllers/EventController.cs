@@ -323,7 +323,7 @@ namespace FitnessBourneV2.Controllers
             //Notification table set up for event
             NotificationTable notifTable = new NotificationTable()
             {
-                Notif_Type = "Event Edit",
+                Notif_Type = "A",
                 Notif_Message = "Confirm event edit for event ID: " + eventObjOnEdit.Evnt_Id.ToString() + " created by you."
             };
 
