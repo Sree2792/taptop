@@ -4,6 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FitnessBourneV2.Models;
+using System.Net.Http;
+using System.Net.Mail;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.Threading.Tasks;
 
 namespace FitnessBourneV2.Controllers
 {
@@ -202,6 +207,26 @@ namespace FitnessBourneV2.Controllers
                 db.FitnessClubs.Add(fClub7);
                 db.SaveChanges();
             }
+
+            //To install package-: Install-Package SendGrid
+            //var apiKey = Environment.GetEnvironmentVariable("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");
+            var client = new SendGridClient("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");
+
+            var from = new EmailAddress("user1@gmail.com", "Example User");
+
+            var subject = "Sending with SendGrid is Fun";
+
+            var to = new EmailAddress("sreejith92pf@gmail.com", "Example User");
+
+            var plainTextContent = "and easy to do anywhere, even with C#";
+
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = client.SendEmailAsync(msg);
+
+            //var response = await client.SendEmailAsync(msg);
+
 
             if (Request.IsAuthenticated)
             {
