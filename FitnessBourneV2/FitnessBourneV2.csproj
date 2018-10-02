@@ -231,6 +231,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\EventJoinedController.cs" />
+    <Compile Include="Controllers\EventsCreatedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
@@ -242,6 +243,7 @@
       <DependentUpon>fbmodel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EventAddModel.cs" />
+    <Compile Include="Models\EventCreated.cs" />
     <Compile Include="Models\EventEdit.cs">
       <DependentUpon>fbmodel.tt</DependentUpon>
     </Compile>
@@ -499,6 +501,7 @@
     <Content Include="Views\EventJoined\EventJoin.cshtml" />
     <Content Include="Views\Event\EventEdit.cshtml" />
     <Content Include="Views\Notification\NotificationCenter.cshtml" />
+    <Content Include="Views\EventsCreated\EventCreated.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
