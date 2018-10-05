@@ -132,7 +132,12 @@ namespace FitnessBourneV2.Controllers
                 List<MemberTable> memList = new List<MemberTable>();
                 foreach (EventMembers memObj in subRec.EventMembers)
                 {
-                    memList.Add(memObj.MemberTable);
+                    // Other than admin member
+                    if(memObj.MemberTable.Mem_Id != loginUser.Mem_Id)
+                    {
+                        memList.Add(memObj.MemberTable);
+                    }
+                    
                 }
 
 
