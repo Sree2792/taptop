@@ -32,5 +32,11 @@
 #joinBtn {
     background-color: rgb(59, 47, 87);
     margin-top: 10%;
-    margin-left: 40%;
+    margin-left: 25%;
+} 
+
+.deleteEditBtn {
+    background-color: rgb(59, 47, 87);
+    margin-top: 10%;
+    margin-left: 70%;
 }

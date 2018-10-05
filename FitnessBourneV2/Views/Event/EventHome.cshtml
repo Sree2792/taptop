@@ -10,7 +10,7 @@
 @using (Html.BeginForm("EventRefresh", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
 {
     <div class="row" id="DetailsPane">
-        <div class="col-md-10 col-md-offset-1" id="DetailsCol">
+        <div class="col-md-10" id="DetailsCol">
             <div class="row">
                 <div class="col-md-2 col-md-offset-5">
                     <h1 style="color:white;">@Model.EventypeInView</h1>
@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3 col-md-offset-3">
-                                        <button class="" type="button" onclick="joinEvent(@Model.eventList[j].eventID)">   JOIN   </button>
+                                        <button id="joinBtn" type="button" onclick="joinEvent(@Model.eventList[j].eventID)">   JOIN   </button>
                                     </div>
                                 </div>
 

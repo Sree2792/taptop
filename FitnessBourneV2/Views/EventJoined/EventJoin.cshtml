@@ -11,7 +11,7 @@
 @using (Html.BeginForm("EventJoin", "EventJoined", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
 {
     <div class="row" id="DetailsPane">
-        <div class="col-md-10 col-md-offset-1" id="DetailsCol">
+        <div class="col-md-10" id="DetailsCol">
             <div id="myCarousel" class="row carousel slide" data-interval="false">
 
                 <!-- Left Indicator -->
@@ -33,11 +33,8 @@
                             }
                         <div class="@className">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <label class="labelTxt">Event Type :</label>
-                                </div>
-                                <div class="col-md-3">
-                                    @Html.TextBoxFor(m => m.listOfEventJoined[j].EventypeInView, new { @class = "eventStartDT txtBox", @readonly = "readonly" })
+                                <div class="col-md-2 col-md-offset-3">
+                                    <h1 style="color:white;">@Model.listOfEventJoined[j].EventypeInView</h1>
                                 </div>
                             </div>
                             <div class="row">
@@ -120,10 +117,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <button class="" type="button" onclick="deleteEvent(@Model.listOfEventJoined[j].eventID)">   Remove   </button>
+                                    <button class="deleteEditBtn" type="button" onclick="deleteEvent(@Model.listOfEventJoined[j].eventID)">   Remove   </button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="" type="button" onclick="location.href='@Url.Action("EventEdit","Event",  new {eventID = @Model.listOfEventJoined[j].eventID})'">   Edit   </button>
+                                    <button class="deleteEditBtn" type="button" onclick="location.href='@Url.Action("EventEdit","Event",  new {eventID = @Model.listOfEventJoined[j].eventID})'">   Edit   </button>
                                 </div>
                             </div>
 
