@@ -17,7 +17,6 @@
     <EntitySet Name="EventTypes" EntityType="fbmodel.Store.EventTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EventMembers" EntityType="fbmodel.Store.EventMembers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LocationTableEventTable" EntityType="fbmodel.Store.LocationTableEventTable" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LocationTableEventEdit" EntityType="fbmodel.Store.LocationTableEventEdit" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="MemberTableFitnessClub" Association="fbmodel.Store.MemberTableFitnessClub">
       <End Role="MemberTable" EntitySet="MemberTables" />
       <End Role="FitnessClub" EntitySet="FitnessClubs" />
@@ -29,14 +28,6 @@
     <AssociationSet Name="FK_LocationTableEventTable_EventTable" Association="fbmodel.Store.FK_LocationTableEventTable_EventTable">
       <End Role="EventTable" EntitySet="EventTables" />
       <End Role="LocationTableEventTable" EntitySet="LocationTableEventTable" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LocationTableEventEdit_LocationTable" Association="fbmodel.Store.FK_LocationTableEventEdit_LocationTable">
-      <End Role="LocationTable" EntitySet="LocationTables" />
-      <End Role="LocationTableEventEdit" EntitySet="LocationTableEventEdit" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LocationTableEventEdit_EventEdit" Association="fbmodel.Store.FK_LocationTableEventEdit_EventEdit">
-      <End Role="EventEdit" EntitySet="EventEdits" />
-      <End Role="LocationTableEventEdit" EntitySet="LocationTableEventEdit" />
     </AssociationSet>
     <AssociationSet Name="NotificationTableEventEdit" Association="fbmodel.Store.NotificationTableEventEdit">
       <End Role="NotificationTable" EntitySet="NotificationTables" />
@@ -139,6 +130,7 @@
     <Property Name="Evnt_Capacity" Type="int" Nullable="false" />
     <Property Name="EventTypeET_Id" Type="int" Nullable="false" />
     <Property Name="Evnt_NavigDetails" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Evnt_IsEdit" Type="bit" Nullable="false" />
     <Property Name="MemberTable_Mem_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="NotificationActionTables">
@@ -199,14 +191,6 @@
     </Key>
     <Property Name="LocationTables_Loc_Id" Type="int" Nullable="false" />
     <Property Name="EventTables_Evnt_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="LocationTableEventEdit">
-    <Key>
-      <PropertyRef Name="LocationTables_Loc_Id" />
-      <PropertyRef Name="EventEdits_EE_Id" />
-    </Key>
-    <Property Name="LocationTables_Loc_Id" Type="int" Nullable="false" />
-    <Property Name="EventEdits_EE_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="MemberTableFitnessClub">
     <End Role="MemberTable" Type="fbmodel.Store.MemberTables" Multiplicity="*" />
@@ -400,30 +384,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_LocationTableEventEdit_LocationTable">
-    <End Role="LocationTable" Type="fbmodel.Store.LocationTables" Multiplicity="1" />
-    <End Role="LocationTableEventEdit" Type="fbmodel.Store.LocationTableEventEdit" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LocationTable">
-        <PropertyRef Name="Loc_Id" />
-      </Principal>
-      <Dependent Role="LocationTableEventEdit">
-        <PropertyRef Name="LocationTables_Loc_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LocationTableEventEdit_EventEdit">
-    <End Role="LocationTableEventEdit" Type="fbmodel.Store.LocationTableEventEdit" Multiplicity="*" />
-    <End Role="EventEdit" Type="fbmodel.Store.EventEdits" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="EventEdit">
-        <PropertyRef Name="EE_Id" />
-      </Principal>
-      <Dependent Role="LocationTableEventEdit">
-        <PropertyRef Name="EventEdits_EE_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -444,10 +404,6 @@
           <AssociationSet Name="LocationTableEventTable" Association="fbmodel.LocationTableEventTable">
             <End Role="LocationTable" EntitySet="LocationTables" />
             <End Role="EventTable" EntitySet="EventTables" />
-          </AssociationSet>
-          <AssociationSet Name="LocationTableEventEdit" Association="fbmodel.LocationTableEventEdit">
-            <End Role="LocationTable" EntitySet="LocationTables" />
-            <End Role="EventEdit" EntitySet="EventEdits" />
           </AssociationSet>
           <AssociationSet Name="NotificationTableEventEdit" Association="fbmodel.NotificationTableEventEdit">
             <End Role="NotificationTable" EntitySet="NotificationTables" />
@@ -579,6 +535,7 @@
           <Property Name="Evnt_NavigDetails" Type="String" Nullable="false" />
           <NavigationProperty Name="EventMembers" Relationship="fbmodel.EventMembersEventTable" FromRole="EventTable" ToRole="EventMembers" />
           <NavigationProperty Name="MemberTable" Relationship="fbmodel.EventTableMemberTable" FromRole="EventTable" ToRole="MemberTable" />
+          <Property Name="Evnt_IsEdit" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="NotificationActionTable">
           <Key>
@@ -606,7 +563,6 @@
           </Key>
           <Property Name="EE_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EE_DateTime" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="LocationTables" Relationship="fbmodel.LocationTableEventEdit" FromRole="EventEdit" ToRole="LocationTable" />
           <NavigationProperty Name="NotificationTable" Relationship="fbmodel.NotificationTableEventEdit" FromRole="EventEdit" ToRole="NotificationTable" />
           <NavigationProperty Name="Creator" Relationship="fbmodel.EventEditMemberTable" FromRole="EventEdit" ToRole="MemberTable" />
           <NavigationProperty Name="EventTable" Relationship="fbmodel.EventEditEventTable" FromRole="EventEdit" ToRole="EventTable" />
@@ -619,27 +575,22 @@
           <Property Name="Loc_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Loc_Ref_Name" Type="String" Nullable="false" />
           <NavigationProperty Name="EventTables" Relationship="fbmodel.LocationTableEventTable" FromRole="LocationTable" ToRole="EventTable" />
-          <NavigationProperty Name="EventEdits" Relationship="fbmodel.LocationTableEventEdit" FromRole="LocationTable" ToRole="EventEdit" />
           <NavigationProperty Name="AddressTable" Relationship="fbmodel.AddressTableLocationTable" FromRole="LocationTable" ToRole="AddressTable" />
         </EntityType>
         <Association Name="LocationTableEventTable">
           <End Type="fbmodel.LocationTable" Role="LocationTable" Multiplicity="*" />
           <End Type="fbmodel.EventTable" Role="EventTable" Multiplicity="*" />
         </Association>
-        <Association Name="LocationTableEventEdit">
-          <End Type="fbmodel.LocationTable" Role="LocationTable" Multiplicity="*" />
-          <End Type="fbmodel.EventEdit" Role="EventEdit" Multiplicity="*" />
-        </Association>
         <Association Name="NotificationTableEventEdit">
           <End Type="fbmodel.NotificationTable" Role="NotificationTable" Multiplicity="1" />
           <End Type="fbmodel.EventEdit" Role="EventEdit" Multiplicity="0..1" />
         </Association>
         <Association Name="NotificationActionTableMemberTable">
-          <End Type="fbmodel.NotificationActionTable" Role="NotificationActionTable" Multiplicity="0..1" />
+          <End Type="fbmodel.NotificationActionTable" Role="NotificationActionTable" Multiplicity="*" />
           <End Type="fbmodel.MemberTable" Role="MemberTable" Multiplicity="1" />
         </Association>
         <Association Name="EventEditMemberTable">
-          <End Type="fbmodel.EventEdit" Role="EventEdit" Multiplicity="0..1" />
+          <End Type="fbmodel.EventEdit" Role="EventEdit" Multiplicity="*" />
           <End Type="fbmodel.MemberTable" Role="MemberTable" Multiplicity="1" />
         </Association>
         <Association Name="EventEditEventTable">
@@ -767,6 +718,7 @@
           <ScalarProperty Name="Evnt_Capacity" ColumnName="Evnt_Capacity" />
           <ScalarProperty Name="EventTypeET_Id" ColumnName="EventTypeET_Id" />
           <ScalarProperty Name="Evnt_NavigDetails" ColumnName="Evnt_NavigDetails" />
+          <ScalarProperty Name="Evnt_IsEdit" ColumnName="Evnt_IsEdit" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -826,14 +778,6 @@
       </EndProperty>
       <EndProperty Name="EventTable">
         <ScalarProperty Name="Evnt_Id" ColumnName="EventTables_Evnt_Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="LocationTableEventEdit" TypeName="fbmodel.LocationTableEventEdit" StoreEntitySet="LocationTableEventEdit">
-      <EndProperty Name="LocationTable">
-        <ScalarProperty Name="Loc_Id" ColumnName="LocationTables_Loc_Id" />
-      </EndProperty>
-      <EndProperty Name="EventEdit">
-        <ScalarProperty Name="EE_Id" ColumnName="EventEdits_EE_Id" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="NotificationTableEventEdit" TypeName="fbmodel.NotificationTableEventEdit" StoreEntitySet="EventEdits">

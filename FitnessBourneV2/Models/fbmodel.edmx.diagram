@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="fbmodel.EventEdit" Width="1.5" PointX="10.5" PointY="6.5" />
         <EntityTypeShape EntityType="fbmodel.LocationTable" Width="1.5" PointX="12" PointY="1.375" />
         <AssociationConnector Association="fbmodel.LocationTableEventTable" />
-        <AssociationConnector Association="fbmodel.LocationTableEventEdit" />
         <AssociationConnector Association="fbmodel.NotificationTableEventEdit" />
         <AssociationConnector Association="fbmodel.NotificationActionTableMemberTable" />
         <AssociationConnector Association="fbmodel.EventEditMemberTable" />

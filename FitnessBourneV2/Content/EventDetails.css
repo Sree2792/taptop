@@ -39,6 +39,13 @@
     background-color: rgb(59, 47, 87);
     margin-top: 10%;
     margin-left: 70%;
+    color: white;
+}
+
+.deleteEditBtnNotif {
+    background-color: rgb(59, 47, 87);
+    margin-top: 10%;
+    color: white;
 }
 
 #NoMembers {
@@ -52,4 +59,14 @@
 
 #DetailsCol{
     margin-left: 10%;
+}
+
+.businesscard{
+    margin-left:10%;
+    margin-top:2%;
+}
+
+#notifMessage{
+    width: 100%;
+    max-width:800px;
 }

@@ -14,18 +14,10 @@ namespace FitnessBourneV2.Models
     
     public partial class EventEdit
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EventEdit()
-        {
-            this.LocationTables = new HashSet<LocationTable>();
-        }
-    
         public int EE_Id { get; set; }
         public System.DateTime EE_DateTime { get; set; }
         public int EE_EventIdToEdit { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LocationTable> LocationTables { get; set; }
         public virtual NotificationTable NotificationTable { get; set; }
         public virtual MemberTable Creator { get; set; }
         public virtual EventTable EventTable { get; set; }

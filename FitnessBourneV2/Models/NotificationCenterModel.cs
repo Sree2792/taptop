@@ -12,6 +12,7 @@ namespace FitnessBourneV2.Models
 
     public class NotificationObject
     {
+        public int notifTbleId { get; set; }
         public string notifMessage { get; set; }
         public string eventType { get; set; }
         public string startLoc { get; set; }

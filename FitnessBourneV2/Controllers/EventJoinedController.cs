@@ -36,15 +36,20 @@ namespace FitnessBourneV2.Controllers
                 // Event member list
                 List<EventMembers> memObj = tableObj.EventMembers.ToList();
 
-                //get the members and check if login user there
-                foreach(EventMembers eveMemObj in memObj)
+                // not editable event
+                if (!tableObj.Evnt_IsEdit)
                 {
-                    if (eveMemObj.MemberTable.Mem_Id == loginUser.Mem_Id)
+                    //get the members and check if login user there
+                    foreach (EventMembers eveMemObj in memObj)
                     {
-                        eventsJoined.Add(tableObj);
-                        break;
+                        if (eveMemObj.MemberTable.Mem_Id == loginUser.Mem_Id)
+                        {
+                            eventsJoined.Add(tableObj);
+                            break;
+                        }
                     }
                 }
+                
             }
 
             // List of events to join

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/01/2018 03:54:24
+-- Date Created: 10/06/2018 03:43:54
 -- Generated from EDMX file: \\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2018\FitnessBourneV2\Models\fbmodel.edmx
 -- --------------------------------------------------
 
@@ -24,17 +24,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_LocationTableEventTable_EventTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LocationTableEventTable] DROP CONSTRAINT [FK_LocationTableEventTable_EventTable];
 GO
-IF OBJECT_ID(N'[dbo].[FK_LocationTableEventEdit_LocationTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LocationTableEventEdit] DROP CONSTRAINT [FK_LocationTableEventEdit_LocationTable];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LocationTableEventEdit_EventEdit]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LocationTableEventEdit] DROP CONSTRAINT [FK_LocationTableEventEdit_EventEdit];
-GO
 IF OBJECT_ID(N'[dbo].[FK_NotificationTableEventEdit]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventEdits] DROP CONSTRAINT [FK_NotificationTableEventEdit];
 GO
 IF OBJECT_ID(N'[dbo].[FK_NotificationActionTableMemberTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[MemberTables] DROP CONSTRAINT [FK_NotificationActionTableMemberTable];
+    ALTER TABLE [dbo].[NotificationActionTables] DROP CONSTRAINT [FK_NotificationActionTableMemberTable];
 GO
 IF OBJECT_ID(N'[dbo].[FK_EventEditMemberTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventEdits] DROP CONSTRAINT [FK_EventEditMemberTable];
@@ -107,9 +101,6 @@ GO
 IF OBJECT_ID(N'[dbo].[LocationTableEventTable]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LocationTableEventTable];
 GO
-IF OBJECT_ID(N'[dbo].[LocationTableEventEdit]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LocationTableEventEdit];
-GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -161,6 +152,7 @@ CREATE TABLE [dbo].[EventTables] (
     [Evnt_Capacity] int  NOT NULL,
     [EventTypeET_Id] int  NOT NULL,
     [Evnt_NavigDetails] nvarchar(max)  NOT NULL,
+    [Evnt_IsEdit] bit  NOT NULL,
     [MemberTable_Mem_Id] int  NOT NULL
 );
 GO
@@ -220,13 +212,6 @@ GO
 CREATE TABLE [dbo].[LocationTableEventTable] (
     [LocationTables_Loc_Id] int  NOT NULL,
     [EventTables_Evnt_Id] int  NOT NULL
-);
-GO
-
--- Creating table 'LocationTableEventEdit'
-CREATE TABLE [dbo].[LocationTableEventEdit] (
-    [LocationTables_Loc_Id] int  NOT NULL,
-    [EventEdits_EE_Id] int  NOT NULL
 );
 GO
 
@@ -300,12 +285,6 @@ ADD CONSTRAINT [PK_LocationTableEventTable]
     PRIMARY KEY CLUSTERED ([LocationTables_Loc_Id], [EventTables_Evnt_Id] ASC);
 GO
 
--- Creating primary key on [LocationTables_Loc_Id], [EventEdits_EE_Id] in table 'LocationTableEventEdit'
-ALTER TABLE [dbo].[LocationTableEventEdit]
-ADD CONSTRAINT [PK_LocationTableEventEdit]
-    PRIMARY KEY CLUSTERED ([LocationTables_Loc_Id], [EventEdits_EE_Id] ASC);
-GO
-
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
@@ -347,30 +326,6 @@ GO
 CREATE INDEX [IX_FK_LocationTableEventTable_EventTable]
 ON [dbo].[LocationTableEventTable]
     ([EventTables_Evnt_Id]);
-GO
-
--- Creating foreign key on [LocationTables_Loc_Id] in table 'LocationTableEventEdit'
-ALTER TABLE [dbo].[LocationTableEventEdit]
-ADD CONSTRAINT [FK_LocationTableEventEdit_LocationTable]
-    FOREIGN KEY ([LocationTables_Loc_Id])
-    REFERENCES [dbo].[LocationTables]
-        ([Loc_Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [EventEdits_EE_Id] in table 'LocationTableEventEdit'
-ALTER TABLE [dbo].[LocationTableEventEdit]
-ADD CONSTRAINT [FK_LocationTableEventEdit_EventEdit]
-    FOREIGN KEY ([EventEdits_EE_Id])
-    REFERENCES [dbo].[EventEdits]
-        ([EE_Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_LocationTableEventEdit_EventEdit'
-CREATE INDEX [IX_FK_LocationTableEventEdit_EventEdit]
-ON [dbo].[LocationTableEventEdit]
-    ([EventEdits_EE_Id]);
 GO
 
 -- Creating foreign key on [NotificationTable_Notif_Id] in table 'EventEdits'

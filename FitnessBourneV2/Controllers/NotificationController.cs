@@ -90,7 +90,8 @@ namespace FitnessBourneV2.Controllers
                         startDT = notifTable.EventEdit.EventTable.Evnt_Start_DateTime.ToString(),
                         stopDT = notifTable.EventEdit.EventTable.Evnt_End_DateTime.ToString(),
                         isEventAdmin = isAdmin,
-                        youAre = userType
+                        youAre = userType,
+                        notifTbleId = actTable.NA_Id
                     };
 
                     //add object to list
@@ -107,6 +108,7 @@ namespace FitnessBourneV2.Controllers
             // event joined
             if (listOfNotif.Count > 0)
             {
+                Session["NotifList"] = notifModel;
                 return View(notifModel);
             }
             else
@@ -117,5 +119,32 @@ namespace FitnessBourneV2.Controllers
             }
             
         }
-    }
+
+        public ActionResult notifResult(NotificationCenterModel notifModel)
+        {
+            // get selected notificatio
+            NotificationObject objNotif = (NotificationObject)Session["SelectedNotification"];
+
+            if(Session["NotificationStatus"].ToString() == "confirm")
+            {
+                //Confirm the edit of event and raise notification for all participants
+
+            }
+            else if (Session["NotificationStatus"].ToString() == "delete")
+            {
+                //Erase or delete the notification
+            }
+            return View();
+        }
+
+        [WebMethod]
+        public void editNotification(string anchorname)
+        {
+            string[] words = anchorname.Split(';');
+
+            Session["NotificationStatus"] = words[0];
+
+            NotificationCenterModel modelObj = (NotificationCenterModel)Session["NotifList"];
+            Session["SelectedNotification"] = modelObj.listOfNotif[Convert.ToInt32(words[1])];
+        }
 }

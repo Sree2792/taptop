@@ -35,8 +35,9 @@ namespace FitnessBourneV2.Controllers
             foreach (EventTable tableObj in eventList)
             {
                 //Check admin object
-                if(loginUser.Mem_Id == tableObj.MemberTable.Mem_Id)
+                if(loginUser.Mem_Id == tableObj.MemberTable.Mem_Id && !tableObj.Evnt_IsEdit)
                 {
+
                     eventsCreated.Add(tableObj);
                 }
             }
