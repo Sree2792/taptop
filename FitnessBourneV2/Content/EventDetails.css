@@ -28,3 +28,9 @@
     pointer-events: none;
     opacity: 0.4;
 }
+
+#joinBtn {
+    background-color: rgb(59, 47, 87);
+    margin-top: 10%;
+    margin-left: 40%;
+}
