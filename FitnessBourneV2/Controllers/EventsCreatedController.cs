@@ -18,7 +18,7 @@ namespace FitnessBourneV2.Controllers
         {
             List<EventTable> eventList = db.EventTables.ToList();
 
-            List<EventTable> eventsJoined = new List<EventTable>();
+            List<EventTable> eventsCreated = new List<EventTable>();
 
             //get login member table
             MemberTable loginUser = new MemberTable();
@@ -31,28 +31,21 @@ namespace FitnessBourneV2.Controllers
                 }
             }
 
-            // Get members who joined the event
+            // Get events where login member is the admin
             foreach (EventTable tableObj in eventList)
             {
-                // Event member list
-                List<EventMembers> memObj = tableObj.EventMembers.ToList();
-
-                //get the members and check if login user there
-                foreach (EventMembers eveMemObj in memObj)
+                //Check admin object
+                if(loginUser.Mem_Id == tableObj.MemberTable.Mem_Id)
                 {
-                    if (eveMemObj.MemberTable.Mem_Id == loginUser.Mem_Id)
-                    {
-                        eventsJoined.Add(tableObj);
-                        break;
-                    }
+                    eventsCreated.Add(tableObj);
                 }
             }
 
-            // List of events to join
-            List<EventJoined> eventJoin = new List<EventJoined>();
+            // list of created events
+            List<CreatedEventDetails> eventsToView = new List<CreatedEventDetails>();
 
             // loop through joined events to make object
-            foreach (EventTable subRec in eventsJoined)
+            foreach (EventTable subRec in eventsCreated)
             {
                 //setting record up
                 string navInstr = "";
@@ -92,6 +85,7 @@ namespace FitnessBourneV2.Controllers
                 string stopLoc = "";
                 List<string> checkPointList = new List<string>();
                 string checkPoint = "";
+
                 //getting location string
                 foreach (LocationTable record in locList)
                 {
@@ -107,6 +101,7 @@ namespace FitnessBourneV2.Controllers
                     }
                     checkPointList.Add(record.Loc_Ref_Name);
                 }
+
                 //remove start and stop from check points
                 checkPointList.Remove(startLoc);
                 checkPointList.Remove(stopLoc);
@@ -132,8 +127,17 @@ namespace FitnessBourneV2.Controllers
                     }
                 }
 
-                // event to pass to view
-                EventJoined eventToPass = new EventJoined()
+
+                //Get all members in the created event
+                List<MemberTable> memList = new List<MemberTable>();
+                foreach (EventMembers memObj in subRec.EventMembers)
+                {
+                    memList.Add(memObj.MemberTable);
+                }
+
+
+                //Events created to view
+                CreatedEventDetails createdEvent = new CreatedEventDetails()
                 {
                     eventStartTime = subRec.Evnt_Start_DateTime.ToString(),
                     eventEndTime = subRec.Evnt_End_DateTime.ToString(),
@@ -145,32 +149,35 @@ namespace FitnessBourneV2.Controllers
                     stopLoc = stopLoc,
                     seatAvailblity = seatOccupied,
                     eventID = subRec.Evnt_Id,
-                    EventypeInView = eventTypeStr
+                    EventypeInView = eventTypeStr,
+                    EventMembers = memList
                 };
 
+
                 //Pass event
-                eventJoin.Add(eventToPass);
+                eventsToView.Add(createdEvent);
             }
 
             // session store
-            Session["JoinedEvents"] = eventJoin;
+            Session["CreatedEvents"] = eventsToView;
 
             // event joined
-            EventJoinedModel eveJoinModel = new EventJoinedModel()
+            EventCreated modeToView = new EventCreated()
             {
-                listOfEventJoined = eventJoin
+                eventList = eventsToView
             };
 
             // event joined
-            if (eventJoin.Count > 0)
+            if (eventsToView.Count > 0)
             {
-                return View(eveJoinModel);
+                return View(modeToView);
             }
             else
             {
+                // Nothing created yet
+                ViewBag.Message = "You haven't created any events yet";
                 return RedirectToAction("Index", "Home");
             }
-            return View();
         }
     }
 }
