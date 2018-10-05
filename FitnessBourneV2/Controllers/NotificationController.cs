@@ -104,8 +104,18 @@ namespace FitnessBourneV2.Controllers
                 listOfNotif = listOfNotif
             };
 
-
-            return View(notifModel);
+            // event joined
+            if (listOfNotif.Count > 0)
+            {
+                return View(notifModel);
+            }
+            else
+            {
+                // Nothing created yet
+                Session["AlertMessage"] = "You do not have any notification to approve!!!";
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
     }
 }

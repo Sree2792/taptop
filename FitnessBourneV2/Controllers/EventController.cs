@@ -173,6 +173,8 @@ namespace FitnessBourneV2.Controllers
             }
             else
             {
+                // Nothing created yet
+                Session["AlertMessage"] = "No events available for you to join!!!";
                 return RedirectToAction("Index", "Home");
             }
 

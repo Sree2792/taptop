@@ -230,7 +230,16 @@ namespace FitnessBourneV2.Controllers
 
             if (Request.IsAuthenticated)
             {
+
+                if(Session["AlertMessage"] != null)
+                {
+                    // set viewbag message
+                    ViewBag.Message = Session["AlertMessage"].ToString();
+                    Session["AlertMessage"] = null;
+                }
+
                 Session["UserLoggedIn"] = User.Identity.Name;
+
                 return View();
             }
             return RedirectToAction("Login", "Account");

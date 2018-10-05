@@ -175,7 +175,7 @@ namespace FitnessBourneV2.Controllers
             else
             {
                 // Nothing created yet
-                ViewBag.Message = "You haven't created any events yet";
+                Session["AlertMessage"] = "You did not create any events yet!!!";
                 return RedirectToAction("Index", "Home");
             }
         }
