@@ -36,10 +36,10 @@ namespace FitnessBourneV2.Controllers
                 // Event member list
                 List<EventMembers> memObj = tableObj.EventMembers.ToList();
 
-                // not editable event
+                // event that is created and not part of edit event
                 if (!tableObj.Evnt_IsEdit)
                 {
-                    //get the members and check if login user there
+                    //get the events joints by the member
                     foreach (EventMembers eveMemObj in memObj)
                     {
                         if (eveMemObj.MemberTable.Mem_Id == loginUser.Mem_Id)
@@ -247,38 +247,5 @@ namespace FitnessBourneV2.Controllers
                 }
             }
         }
-
-        [WebMethod]
-        public void editEvent(Int32 anchorname)
-        {
-            //get login member table
-            MemberTable loginUser = new MemberTable();
-            foreach (MemberTable record in db.MemberTables.ToList())
-            {
-                if (record.Mem_Email_Id == User.Identity.Name)
-                {
-                    loginUser = record;
-                    break;
-                }
-            }
-
-            //get event joined
-            EventTable eventDet = db.EventTables.Find(anchorname);
-
-            //get event member table
-            List<EventMembers> eventMembers = db.EventMembers.ToList();
-
-            //scan through to delete event
-            foreach (EventMembers memObj in eventMembers)
-            {
-                if (memObj.MemberTable.Mem_Id == loginUser.Mem_Id && memObj.EventTable.Evnt_Id == eventDet.Evnt_Id)
-                {
-                    db.EventMembers.Remove(memObj);
-                    db.SaveChanges();
-                    break;
-                }
-            }
-        }
-
     }
 }

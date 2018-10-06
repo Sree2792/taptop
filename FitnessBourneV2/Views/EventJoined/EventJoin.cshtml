@@ -162,25 +162,7 @@
         //$('.leaflet-routing-reverse-waypoints').trigger('click');
     }
 
-    function editEvent(eventNum) {
-
-        alert(eventNum)
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("editEvent", "EventJoined")',
-            data: { "anchorname": eventNum},
-            success: function (response) {
-
-                document.getElementById("mainForm").submit();
-            },
-            error: function () {
-
-                alert("Error in contacting server!");
-
-            }
-        });
-    }
-
+    // delete event
     function deleteEvent(eventNum) {
 
         alert(eventNum)

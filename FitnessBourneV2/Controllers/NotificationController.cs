@@ -133,15 +133,15 @@ namespace FitnessBourneV2.Controllers
             EventEdit editObj = notifObj.EventEdit;
 
             // Event table to update
-            EventTable eventTble = db.EventTables.Find(editObj.EE_EventIdToEdit);
+            EventTable eventTbleOrginal = db.EventTables.Find(editObj.EE_EventIdToEdit);
 
             //edited event
-            EventTable editedEventTble = editObj.EventTable;
+            EventTable editedEventTbleObj = editObj.EventTable;
 
             if (Session["NotificationStatus"].ToString() == "confirm")
             {
                 //Create new notifications for participant of events
-                if (eventTble.EventMembers.Count > 0)
+                if (eventTbleOrginal.EventMembers.Count > 0)
                 {
                     //there are members
 
@@ -151,7 +151,7 @@ namespace FitnessBourneV2.Controllers
 
                     List<LocationTable> localList = new List<LocationTable>();
                     //Setting location feeds
-                    List<LocationTable> locList = eventTble.LocationTables.ToList();
+                    List<LocationTable> locList = eventTbleOrginal.LocationTables.ToList();
                     int startId = locList[0].Loc_Id;
                     int stopId = 0;
                     string startLoc = "";
@@ -180,7 +180,7 @@ namespace FitnessBourneV2.Controllers
                     string eventType = "";
                     foreach (var record in db.EventTypes.ToList())
                     {
-                        if (record.ET_Id == eventTble.EventTypeET_Id)
+                        if (record.ET_Id == eventTbleOrginal.EventTypeET_Id)
                         {
                             eventType = record.ET_Name;
                         }
@@ -190,13 +190,13 @@ namespace FitnessBourneV2.Controllers
                     NotificationTable notifTble = new NotificationTable()
                     {
                         Notif_Type = "p",
-                        Notif_Message = "The " + eventType + " event you registered on " + eventTble.Evnt_Start_DateTime.ToString() + " from " + startLoc + " to " + stopLoc
+                        Notif_Message = "The " + eventType + " event you registered on " + eventTbleOrginal.Evnt_Start_DateTime.ToString() + " from " + startLoc + " to " + stopLoc + " has changed."
                     };
 
                     db.NotificationTables.Add(notifTble);
                     db.SaveChanges();
 
-                    foreach (EventMembers eveMem in eventTble.EventMembers)
+                    foreach (EventMembers eveMem in eventTbleOrginal.EventMembers)
                     {
                         // loop through members of event
                         // Notification table for notification
@@ -214,27 +214,63 @@ namespace FitnessBourneV2.Controllers
 
                 }
 
-                // edit event
-                editedEventTble.Evnt_Id = eventTble.Evnt_Id;
 
-                //confirm edit
-                db.Entry(editedEventTble).State = System.Data.Entity.EntityState.Modified;
+                // Edit orginal object with respect to proposed edit
+                eventTbleOrginal.Evnt_Is_Private = editedEventTbleObj.Evnt_Is_Private;
+                eventTbleOrginal.Evnt_Capacity = editedEventTbleObj.Evnt_Capacity;
+                eventTbleOrginal.Evnt_Start_DateTime = editedEventTbleObj.Evnt_Start_DateTime;
+                eventTbleOrginal.Evnt_End_DateTime = editedEventTbleObj.Evnt_End_DateTime;
+                eventTbleOrginal.EventTypeET_Id = editedEventTbleObj.EventTypeET_Id;
+                eventTbleOrginal.Evnt_NavigDetails = editedEventTbleObj.Evnt_NavigDetails;
+
+                //Update location
+                eventTbleOrginal.LocationTables.Clear();
+                eventTbleOrginal.LocationTables = editedEventTbleObj.LocationTables;
+
+
+                // state modified
+                db.Entry(eventTbleOrginal).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 
-                //event edited delete
-                db.EventTables.Remove(editObj.EventTable);
 
-                //Eventedit delete
-                db.EventEdits.Remove(editObj);
+                //Delete edited event object
+                //get event joined
+                EventTable eventDet = db.EventTables.Find(editedEventTbleObj.Evnt_Id);
+
+                //delete locations in event
+                eventDet.LocationTables.Clear();
+
+                //update object
+                // state modified
+                db.Entry(eventDet).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                //Delete event members
+                List<EventMembers> eveMemList = db.EventMembers.ToList();
+                foreach (EventMembers eveMem in eveMemList)
+                {
+                    if (eveMem.EventTable.Evnt_Id == eventDet.Evnt_Id)
+                    {
+                        // delete event members
+                        db.EventMembers.Remove(eveMem);
+                        db.SaveChanges();
+                    }
+                }
 
 
+
+                //Delete edited event
+                db.EventTables.Remove(eventDet);
+                db.SaveChanges();
+
+                // delete notification corresponding to change
                 //Notification delete
                 db.NotificationTables.Remove(notifObj);
 
-                //Delete Notification tables
+                //Delete Notification Action tables
                 foreach (NotificationActionTable tble in db.NotificationActionTables.ToList())
                 {
-                    if (tble.NotificationTable.Notif_Id == notifObj.Notif_Id)
+                    if (tble.NotificationTable.Notif_Id == notifObj.Notif_Id && tble.MemberTable.Mem_Email_Id == User.Identity.Name)
                     {
                         db.NotificationActionTables.Remove(tble);
                         db.SaveChanges();
@@ -247,7 +283,7 @@ namespace FitnessBourneV2.Controllers
                 //Notification delete
                 db.NotificationTables.Remove(notifObj);
 
-                //Delete Notification tables for the member as participant
+                //Delete Notification action tables for the notification corresponding to the user
                 foreach (NotificationActionTable tble in db.NotificationActionTables.ToList())
                 {
                     if (tble.NotificationTable.Notif_Id == notifObj.Notif_Id && tble.MemberTable.Mem_Email_Id == User.Identity.Name)
@@ -271,5 +307,8 @@ namespace FitnessBourneV2.Controllers
             NotificationCenterModel modelObj = (NotificationCenterModel)Session["NotifList"];
             Session["SelectedNotification"] = modelObj.listOfNotif[Convert.ToInt32(words[1])];
         }
+
+
+
     }
 }

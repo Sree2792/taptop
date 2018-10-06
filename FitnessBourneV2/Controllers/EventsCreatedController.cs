@@ -185,5 +185,38 @@ namespace FitnessBourneV2.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+
+        [WebMethod]
+        public void deleteEvent(Int32 anchorname)
+        {
+            //get event joined
+            EventTable eventDet = db.EventTables.Find(anchorname);
+
+            //delete locations in event
+            eventDet.LocationTables.Clear();
+
+            //update object
+            // state modified
+            db.Entry(eventDet).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+
+            //Delete event members
+            List<EventMembers> eveMemList = db.EventMembers.ToList();
+            foreach (EventMembers eveMem in eveMemList)
+            {
+                if(eveMem.EventTable.Evnt_Id == eventDet.Evnt_Id)
+                {
+                    // delete event members
+                    db.EventMembers.Remove(eveMem);
+                    db.SaveChanges();
+                }
+            }
+
+           
+
+            //Delete event
+            db.EventTables.Remove(eventDet);
+            db.SaveChanges();
+        }
     }
 }

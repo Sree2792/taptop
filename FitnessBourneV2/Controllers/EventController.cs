@@ -204,23 +204,12 @@ namespace FitnessBourneV2.Controllers
                 }
             }
 
-            //get login member table
-            MemberTable loginUser = new MemberTable();
-            foreach (MemberTable record in db.MemberTables.ToList())
-            {
-                if (record.Mem_Email_Id == User.Identity.Name)
-                {
-                    loginUser = record;
-                    break;
-                }
-            }
-
             //Event to edit
             EventAddModel eventAdd = new EventAddModel()
             {
                 eventTypeOptions = db.EventTypes.ToList(),
                 eventTypeName = eventTypeSTR,
-                eventAdmin = loginUser,
+                eventAdmin = eventObj.MemberTable,
                 isPrivate = Convert.ToBoolean(eventObj.Evnt_Is_Private),
                 isCheckIn = Convert.ToBoolean(eventObj.Evnt_Is_Checkd_In),
                 endDateTime = eventObj.Evnt_End_DateTime.Date.ToString("yyyy-MM-dd HH:mm"),
@@ -284,11 +273,14 @@ namespace FitnessBourneV2.Controllers
                 db.LocationTables.Add(tableLoc);
                 db.SaveChanges();
 
-                localList.Add(tableLoc);
+                //Notification object
+                LocationTable locTble = db.LocationTables.ToList()[db.LocationTables.ToList().Count - 1];
+                localList.Add(locTble);
             }
 
+            
             //maintain location table if empty
-            if(localList.Count == 0)
+            if (localList.Count == 0)
             {
                 localList = eventObjOnEdit.LocationTables.ToList();
             }
@@ -322,116 +314,178 @@ namespace FitnessBourneV2.Controllers
                 navDetails = navDetails + stringTxt + ";";
             }
 
-            if(navDetails == "")
+            if (navDetails == "")
             {
                 navDetails = eventObjOnEdit.Evnt_NavigDetails;
             }
 
-            
-            //Notification table set up for event
-            NotificationTable notifTable = new NotificationTable()
+            // Check if the event is edited by the admin
+            if (loginUser.Mem_Id == eventObjOnEdit.MemberTable.Mem_Id)
             {
-                Notif_Type = "A",
-                Notif_Message = "Confirm event edit for event ID: " + eventObjOnEdit.Evnt_Id.ToString() + " created by you."
-            };
+                //Admin edited event
 
-            // save changes to notification added
-            db.NotificationTables.Add(notifTable);
-            db.SaveChanges();
+                // create notification for participant
+                //Notification table set up for event - check for members
+                NotificationTable notifTable = new NotificationTable()
+                {
+                    Notif_Type = "P",
+                    Notif_Message = "Confirm event edit for event ID: " + eventObjOnEdit.Evnt_Id.ToString() + " participated by you."
+                };
 
-            //Notification object
-            NotificationTable tbleSaved = db.NotificationTables.ToList()[db.NotificationTables.ToList().Count - 1];
+                // save changes to notification added
+                db.NotificationTables.Add(notifTable);
+                db.SaveChanges();
 
-            foreach(EventMembers memObj in eventObjOnEdit.EventMembers)
+                //Notification object
+                NotificationTable notifForP = db.NotificationTables.ToList()[db.NotificationTables.ToList().Count - 1];
+
+                // paricipant notifications
+                foreach (EventMembers eveMemObj in eventObjOnEdit.EventMembers)
+                {
+                    MemberTable mem = db.MemberTables.Find(eveMemObj.MemberTable.Mem_Id);
+
+                    NotificationActionTable notifAct = new NotificationActionTable()
+                    {
+                        NA_Decision = "NO",
+                        NotificationTableNotif_Id = notifForP.Notif_Id,
+                        MemberTable = mem,
+                        NotificationTable = notifForP
+                    };
+
+                    db.NotificationActionTables.Add(notifAct);
+                    db.SaveChanges();
+                }
+
+
+                // Edit event without suspended events
+                //Update event
+                EventTable eventTable = db.EventTables.Find(eventObjOnEdit.Evnt_Id);
+
+                eventTable.Evnt_Is_Private = Convert.ToByte(eventSave.isPrivate);
+                eventTable.Evnt_Capacity = Int32.Parse(eventSave.mem_capacity);
+                eventTable.Evnt_Start_DateTime = Convert.ToDateTime(eventSave.startDateTime);
+                eventTable.Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime);
+                eventTable.EventTypeET_Id = eventType;
+                eventTable.Evnt_NavigDetails = navDetails;
+
+                //Update location
+                eventTable.LocationTables.Clear();
+                eventTable.LocationTables = localList;
+
+
+                // state modified
+                db.Entry(eventTable).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
             {
-                MemberTable mem = db.MemberTables.Find(memObj.MemberTable.Mem_Id);
+                //Participant edited event
 
+                // Created notification for  admin
+                //Notification table set up for event
+                NotificationTable notifTable = new NotificationTable()
+                {
+                    Notif_Type = "A",
+                    Notif_Message = "Confirm event edit for event ID: " + eventObjOnEdit.Evnt_Id.ToString() + " created by you."
+                };
+
+                // save changes to notification added
+                db.NotificationTables.Add(notifTable);
+                db.SaveChanges();
+
+                //Notification object
+                NotificationTable notifForA = db.NotificationTables.ToList()[db.NotificationTables.ToList().Count - 1];
+
+                //Event admin
+                MemberTable adminForNotif = db.MemberTables.Find(eventObjOnEdit.MemberTable.Mem_Id);
+
+                //Create Notification object for admin
                 NotificationActionTable notifAct = new NotificationActionTable()
                 {
                     NA_Decision = "NO",
-                    NotificationTableNotif_Id = tbleSaved.Notif_Id,
-                    MemberTable = mem,
-                    NotificationTable = tbleSaved
+                    NotificationTableNotif_Id = notifForA.Notif_Id,
+                    MemberTable = adminForNotif,
+                    NotificationTable = notifForA
                 };
 
                 db.NotificationActionTables.Add(notifAct);
                 db.SaveChanges();
+
+                // edited events
+                if (eventSave.isPrivate)
+                {
+                    //Limited to Fitness Club members
+
+                    EventTable eventCreated = new EventTable()
+                    {
+                        Evnt_Is_Private = Convert.ToByte(eventSave.isPrivate),
+                        Evnt_Capacity = Int32.Parse(eventSave.mem_capacity),
+                        Evnt_Start_DateTime = Convert.ToDateTime(eventSave.startDateTime),
+                        Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime),
+                        EventTypeET_Id = eventType,
+                        MemberTable = adminRecord,
+                        LocationTables = localList,
+                        Evnt_NavigDetails = navDetails,
+                        FitnessClub = adminRecord.FitnessClub,
+                        Evnt_IsEdit = true
+                    };
+
+                    //db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
+                    db.EventTables.Add(eventCreated);
+                    db.SaveChanges();
+
+                    // Event just added
+                    EventTable tableObj = db.EventTables.ToList()[db.EventTables.ToList().Count - 1];
+
+                    //Add event to DB
+                    EventEdit eventToEdit = new EventEdit()
+                    {
+                        EventTable = tableObj,
+                        Creator = loginUser,
+                        EE_EventIdToEdit = eventObjOnEdit.Evnt_Id,
+                        EE_DateTime = DateTime.Now,
+                        NotificationTable = notifForA
+                    };
+                    db.EventEdits.Add(eventToEdit);
+                    db.SaveChanges();
+
+                }
+                else
+                {
+                    //Add event to DB
+                    EventTable eventCreated = new EventTable()
+                    {
+                        Evnt_Is_Private = Convert.ToByte(eventSave.isPrivate),
+                        Evnt_Capacity = Int32.Parse(eventSave.mem_capacity),
+                        Evnt_Start_DateTime = Convert.ToDateTime(eventSave.startDateTime),
+                        Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime),
+                        EventTypeET_Id = eventType,
+                        MemberTable = adminRecord,
+                        LocationTables = localList,
+                        Evnt_NavigDetails = navDetails,
+                        Evnt_IsEdit = true
+                    };
+
+                    //db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
+                    db.EventTables.Add(eventCreated);
+                    db.SaveChanges();
+
+                    // Event just added
+                    EventTable tableObj = db.EventTables.ToList()[db.EventTables.ToList().Count - 1];
+
+                    //Add event to DB
+                    EventEdit eventToEdit = new EventEdit()
+                    {
+                        EventTable = tableObj,
+                        Creator = loginUser,
+                        EE_EventIdToEdit = eventObjOnEdit.Evnt_Id,
+                        EE_DateTime = DateTime.Now,
+                        NotificationTable = notifForA
+                    };
+                    db.EventEdits.Add(eventToEdit);
+                    db.SaveChanges();
+                }
             }
-
-            if (eventSave.isPrivate)
-            {
-                //Limited to Fitness Club members
-                
-                EventTable eventCreated = new EventTable()
-                {
-                    Evnt_Is_Private = Convert.ToByte(eventSave.isPrivate),
-                    Evnt_Capacity = Int32.Parse(eventSave.mem_capacity),
-                    Evnt_Start_DateTime = Convert.ToDateTime(eventSave.startDateTime),
-                    Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime),
-                    EventTypeET_Id = eventType,
-                    MemberTable = adminRecord,
-                    LocationTables = localList,
-                    Evnt_NavigDetails = navDetails,
-                    FitnessClub = adminRecord.FitnessClub,
-                    Evnt_IsEdit = true
-                };
-
-                //db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
-                db.EventTables.Add(eventCreated);
-                db.SaveChanges();
-
-                // Event just added
-                EventTable tableObj = db.EventTables.ToList()[db.EventTables.ToList().Count - 1];
-
-                //Add event to DB
-                EventEdit eventToEdit = new EventEdit()
-                {
-                    EventTable = tableObj,
-                    Creator = loginUser,
-                    EE_EventIdToEdit = eventObjOnEdit.Evnt_Id,
-                    EE_DateTime = DateTime.Now,
-                    NotificationTable = tbleSaved
-                };
-                db.EventEdits.Add(eventToEdit);
-                db.SaveChanges();
-
-            }
-            else
-            {
-                //Add event to DB
-                EventTable eventCreated = new EventTable()
-                {
-                    Evnt_Is_Private = Convert.ToByte(eventSave.isPrivate),
-                    Evnt_Capacity = Int32.Parse(eventSave.mem_capacity),
-                    Evnt_Start_DateTime = Convert.ToDateTime(eventSave.startDateTime),
-                    Evnt_End_DateTime = Convert.ToDateTime(eventSave.endDateTime),
-                    EventTypeET_Id = eventType,
-                    MemberTable = adminRecord,
-                    LocationTables = localList,
-                    Evnt_NavigDetails = navDetails,
-                    Evnt_IsEdit = true
-                };
-
-                //db.Entry(eventCreated).State = System.Data.Entity.EntityState.Modified;
-                db.EventTables.Add(eventCreated);
-                db.SaveChanges();
-
-                // Event just added
-                EventTable tableObj = db.EventTables.ToList()[db.EventTables.ToList().Count - 1];
-
-                //Add event to DB
-                EventEdit eventToEdit = new EventEdit()
-                {
-                    EventTable = tableObj,
-                    Creator = loginUser,
-                    EE_EventIdToEdit = eventObjOnEdit.Evnt_Id,
-                    EE_DateTime = DateTime.Now,
-                    NotificationTable = tbleSaved
-                };
-                db.EventEdits.Add(eventToEdit);
-                db.SaveChanges();
-            }
-            
             return RedirectToAction("Index", "Home");
         }
 
