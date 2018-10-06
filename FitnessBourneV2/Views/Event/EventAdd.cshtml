@@ -112,56 +112,64 @@
 
     function setEdit() {
 
-        //Location list entered
-        var locationList = [];
-        $('.leaflet-control-container input').each(function () {
+        var $form = $('#mainForm');
+        if (true) {
+            //valid
+            //Location list entered
+            var locationList = [];
+            $('.leaflet-control-container input').each(function () {
 
-            if (this.value != "") {
-                locationList.push(this.value);
-            }
-        });
-
-        //Keep copy of locations only
-        var locRefList = locationList;
-
-        //Direction string list after placing a delimiter in locationList (;;;;)
-        locationList.push(";;;;")
-
-        //Distance text
-        var distanceTxt = $('.leaflet-routing-alt h3').text();
-        locationList.push(distanceTxt);
-
-        //Loop through direction element
-        $('.leaflet-routing-alt table tbody tr').each(function () {
-
-            var directionTxtSTR = this.getElementsByTagName("td")[1].innerHTML;
-            locationList.push(directionTxtSTR)
-        });
-
-        //Add error string
-        var errorDispString = "Provide both start and end location to register the event";
-
-        if (locRefList.length < 2) {
-
-            // Start and End location required
-            alert(errorDispString)
-        } else {
-
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("setLocation", "Event")',
-                data: {"anchorname": locationList},
-                success: function (response) {
-
-                    document.getElementById("mainForm").submit();
-                },
-                error: function () {
-
-                    alert("Error in contacting server!");
-
+                if (this.value != "") {
+                    locationList.push(this.value);
                 }
             });
+
+            //Keep copy of locations only
+            var locRefList = locationList;
+
+            //Direction string list after placing a delimiter in locationList (;;;;)
+            locationList.push(";;;;")
+
+            //Distance text
+            var distanceTxt = $('.leaflet-routing-alt h3').text();
+            locationList.push(distanceTxt);
+
+            //Loop through direction element
+            $('.leaflet-routing-alt table tbody tr').each(function () {
+
+                var directionTxtSTR = this.getElementsByTagName("td")[1].innerHTML;
+                locationList.push(directionTxtSTR)
+            });
+
+            //Add error string
+            var errorDispString = "Provide both start and end location to register the event";
+
+            if (locRefList.length < 2) {
+
+                // Start and End location required
+                alert(errorDispString)
+            } else {
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("setLocation", "Event")',
+                    data: {"anchorname": locationList},
+                    success: function (response) {
+
+                        document.getElementById("mainForm").submit();
+                    },
+                    error: function () {
+
+                        alert("Error in contacting server!");
+
+                    }
+                });
+            }
+        } else {
+            //not valid
+            alert("Validation Error");
         }
+        
 
     }
 </script>
