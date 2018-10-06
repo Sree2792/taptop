@@ -99,7 +99,10 @@
     //Date formatting
     $(function () {
         $('#datetimepickerStart').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm'
+            format: 'YYYY-MM-DD HH:mm',
+            minDate: moment()
+        }).on('dp.change', function (e) {
+            $('#datetimepickerEnd').data("DateTimePicker").minDate(e.date)
         });
 
         $('#datetimepickerEnd').datetimepicker({

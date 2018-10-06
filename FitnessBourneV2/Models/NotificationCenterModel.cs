@@ -21,5 +21,6 @@ namespace FitnessBourneV2.Models
         public string stopDT { get; set; }
         public bool isEventAdmin { get; set; }
         public string youAre { get; set; }
+        public bool isEventDeleted { get; set; }
     }
 }

@@ -11,97 +11,123 @@
 {
     for (int j = 0; j < Model.listOfNotif.Count; j++)
     {
-        <div class="row businesscard">
-            <div class="col-md-10 col-md-offset-3">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label class="labelTxt">Notification Message: </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        @Html.TextAreaFor(m => m.listOfNotif[j].notifMessage, new { @class = "txtBox", @readonly = "readonly", @id = "notifMessage" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <label class="labelTxt">Event Type: </label>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="labelTxt">You are: </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        @Html.TextBoxFor(m => m.listOfNotif[j].eventType, new { @class = "txtBox", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-3">
-                        @Html.TextBoxFor(m => m.listOfNotif[j].youAre, new { @class = "txtBox", @readonly = "readonly" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <label class="labelTxt">Event Start Location: </label>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="labelTxt">Event Stop Location: </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        @Html.TextBoxFor(m => m.listOfNotif[j].startLoc, new { @class = "txtBox", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-3">
-                        @Html.TextBoxFor(m => m.listOfNotif[j].stopLoc, new { @class = "txtBox", @readonly = "readonly" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <label class="labelTxt">Event Start Date: </label>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="labelTxt">Event Stop Date: </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        @Html.TextBoxFor(m => m.listOfNotif[j].startDT, new { @class = "txtBox", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-3">
-                        @Html.TextBoxFor(m => m.listOfNotif[j].stopDT, new { @class = "txtBox", @readonly = "readonly" })
-                    </div>
-                </div>
-                @{ 
-                    String confirmNotifStr = "confirm;" + j.ToString();
-                    String deleteNotifStr = "delete;" + j.ToString();
-                }
-                @if (Model.listOfNotif[j].isEventAdmin)
-                        {
-                            
+        String confirmNotifStr = "confirm;" + j.ToString();
+        String deleteNotifStr = "delete;" + j.ToString();
+
+        if (Model.listOfNotif[j].isEventDeleted)
+        {
+            <div class="row businesscard">
+                <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-3">
-                            <button class="deleteEditBtnNotif" type="button" onclick="notifUpdate('@confirmNotifStr')"> Confirm Change</button>
-                        </div>
-                        <div class="col-md-3">
-                            <button class="deleteEditBtnNotif" type="button" onclick="notifUpdate('@deleteNotifStr')"> Delete Notification</button>
+                            <label class="labelTxt">Notification Message: </label>
                         </div>
                     </div>
-                }
-                else
-                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.TextAreaFor(m => m.listOfNotif[j].notifMessage, new { @class = "txtBox", @readonly = "readonly", @id = "notifMessage" })
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <button type="button" onclick="notifUpdate('@deleteNotifStr')"> Delete Notification</button>
                         </div>
                     </div>
+                </div>
+                </div>
                 }
-            </div>
+                else
+                {
+                <div class="row businesscard">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="labelTxt">Notification Message: </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.TextAreaFor(m => m.listOfNotif[j].notifMessage, new { @class = "txtBox", @readonly = "readonly", @id = "notifMessage" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="labelTxt">Event Type: </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="labelTxt">You are: </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(m => m.listOfNotif[j].eventType, new { @class = "txtBox", @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(m => m.listOfNotif[j].youAre, new { @class = "txtBox", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="labelTxt">Event Start Location: </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="labelTxt">Event Stop Location: </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(m => m.listOfNotif[j].startLoc, new { @class = "txtBox", @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(m => m.listOfNotif[j].stopLoc, new { @class = "txtBox", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="labelTxt">Event Start Date: </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="labelTxt">Event Stop Date: </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(m => m.listOfNotif[j].startDT, new { @class = "txtBox", @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(m => m.listOfNotif[j].stopDT, new { @class = "txtBox", @readonly = "readonly" })
+                            </div>
+                        </div>
 
-        </div>
-    }
-}
+                        @if (Model.listOfNotif[j].isEventAdmin)
+                        {
 
-    <script>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button class="deleteEditBtnNotif" type="button" onclick="notifUpdate('@confirmNotifStr')"> Confirm Change</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="deleteEditBtnNotif" type="button" onclick="notifUpdate('@deleteNotifStr')"> Delete Notification</button>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" onclick="notifUpdate('@deleteNotifStr')"> Delete Notification</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                }
+
+                }
+                }
+
+                <script>
         function notifUpdate(notif) {
 
             $.ajax({
@@ -122,5 +148,5 @@
         }
 
 
-    </script>
+                </script>
 

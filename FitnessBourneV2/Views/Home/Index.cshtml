@@ -89,7 +89,7 @@
             <div class="col-md-8 col-md-offset-2" id="MotivContainer">
                 <div>
                     <img src="~/Image/Motiv_Image3.jpg" class="motivBlock2" />
-                    <div class="MotivTxt" id="MotivTxtDiv3"><strong>"Fit is not a destination, it is a way of life."</strong></div>
+                    <div class="MotivTxt" id="MotivTxtDiv3"><strong>"Fitness is not a destination, it is a way of life."</strong></div>
                 </div>
             </div>
         </div>
@@ -100,12 +100,50 @@
         </div>
         <div class="row contactUs">
             <div class="col-md-8 col-md-offset-2">
-                <span><strong>Developer Team</strong></span><br />
-                <span>Email Id: sjay0010@student.monash.edu</span><br /><br /><br />
-                <span><strong>Admin</strong></span><br />
-                <span>Email Id: sreejith2792@admin.fitnessbourne.edu</span><br />
+                <div class="row">
+                    <label id="contactLabel"> Contact Us Message :</label>
+                </div>
+                <div class="row">
+                    <textarea id="contactUsMessage"></textarea>
+                </div>
+                <div>
+                    <button type="button" onclick="contactus()">   Contact Us   </button>
+                </div>
+                
+                <!--<span><strong>Developer Team</strong></span><br />
+    <span>Email Id: sjay0010@student.monash.edu</span><br /><br /><br />
+    <span><strong>Admin</strong></span><br />
+    <span>Email Id: sreejith2792@admin.fitnessbourne.edu</span><br />-->
+
             </div>
         </div>
     </div>
 }
+
+    <script>
+    function contactus() {
+
+        var str = document.getElementById("contactUsMessage").value;
+
+        if (str != "") {
+            // send contactus message
+        $.ajax({
+                type: "POST",
+                url: '@Url.Action("contactUs", "Home")',
+                data: { "anchorname": str},
+                success: function (response) {
+                    document.getElementById("contactUsMessage").value = "";
+                },
+                error: function () {
+
+                    alert("Error in contacting server!");
+
+                }
+            });
+        } else {
+            alert("Type in some message");
+        }
+
+    }
+    </script>
 

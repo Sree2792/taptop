@@ -192,6 +192,74 @@ namespace FitnessBourneV2.Controllers
             //get event joined
             EventTable eventDet = db.EventTables.Find(anchorname);
 
+            if(eventDet.EventMembers.Count > 0)
+            {
+                //participants present
+                List<LocationTable> localList = new List<LocationTable>();
+                //Setting location feeds
+                List<LocationTable> locList = eventDet.LocationTables.ToList();
+                int startId = locList[0].Loc_Id;
+                int stopId = 0;
+                string startLoc = "";
+                string stopLoc = "";
+                List<string> checkPointList = new List<string>();
+                //getting location string
+                foreach (LocationTable record in locList)
+                {
+                    if (startId >= record.Loc_Id)
+                    {
+                        startLoc = record.Loc_Ref_Name;
+                        startId = record.Loc_Id;
+                    }
+                    if (stopId < record.Loc_Id)
+                    {
+                        stopLoc = record.Loc_Ref_Name;
+                        stopId = record.Loc_Id;
+                    }
+                    checkPointList.Add(record.Loc_Ref_Name);
+                }
+                //remove start and stop from check points
+                checkPointList.Remove(startLoc);
+                checkPointList.Remove(stopLoc);
+
+                // Event type linking
+                string eventType = "";
+                foreach (var record in db.EventTypes.ToList())
+                {
+                    if (record.ET_Id == eventDet.EventTypeET_Id)
+                    {
+                        eventType = record.ET_Name;
+                    }
+                }
+
+                // create notification for participant on event delete
+                NotificationTable notifTble = new NotificationTable()
+                {
+                    Notif_Type = "p",
+                    Notif_Message = "The " + eventType + " event you registered on " + eventDet.Evnt_Start_DateTime.ToString() + " from " + startLoc + " to " + stopLoc + " has been deleted."
+                };
+
+                db.NotificationTables.Add(notifTble);
+                db.SaveChanges();
+
+                foreach (EventMembers eveMem in eventDet.EventMembers)
+                {
+                    // loop through members of event
+                    // Notification table for notification
+                    NotificationActionTable actTble = new NotificationActionTable()
+                    {
+                        NA_Decision = "NO",
+                        MemberTable = eveMem.MemberTable,
+                        NotificationTable = notifTble,
+                        EventTable = eventDet
+                    };
+
+                    db.NotificationActionTables.Add(actTble);
+                    db.SaveChanges();
+                }
+            }
+            
+
             //delete locations in event
             eventDet.LocationTables.Clear();
 
@@ -211,9 +279,7 @@ namespace FitnessBourneV2.Controllers
                     db.SaveChanges();
                 }
             }
-
-           
-
+            
             //Delete event
             db.EventTables.Remove(eventDet);
             db.SaveChanges();

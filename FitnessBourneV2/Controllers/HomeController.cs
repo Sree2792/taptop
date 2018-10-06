@@ -207,27 +207,7 @@ namespace FitnessBourneV2.Controllers
                 db.FitnessClubs.Add(fClub7);
                 db.SaveChanges();
             }
-
-            //To install package-: Install-Package SendGrid
-            //var apiKey = Environment.GetEnvironmentVariable("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");
-            var client = new SendGridClient("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");
-
-            var from = new EmailAddress("user1@gmail.com", "Example User");
-
-            var subject = "Sending with SendGrid is Fun";
-
-            var to = new EmailAddress("sreejith92pf@gmail.com", "Example User");
-
-            var plainTextContent = "and easy to do anywhere, even with C#";
-
-            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
-
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = client.SendEmailAsync(msg);
-
-            //var response = await client.SendEmailAsync(msg);
-
-
+            
             if (Request.IsAuthenticated)
             {
 
@@ -261,6 +241,27 @@ namespace FitnessBourneV2.Controllers
         public void setSession(string ItemRows)
         {
             Session["ScreenNavName"] = ItemRows;
+        }
+
+        [HttpPost]
+        public void contactUs(string anchorname)
+        {
+            //To install package-: Install-Package SendGrid
+            //var apiKey = Environment.GetEnvironmentVariable("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");
+            var client = new SendGridClient("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");
+
+            var from = new EmailAddress(User.Identity.Name.ToString(), "User");
+
+            var subject = "Trouble shooting message from user";
+
+            var to = new EmailAddress("sreejith92pf@gmail.com", "Admin");
+
+            var plainTextContent = anchorname;
+
+            var htmlContent = "<strong>" + anchorname  + "</strong>";
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = client.SendEmailAsync(msg);
         }
     }
 }
