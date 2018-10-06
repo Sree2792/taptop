@@ -30,10 +30,10 @@ namespace FitnessBourneV2.Controllers
             //List<NotificationActionTable> listNotifTable = new List<NotificationActionTable>();
             List<NotificationObject> listOfNotif = new List<NotificationObject>();
 
-            foreach(NotificationActionTable actTable in db.NotificationActionTables.ToList())
+            foreach (NotificationActionTable actTable in db.NotificationActionTables.ToList())
             {
                 // Add all notif for the login user
-                if(actTable.MemberTable.Mem_Id == loginUser.Mem_Id)
+                if (actTable.MemberTable.Mem_Id == loginUser.Mem_Id)
                 {
                     //listNotifTable.Add(actTable);
 
@@ -74,7 +74,7 @@ namespace FitnessBourneV2.Controllers
                     bool isAdmin = false;
                     string userType = "Event Participant";
 
-                    if(notifTable.Notif_Type == "A")
+                    if (notifTable.Notif_Type == "A")
                     {
                         isAdmin = true;
                         userType = "Event Admin";
@@ -117,7 +117,7 @@ namespace FitnessBourneV2.Controllers
                 Session["AlertMessage"] = "You do not have any notification to approve!!!";
                 return RedirectToAction("Index", "Home");
             }
-            
+
         }
 
         public ActionResult notifResult(NotificationCenterModel notifModel)
@@ -141,7 +141,7 @@ namespace FitnessBourneV2.Controllers
             if (Session["NotificationStatus"].ToString() == "confirm")
             {
                 //Create new notifications for participant of events
-                if(eventTble.EventMembers.Count > 0)
+                if (eventTble.EventMembers.Count > 0)
                 {
                     //there are members
 
@@ -157,7 +157,6 @@ namespace FitnessBourneV2.Controllers
                     string startLoc = "";
                     string stopLoc = "";
                     List<string> checkPointList = new List<string>();
-                    string checkPoint = "";
                     //getting location string
                     foreach (LocationTable record in locList)
                     {
@@ -197,7 +196,7 @@ namespace FitnessBourneV2.Controllers
                     db.NotificationTables.Add(notifTble);
                     db.SaveChanges();
 
-                    foreach(EventMembers eveMem in eventTble.EventMembers)
+                    foreach (EventMembers eveMem in eventTble.EventMembers)
                     {
                         // loop through members of event
                         // Notification table for notification
@@ -212,9 +211,9 @@ namespace FitnessBourneV2.Controllers
                         db.SaveChanges();
                     }
 
-                    
+
                 }
-                
+
                 // edit event
                 editedEventTble.Evnt_Id = eventTble.Evnt_Id;
 
@@ -272,4 +271,5 @@ namespace FitnessBourneV2.Controllers
             NotificationCenterModel modelObj = (NotificationCenterModel)Session["NotifList"];
             Session["SelectedNotification"] = modelObj.listOfNotif[Convert.ToInt32(words[1])];
         }
+    }
 }

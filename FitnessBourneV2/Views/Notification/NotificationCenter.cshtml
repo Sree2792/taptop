@@ -7,9 +7,9 @@
 
 <link rel="stylesheet" type="text/css" href="~/Content/EventDetails.css">
 
-@using (Html.BeginForm("EventSaveOnEdit", "Notification", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
+@using (Html.BeginForm("notifResult", "Notification", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
 {
-    @for (int j = 0; j < Model.listOfNotif.Count; j++)
+    for (int j = 0; j < Model.listOfNotif.Count; j++)
     {
         <div class="row businesscard">
             <div class="col-md-10 col-md-offset-3">
