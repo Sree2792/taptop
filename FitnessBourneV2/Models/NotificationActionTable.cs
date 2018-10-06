@@ -16,9 +16,11 @@ namespace FitnessBourneV2.Models
     {
         public int NA_Id { get; set; }
         public string NA_Decision { get; set; }
-        public int NotificationTableNotif_Id { get; set; }
+        public Nullable<int> MemberTableMem_Id { get; set; }
+        public Nullable<int> NotificationTableNotif_Id { get; set; }
     
         public virtual MemberTable MemberTable { get; set; }
         public virtual NotificationTable NotificationTable { get; set; }
+        public virtual EventTable EventTable { get; set; }
     }
 }

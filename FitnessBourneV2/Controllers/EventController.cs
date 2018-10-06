@@ -226,7 +226,7 @@ namespace FitnessBourneV2.Controllers
         {
             //Event table on edit
             EventTable eventObjOnEdit = (EventTable)Session["EventToEdit"];
-
+            EventTable eventObjOrg = db.EventTables.Find(eventObjOnEdit.Evnt_Id);
             //get login member table
             MemberTable loginUser = new MemberTable();
             foreach (MemberTable record in db.MemberTables.ToList())
@@ -349,7 +349,9 @@ namespace FitnessBourneV2.Controllers
                         NA_Decision = "NO",
                         NotificationTableNotif_Id = notifForP.Notif_Id,
                         MemberTable = mem,
-                        NotificationTable = notifForP
+                        NotificationTable = notifForP,
+                        EventTable = eventObjOrg
+
                     };
 
                     db.NotificationActionTables.Add(notifAct);
@@ -405,7 +407,8 @@ namespace FitnessBourneV2.Controllers
                     NA_Decision = "NO",
                     NotificationTableNotif_Id = notifForA.Notif_Id,
                     MemberTable = adminForNotif,
-                    NotificationTable = notifForA
+                    NotificationTable = notifForA,
+                    EventTable = eventObjOrg
                 };
 
                 db.NotificationActionTables.Add(notifAct);

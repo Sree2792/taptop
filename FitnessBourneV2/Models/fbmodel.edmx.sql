@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/06/2018 03:43:54
+-- Date Created: 10/07/2018 07:05:49
 -- Generated from EDMX file: \\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2018\FitnessBourneV2\Models\fbmodel.edmx
 -- --------------------------------------------------
 
@@ -26,9 +26,6 @@ IF OBJECT_ID(N'[dbo].[FK_LocationTableEventTable_EventTable]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_NotificationTableEventEdit]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventEdits] DROP CONSTRAINT [FK_NotificationTableEventEdit];
-GO
-IF OBJECT_ID(N'[dbo].[FK_NotificationActionTableMemberTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[NotificationActionTables] DROP CONSTRAINT [FK_NotificationActionTableMemberTable];
 GO
 IF OBJECT_ID(N'[dbo].[FK_EventEditMemberTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventEdits] DROP CONSTRAINT [FK_EventEditMemberTable];
@@ -59,6 +56,9 @@ IF OBJECT_ID(N'[dbo].[FK_EventMembersMemberTable]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_EventTableMemberTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventTables] DROP CONSTRAINT [FK_EventTableMemberTable];
+GO
+IF OBJECT_ID(N'[dbo].[FK_NotificationActionTableMemberTable]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[NotificationActionTables] DROP CONSTRAINT [FK_NotificationActionTableMemberTable];
 GO
 IF OBJECT_ID(N'[dbo].[FK_NotificationTableNotificationActionTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[NotificationActionTables] DROP CONSTRAINT [FK_NotificationTableNotificationActionTable];
@@ -161,8 +161,10 @@ GO
 CREATE TABLE [dbo].[NotificationActionTables] (
     [NA_Id] int IDENTITY(1,1) NOT NULL,
     [NA_Decision] nvarchar(max)  NOT NULL,
-    [NotificationTableNotif_Id] int  NOT NULL,
-    [MemberTable_Mem_Id] int  NOT NULL
+    [MemberTableMem_Id] int  NULL,
+    [NotificationTableNotif_Id] int  NULL,
+    [MemberTable_Mem_Id] int  NULL,
+    [EventTable_Evnt_Id] int  NULL
 );
 GO
 
@@ -179,7 +181,7 @@ CREATE TABLE [dbo].[EventEdits] (
     [EE_Id] int IDENTITY(1,1) NOT NULL,
     [EE_DateTime] datetime  NOT NULL,
     [EE_EventIdToEdit] int  NOT NULL,
-    [NotificationTable_Notif_Id] int  NOT NULL,
+    [NotificationTable_Notif_Id] int  NULL,
     [Creator_Mem_Id] int  NOT NULL,
     [EventTable_Evnt_Id] int  NOT NULL
 );
@@ -343,21 +345,6 @@ ON [dbo].[EventEdits]
     ([NotificationTable_Notif_Id]);
 GO
 
--- Creating foreign key on [MemberTable_Mem_Id] in table 'NotificationActionTables'
-ALTER TABLE [dbo].[NotificationActionTables]
-ADD CONSTRAINT [FK_NotificationActionTableMemberTable]
-    FOREIGN KEY ([MemberTable_Mem_Id])
-    REFERENCES [dbo].[MemberTables]
-        ([Mem_Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_NotificationActionTableMemberTable'
-CREATE INDEX [IX_FK_NotificationActionTableMemberTable]
-ON [dbo].[NotificationActionTables]
-    ([MemberTable_Mem_Id]);
-GO
-
 -- Creating foreign key on [Creator_Mem_Id] in table 'EventEdits'
 ALTER TABLE [dbo].[EventEdits]
 ADD CONSTRAINT [FK_EventEditMemberTable]
@@ -508,6 +495,21 @@ ON [dbo].[EventTables]
     ([MemberTable_Mem_Id]);
 GO
 
+-- Creating foreign key on [MemberTable_Mem_Id] in table 'NotificationActionTables'
+ALTER TABLE [dbo].[NotificationActionTables]
+ADD CONSTRAINT [FK_NotificationActionTableMemberTable]
+    FOREIGN KEY ([MemberTable_Mem_Id])
+    REFERENCES [dbo].[MemberTables]
+        ([Mem_Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_NotificationActionTableMemberTable'
+CREATE INDEX [IX_FK_NotificationActionTableMemberTable]
+ON [dbo].[NotificationActionTables]
+    ([MemberTable_Mem_Id]);
+GO
+
 -- Creating foreign key on [NotificationTableNotif_Id] in table 'NotificationActionTables'
 ALTER TABLE [dbo].[NotificationActionTables]
 ADD CONSTRAINT [FK_NotificationTableNotificationActionTable]
@@ -521,6 +523,21 @@ GO
 CREATE INDEX [IX_FK_NotificationTableNotificationActionTable]
 ON [dbo].[NotificationActionTables]
     ([NotificationTableNotif_Id]);
+GO
+
+-- Creating foreign key on [EventTable_Evnt_Id] in table 'NotificationActionTables'
+ALTER TABLE [dbo].[NotificationActionTables]
+ADD CONSTRAINT [FK_NotificationActionTableEventTable]
+    FOREIGN KEY ([EventTable_Evnt_Id])
+    REFERENCES [dbo].[EventTables]
+        ([Evnt_Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_NotificationActionTableEventTable'
+CREATE INDEX [IX_FK_NotificationActionTableEventTable]
+ON [dbo].[NotificationActionTables]
+    ([EventTable_Evnt_Id]);
 GO
 
 -- --------------------------------------------------

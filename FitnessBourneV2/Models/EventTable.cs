@@ -19,6 +19,7 @@ namespace FitnessBourneV2.Models
         {
             this.LocationTables = new HashSet<LocationTable>();
             this.EventMembers = new HashSet<EventMembers>();
+            this.NotificationActionTables = new HashSet<NotificationActionTable>();
         }
     
         public int Evnt_Id { get; set; }
@@ -39,5 +40,7 @@ namespace FitnessBourneV2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventMembers> EventMembers { get; set; }
         public virtual MemberTable MemberTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NotificationActionTable> NotificationActionTables { get; set; }
     }
 }

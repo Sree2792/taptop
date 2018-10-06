@@ -17,10 +17,10 @@ namespace FitnessBourneV2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MemberTable()
         {
-            this.NotificationActionTable = new HashSet<NotificationActionTable>();
             this.EventEdited = new HashSet<EventEdit>();
             this.EventMembers = new HashSet<EventMembers>();
             this.EventTables = new HashSet<EventTable>();
+            this.NotificationActionTables = new HashSet<NotificationActionTable>();
         }
     
         public int Mem_Id { get; set; }
@@ -32,13 +32,13 @@ namespace FitnessBourneV2.Models
     
         public virtual FitnessClub FitnessClub { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NotificationActionTable> NotificationActionTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventEdit> EventEdited { get; set; }
         public virtual AddressTable AddressTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventMembers> EventMembers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventTable> EventTables { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NotificationActionTable> NotificationActionTables { get; set; }
     }
 }
