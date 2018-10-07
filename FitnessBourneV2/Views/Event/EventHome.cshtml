@@ -255,8 +255,9 @@
         });
      });
 
-    $(document).ready(function () {
-            //get data for map
+        $(document).ready(function () {
+
+        //get data for map
         $.ajax({
         type: "POST",
         url: '@Url.Action("GetLocation", "Event")',
