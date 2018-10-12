@@ -31,153 +31,154 @@
                             {
                                 className = className + " active";
                             }
-                            <div class="@className">
-                                <div class="row" id="EventDetail">
-                                    <div class="row">
-                                        <div class="col-md-2 col-md-offset-3">
-                                            <h1 style="color:white;">@Model.eventList[i].EventypeInView</h1>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="labelTxt">Event Start Datetime :</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="labelTxt">Event End Datetime  :</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.eventList[i].eventStartTime, new { @class = "eventStartDT txtBox", @readonly = "readonly" })
-                                        </div>
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.eventList[i].eventEndTime, new { @class = "eventEndDT txtBox", @readonly = "readonly" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="labelTxt">Event Start Location :</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="labelTxt">Event End Location  :</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.eventList[i].startLoc, new { @class = "eventStartDT txtBox", @readonly = "readonly" })
-                                        </div>
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.eventList[i].stopLoc, new { @class = "eventEndDT txtBox", @readonly = "readonly" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="labelTxt">Event Check Point Locations :</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            @Html.TextAreaFor(m => m.eventList[i].checkPoints, new { @class = "checkPointLoc txtBox", @readonly = "readonly", @id = "checkTxt" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="labelTxt">Total Distance :</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            @Html.TextBoxFor(m => m.eventList[i].totalDistance, new { @class = "totalDistance txtBox", @readonly = "readonly" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="labelTxt">Navigation Directions :</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            @Html.TextAreaFor(m => m.eventList[i].navInstructions, new { @class = "navInstruction txtBox", @readonly = "readonly", @id = "navInstrTxt" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="labelTxt">Seat Availability :</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="labelTxt">Total Capacity  :</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.eventList[i].seatAvailblity, new { @class = "seatavailability txtBox", @readonly = "readonly" })
-                                        </div>
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.eventList[i].totalCapacity, new { @class = "totalcapacity txtBox", @readonly = "readonly" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <button class="deleteEditBtn" type="button" onclick="deleteEvent(@Model.eventList[i].eventID)">   Remove   </button>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button class="deleteEditBtn" type="button" onclick="location.href='@Url.Action("EventEdit", "Event", new { eventID = @Model.eventList[i].eventID })'">   Edit   </button>
-                                        </div>
+                        <div class="@className">
+                            <div class="row" id="EventDetail">
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-3">
+                                        <h1 style="color:white;">@Model.eventList[i].EventypeInView</h1>
                                     </div>
                                 </div>
-                                <div class="row" id="PageSlider">
-                                    <!--Slider pages-->
-                                    <ol class="carousel-indicators" id="pageIndi">
-                                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                                        @for (int k = 1; k < Model.eventList.Count; k++)
-                                        {
-                                            var pos = '"' + k.ToString() + '"';
-                                            <li data-target="#myCarousel" data-slide-to=@pos></li>
-                                        }
-                                    </ol>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Event Start Datetime :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Event End Datetime  :</label>
+                                    </div>
                                 </div>
-                                @if (Model.eventList[i].EventMembers.Count > 0)
-                                {
-                                    <div class="row" id="EventMembers">
-                                        <div class="col-md-4">
-                                            <table id="example" class="table table-bordered" style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Member Email</th>
-                                                        <th>Member Contact Number</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @for (int j = 0; j < Model.eventList[i].EventMembers.Count; j++)
-                                                    {
-                                                        <tr>
-                                                            <td>@Model.eventList[i].EventMembers[j].Mem_Email_Id</td>
-                                                            <td>@Model.eventList[i].EventMembers[j].Mem_Contact_No</td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                                @if (Model.eventList[i].EventMembers.Count > 5)
-                                                {
-                                                    <tfoot>
-                                                        <tr>
-                                                            <th>Member Email</th>
-                                                            <th>Member Contact Number</th>
-                                                        </tr>
-                                                    </tfoot>
-                                                }
-
-                                            </table>
-                                        </div>
-
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[i].eventStartTime, new { @class = "eventStartDT txtBox", @readonly = "readonly" })
                                     </div>
-                                }
-                                else
-                                {
-                                    <div class="row" id="NoMembers">
-                                        <span><strong>No members have joined yet</strong></span>
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[i].eventEndTime, new { @class = "eventEndDT txtBox", @readonly = "readonly" })
                                     </div>
-                                }
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Event Start Location :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Event End Location  :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[i].startLoc, new { @class = "eventStartDT txtBox", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[i].stopLoc, new { @class = "eventEndDT txtBox", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labelTxt">Event Check Point Locations :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(m => m.eventList[i].checkPoints, new { @class = "checkPointLoc txtBox", @readonly = "readonly", @id = "checkTxt" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labelTxt">Total Distance :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.eventList[i].totalDistance, new { @class = "totalDistance txtBox", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labelTxt">Navigation Directions :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(m => m.eventList[i].navInstructions, new { @class = "navInstruction txtBox", @readonly = "readonly", @id = "navInstrTxt" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Seat Availability :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="labelTxt">Total Capacity  :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[i].seatAvailblity, new { @class = "seatavailability txtBox", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.eventList[i].totalCapacity, new { @class = "totalcapacity txtBox", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <button class="deleteEditBtn" type="button" onclick="deleteEvent(@Model.eventList[i].eventID)">   Remove   </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="deleteEditBtn" type="button" onclick="location.href='@Url.Action("EventEdit", "Event", new { eventID = @Model.eventList[i].eventID })'">   Edit   </button>
+                                    </div>
+                                </div>
                             </div>
+
+                            @if (Model.eventList[i].EventMembers.Count > 0)
+    {
+                        <div class="row" id="EventMembers">
+                            <div class="col-md-4">
+                                <table id="example" class="table table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Member Email</th>
+                                            <th>Member Contact Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int j = 0; j < Model.eventList[i].EventMembers.Count; j++)
+                {
+                        <tr>
+                            <td>@Model.eventList[i].EventMembers[j].Mem_Email_Id</td>
+                            <td>@Model.eventList[i].EventMembers[j].Mem_Contact_No</td>
+                        </tr>
+}
+                                    </tbody>
+                                    @if (Model.eventList[i].EventMembers.Count > 5)
+            {
+                        <tfoot>
+                            <tr>
+                                <th>Member Email</th>
+                                <th>Member Contact Number</th>
+                            </tr>
+                        </tfoot>
+}
+
+                                </table>
+                            </div>
+
+                        </div>
+}
+else
+{
+                        <div class="row" id="NoMembers">
+                            <span><strong>No members have joined yet</strong></span>
+                        </div>
+}
+                            <div class="row" id="PageSlider">
+                                <!--Slider pages-->
+                                <ol class="carousel-indicators" id="pageIndi">
+                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                    @for (int k = 1; k < Model.eventList.Count; k++)
+            {
+                var pos = '"' + k.ToString() + '"';
+                        <li data-target="#myCarousel" data-slide-to=@pos></li>
+}
+                                </ol>
+                            </div>
+                        </div>
 
 
                         }

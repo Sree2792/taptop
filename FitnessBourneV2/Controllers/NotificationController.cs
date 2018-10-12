@@ -173,9 +173,8 @@ namespace FitnessBourneV2.Controllers
                 if (eventTbleOrginal.EventMembers.Count > 0)
                 {
                     //there are members
-                    
-
                     List<LocationTable> localList = new List<LocationTable>();
+
                     //Setting location feeds
                     List<LocationTable> locList = eventTbleOrginal.LocationTables.ToList();
                     int startId = locList[0].Loc_Id;
@@ -183,6 +182,7 @@ namespace FitnessBourneV2.Controllers
                     string startLoc = "";
                     string stopLoc = "";
                     List<string> checkPointList = new List<string>();
+
                     //getting location string
                     foreach (LocationTable record in locList)
                     {
@@ -198,6 +198,7 @@ namespace FitnessBourneV2.Controllers
                         }
                         checkPointList.Add(record.Loc_Ref_Name);
                     }
+
                     //remove start and stop from check points
                     checkPointList.Remove(startLoc);
                     checkPointList.Remove(stopLoc);

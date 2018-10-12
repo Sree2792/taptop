@@ -22,7 +22,7 @@ namespace FitnessBourneV2.Controllers
                 // event type cycling
                 EventType typeOne = new EventType()
                 {
-                    ET_Name = "Cycling"
+                    ET_Name = "cycling"
                 };
                 db.EventTypes.Add(typeOne);
                 db.SaveChanges();
@@ -30,7 +30,7 @@ namespace FitnessBourneV2.Controllers
                 //event type walking
                 EventType typeTwo = new EventType()
                 {
-                    ET_Name = "Walking"
+                    ET_Name = "walking"
                 };
                 db.EventTypes.Add(typeTwo);
                 db.SaveChanges();
@@ -38,7 +38,7 @@ namespace FitnessBourneV2.Controllers
                 // event type Running
                 EventType typeThree = new EventType()
                 {
-                    ET_Name = "Running"
+                    ET_Name = "running"
                 };
                 db.EventTypes.Add(typeThree);
                 db.SaveChanges();

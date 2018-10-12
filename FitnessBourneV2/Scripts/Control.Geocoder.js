@@ -17,8 +17,8 @@
 }(function (L) {
 	'use strict';
 	L.Control.Geocoder = L.Control.extend({
-		options: {
-			showResultIcons: false,
+        options: {
+            showResultIcons: true,
 			collapsed: true,
 			expand: 'click',
 			position: 'topright',
@@ -232,6 +232,7 @@
 		}
 	});
 
+    
 	L.Control.geocoder = function(id, options) {
 		return new L.Control.Geocoder(id, options);
 	};

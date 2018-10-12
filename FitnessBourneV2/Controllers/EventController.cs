@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Mvc;
 using System.Web.Services;
 using FitnessBourneV2.Models;
+using Newtonsoft.Json;
 
 namespace FitnessBourneV2.Controllers
 {
@@ -46,9 +48,13 @@ namespace FitnessBourneV2.Controllers
                 bool memToJoin = true;
                 bool notAdmin = true;
 
-                if (subRecord.EventMembers.Count > 0)
+                foreach(EventMembers memObj in subRecord.EventMembers.ToList())
                 {
-                    memToJoin = false;
+                    if(memObj.MemberTable.Mem_Id == loginUser.Mem_Id)
+                    {
+                        memToJoin = false;
+                        break;
+                    }
                 }
 
                 if(subRecord.MemberTable.Mem_Id == loginUser.Mem_Id)
@@ -57,7 +63,7 @@ namespace FitnessBourneV2.Controllers
                 }
 
                 //filter on event type , club if private
-                if (subRecord.EventType.ET_Name == type && memToJoin && notAdmin && !subRecord.Evnt_IsEdit)
+                if (subRecord.EventType.ET_Name == type.ToLower() && memToJoin && notAdmin && !subRecord.Evnt_IsEdit)
                 {
                     if (Convert.ToBoolean(subRecord.Evnt_Is_Private))
                     {
@@ -246,6 +252,26 @@ namespace FitnessBourneV2.Controllers
             {
                 List<string> adressObj = adrString.Split(',').ToList<string>();
 
+                // create map request
+                string requestUri = string.Format("https://maps.googleapis.com/maps/api/geocode/json?address={0}&key={1}",
+                    Uri.EscapeDataString(adrString.ToString()), "AIzaSyBGU14gIoD2RQILeBNWE7ST4rEu-FJ_gcA");
+
+                // Create request
+                WebRequest request = WebRequest.Create(requestUri);
+                // Get response for request
+                WebResponse response = request.GetResponse();
+                // get data from response
+                Stream data = response.GetResponseStream();
+                // get reader
+                StreamReader reader = new StreamReader(data);
+
+                // json-formatted string from maps api
+                string responseFromServer = reader.ReadToEnd();
+                var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                MapResponse mapResponseData = JsonConvert.DeserializeObject<MapResponse>(responseFromServer);
+
+                response.Close();
+
                 AddressTable tableAdr = new AddressTable()
                 {
                     Adr_Street_Name = adressObj[0],
@@ -255,8 +281,8 @@ namespace FitnessBourneV2.Controllers
                     Adr_Zipcode = adressObj[5],
                     Adr_House_No = "",
                     Adr_Unit_No = "",
-                    Adr_Lat = 0,
-                    Adr_Long = 0
+                    Adr_Lat = Convert.ToDouble(mapResponseData.results[0].geometry.location.lat),
+                    Adr_Long = Convert.ToDouble(mapResponseData.results[0].geometry.location.lng)
 
                 };
 
@@ -289,7 +315,7 @@ namespace FitnessBourneV2.Controllers
             int eventType = 1;
             foreach (var record in db.EventTypes.ToList())
             {
-                if (record.ET_Name == eventSave.eventTypeName)
+                if (record.ET_Name == eventSave.eventTypeName.ToLower())
                 {
                     eventType = record.ET_Id;
                 }
@@ -518,7 +544,28 @@ namespace FitnessBourneV2.Controllers
                 List<LocationTable> localList = new List<LocationTable>();
                 foreach (var adrString in locationList)
                 {
+
                     List<string> adressObj = adrString.Split(',').ToList<string>();
+                    
+                    // create map request
+                    string requestUri = string.Format("https://maps.googleapis.com/maps/api/geocode/json?address={0}&key={1}",
+                        Uri.EscapeDataString(adrString.ToString()), "AIzaSyBGU14gIoD2RQILeBNWE7ST4rEu-FJ_gcA");
+
+                    // Create request
+                    WebRequest request = WebRequest.Create(requestUri);
+                    // Get response for request
+                    WebResponse response = request.GetResponse();
+                    // get data from response
+                    Stream data = response.GetResponseStream();
+                    // get reader
+                    StreamReader reader = new StreamReader(data);
+
+                    // json-formatted string from maps api
+                    string responseFromServer = reader.ReadToEnd();
+                    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                    MapResponse mapResponseData  =  JsonConvert.DeserializeObject<MapResponse>(responseFromServer);
+                    
+                    response.Close();
 
                     AddressTable tableAdr = new AddressTable()
                     {
@@ -529,8 +576,8 @@ namespace FitnessBourneV2.Controllers
                         Adr_Zipcode = adressObj[5],
                         Adr_House_No = "",
                         Adr_Unit_No = "",
-                        Adr_Lat = 0,
-                        Adr_Long = 0
+                        Adr_Lat = Convert.ToDouble(mapResponseData.results[0].geometry.location.lat),
+                        Adr_Long = Convert.ToDouble(mapResponseData.results[0].geometry.location.lng)
 
                     };
 
@@ -695,7 +742,7 @@ namespace FitnessBourneV2.Controllers
                 }
 
                 //filter on event type , club if private
-                if (subRecord.EventType.ET_Name == type && memToJoin)
+                if (subRecord.EventType.ET_Name == type.ToLower() && memToJoin)
                 {
                     if (Convert.ToBoolean(subRecord.Evnt_Is_Private))
                     {
@@ -738,6 +785,7 @@ namespace FitnessBourneV2.Controllers
                 // Append address string to list
                 locationString.Add(addrStr);
             }
+
             return Json(locationString, JsonRequestBehavior.AllowGet);
 
         }

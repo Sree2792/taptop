@@ -57,6 +57,16 @@
     top: 220%;
 }
 
+#contactUsBtn {
+    background-color: #5f1616 !important;
+    color: white;
+}
+
+.eventBtn {
+    background-color: #5f1616 !important;
+    color: white;
+}
+
 #six {
     top: 365%;
     padding: 0px;

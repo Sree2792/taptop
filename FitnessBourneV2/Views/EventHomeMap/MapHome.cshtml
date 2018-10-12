@@ -1,0 +1,86 @@
+﻿@model FitnessBourneV2.Models.EventHomeModel
+
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <div class="row">
+        <div class="col-md-2 col-md-offset-5">
+            <h1 style="color:white;">@Model.EventypeInView</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2" id='mapClubs'></div>
+    </div>
+
+    <script>
+    $(document).ready(function () {
+        //  create map object, tell it to live in 'map' div and give initial latitude, longitude, zoom values
+        //var map1 = L.map('mapClubs').locate({ setView: true, maxZoom: 11 });
+        var map1 = L.map('mapClubs', { scrollWheelZoom: false }).setView([-37.88, 145.00], 11);
+        var customOptions =
+        {
+            'maxWidth': '500'
+            };
+        var mapIcon = L.icon({
+            iconUrl: '../Image/Map_Pin.png',
+            iconSize: [38, 95], // size of the icon
+            popupAnchor: [0, -15]
+        });
+
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map1);
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success);
+
+        } else {
+            alert("Geo Location is not supported on your current browser!");
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetMap", "EventHomeMap")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+
+                var latList = data[0];
+                var longList = data[1];
+                var eventIdList = data[2];
+                var startDTList = data[3];
+                var stopDTList = data[4];
+
+                for (var i = 0; i < latList.length; ++i) {
+
+                    var popUpData = '</br><strong class="popUpSDT"> Start Date Time: ' + startDTList[i] +
+                        '</strong></br><strong class="popUpEDT"> Stop Date Time' + stopDTList[i] +
+                        '</strong></br><button class="popUpBtn"  onclick="eventView(\'' + eventIdList[i] + '\')">JOIN</button>';
+
+                    L.marker([parseFloat(latList[i]), parseFloat(longList[i])]).bindPopup(popUpData, customOptions).addTo(map1);
+                    //L.marker([-37.88, 145.00]).addTo(map1);
+                }
+
+            },
+            error: function (xhr) {
+
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+        function success(position) {
+            var lat = position.coords.latitude;
+            var long = position.coords.longitude;
+            L.marker([lat, long]).addTo(map1);
+        }
+    });
+
+
+    function eventView(eventId) {
+
+        var url = '@Url.Action("MapEventJoin", "EventHomeMap", new { eventId = "__id__" })';
+        window.location.href = url.replace('__id__', eventId);
+    }
+    </script>

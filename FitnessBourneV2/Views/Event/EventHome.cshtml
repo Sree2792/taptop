@@ -9,6 +9,9 @@
 <link rel="stylesheet" type="text/css" href="~/Content/EventDetails.css">
 @using (Html.BeginForm("EventRefresh", "Event", FormMethod.Post, new { @class = "form-horizontal formPos", @id = "mainForm", role = "form" }))
 {
+    <div>
+        <button type="button" id="mapBtn" onclick="location.href='@Url.Action("MapHome","EventHomeMap",  new {eventType = @Model.EventypeInView})'"> Map View </button>
+    </div>
     <div class="row" id="DetailsPane">
         <div class="col-md-10" id="DetailsCol">
             <div class="row">
@@ -147,7 +150,7 @@
 }
     <div class="row" id="MapPane">
         <div class="col-md-10 col-md-offset-1" id="MapOuterContainer">
-            <div id="mapRoute" class="mapRouteClass disabledbutton"></div>
+            <div id="mapRoute" class="mapRouteClass"></div>
         </div>
     </div>
 
@@ -156,6 +159,12 @@
 
         //$('.leaflet-routing-reverse-waypoints').trigger('click');
         //$('.leaflet-routing-reverse-waypoints').trigger('click');
+    }
+
+    function changeToMapView(eventType) {
+
+        // event type
+
     }
 
     function joinEvent(eventNum) {
@@ -235,14 +244,6 @@
             $('.leaflet-control-container input').each(function () {
 
                 this.value = data[itr];
-
-                // create enter key press
-                e = jQuery.Event("keypress");
-                e.which = 13; //choose the one you want
-                //this.keypress(function () {
-                    //alert('keypress triggered')
-                //}).trigger(e);
-
                 itr = itr + 1;
             });
         },
@@ -266,31 +267,24 @@
         async: true,
         success: function (data) {
 
-            //Add enough input labels to the map
-            var inputClicks = data.length - 2;
+            //add enough input labels to the map
+            var inputclicks = data.length - 2;
 
-            if (inputClicks > 0) {
+            if (inputclicks > 0) {
 
-                for (var j = 0; j < inputClicks; ++j) {
+                for (var j = 0; j < inputclicks; ++j) {
                     $('.leaflet-routing-add-waypoint').trigger('click');
                 }
             }
 
-            //Add text to label
+            //add text to label
             var itr = 0;
             $('.leaflet-control-container input').each(function () {
 
                 this.value = data[itr];
-
-                // create enter key press
-                e = jQuery.Event("keypress");
-                e.which = 13; //choose the one you want
-                //this.keypress(function () {
-                    //alert('keypress triggered')
-                //}).trigger(e);
-
                 itr = itr + 1;
             });
+
         },
         failure: function (data) {
             alert(data.d);

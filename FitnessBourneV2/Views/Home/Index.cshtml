@@ -63,24 +63,24 @@
             <div class="col-md-4">
                 <img src="~/Image/Cycling.jpg" alt="Cycling" class="eventImg" />
                 <div class="col-md-1 col-md-offset-5">
-                    <input type="button" onclick="location.href='@Url.Action("EventHome","Event", new { type = "Cycling"})'" value="Cycling"/>
+                    <input type="button" class="eventBtn" onclick="location.href='@Url.Action("EventHome","Event", new { type = "Cycling"})'" value="Cycling"/>
                 </div>
             </div>
             <div class="col-md-4">
                 <img src="~/Image/walking.jpg" alt="Walking" class="eventImg" />
                 <div class="col-md-1 col-md-offset-5">
-                    <input type="button" onclick="location.href='@Url.Action("EventHome","Event", new { type = "Walking"})'" value="Walking" />
+                    <input type="button" class="eventBtn" onclick="location.href='@Url.Action("EventHome","Event", new { type = "Walking"})'" value="Walking" />
                 </div>
             </div>
             <div class="col-md-4">
                 <img src="~/Image/running.jpg" alt="Running" class="eventImg" />
                 <div class="col-md-1 col-md-offset-5">
-                    <input type="button" onclick="location.href='@Url.Action("EventHome","Event",  new {type = "Running"})'"  value="Running" />
+                    <input type="button" class="eventBtn" onclick="location.href='@Url.Action("EventHome","Event",  new {type = "Running"})'"  value="Running" />
                 </div>
             </div>
         </div>
         <div class="row">
-            <input style="float:right; margin-right:5%;" type="button" value="Add" onclick="location.href='@Url.Action("EventAdd","Event")'" />
+            <input style="float:right; margin-right:5%;" type="button" class="eventBtn" value="Add" onclick="location.href='@Url.Action("EventAdd","Event")'" />
         </div>
         
     </div>
@@ -107,7 +107,7 @@
                     <textarea id="contactUsMessage"></textarea>
                 </div>
                 <div>
-                    <button type="button" onclick="contactus()">   Contact Us   </button>
+                    <button type="button" id="contactUsBtn" onclick="contactus()">   Contact Us   </button>
                 </div>
                 
                 <!--<span><strong>Developer Team</strong></span><br />

@@ -14,8 +14,11 @@
     max-width: 1000px;
 }
 
-.checkPointLoc{
-    
+#EventMembers {
+    margin-top:10%;
+}
+
+.checkPointLoc {
     width: 300px;
 }
 
@@ -30,22 +33,30 @@
 }
 
 #joinBtn {
-    background-color: rgb(59, 47, 87);
     margin-top: 10%;
     margin-left: 25%;
-} 
+    background-color: #5f1616 !important;
+    color:white;
+}
 
 .deleteEditBtn {
-    background-color: rgb(59, 47, 87);
+    background-color: #5f1616 !important;
     margin-top: 10%;
     margin-left: 70%;
     color: white;
 }
 
 .deleteEditBtnNotif {
-    background-color: rgb(59, 47, 87);
+    background-color: #5f1616 !important;
     margin-top: 10%;
     color: white;
+}
+
+#mapBtn {
+    background-color: #5f1616 !important;
+    float: right;
+    margin-right: 10%;
+    margin-top: 1%;
 }
 
 #NoMembers {
@@ -69,4 +80,9 @@
 #notifMessage{
     width: 100%;
     max-width:800px;
+}
+
+#joinBtnMap {
+    color: white;
+    background-color: #5f1616 !important;
 }
