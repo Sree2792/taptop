@@ -57,6 +57,7 @@
     float: right;
     margin-right: 10%;
     margin-top: 1%;
+    color:white;
 }
 
 #NoMembers {
@@ -85,4 +86,6 @@
 #joinBtnMap {
     color: white;
     background-color: #5f1616 !important;
+    margin-top: 10%;
+    margin-left: 40%;
 }

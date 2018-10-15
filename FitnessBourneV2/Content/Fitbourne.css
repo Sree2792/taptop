@@ -7,6 +7,9 @@
     margin-right: 20px !important;
 }
 
+.liColor > a {
+    color: rgb(219, 200, 200) !important;
+}
 #navMenu {
     /*background-color:black;*/
     margin-left: 40%;

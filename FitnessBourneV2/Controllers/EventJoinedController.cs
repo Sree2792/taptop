@@ -197,25 +197,38 @@ namespace FitnessBourneV2.Controllers
             foreach (LocationTable locTble in tableObj.LocationTables)
             {
                 // Address string
-                var addrStr = "";
+                //var addrStr = "";
 
-                if (locTble.AddressTable.Adr_Unit_No != "")
-                {
-                    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
-                }
+                //if (locTble.AddressTable.Adr_Unit_No != "")
+                //{
+                //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
+                //}
 
-                if (locTble.AddressTable.Adr_House_No != "")
-                {
-                    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
-                }
+                //if (locTble.AddressTable.Adr_House_No != "")
+                //{
+                //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
+                //}
 
-                addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
-                    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
+                //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
+                //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
 
                 // Append address string to list
-                locationString.Add(addrStr);
+                locationString.Add(locTble.AddressTable.Adr_FullAddress);
             }
-            return Json(locationString, JsonRequestBehavior.AllowGet);
+
+            
+            List<List<double>> latlongList = new List<List<double>>();
+
+            foreach (LocationTable locTble in tableObj.LocationTables)
+            {
+                List<double> latList = new List<double>();
+                latList.Add(locTble.AddressTable.Adr_Lat);
+                latList.Add(locTble.AddressTable.Adr_Long);
+
+                latlongList.Add(latList);
+            }
+
+            return Json(latlongList, JsonRequestBehavior.AllowGet);
         }
 
         [WebMethod]

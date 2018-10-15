@@ -5,6 +5,9 @@
 }
 
 <link rel="stylesheet" type="text/css" href="~/Content/EventDetails.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+<link rel="stylesheet" href="~/Content/leaflet-routing-machine.css" />
+<link rel="stylesheet" href="~/Content/index_route.css" />
 
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
@@ -98,6 +101,9 @@
         </div>
     </div>
 </div>
+<div class="col-md-10 col-md-offset-1">
+    <div id="mapRoute" class="mapRouteClass" style="margin-top:5%;"></div>
+</div>
 
 <script>
     function joinEvent(eventNum) {
@@ -119,5 +125,62 @@
             }
         });
     }
+
+     $(document).ready(function () {
+
+         var counter = @Model.eventList[0].eventID;
+
+         //hide add and edit points
+         document.getElementsByClassName('leaflet-routing-add-waypoint')[0].style.visibility = 'hidden';
+         document.getElementsByClassName('leaflet-routing-reverse-waypoints')[0].style.visibility = 'hidden';
+
+         //get data for map
+        $.ajax({
+        type: "POST",
+        url: '@Url.Action("GetLocationOnEdit", "Event")',
+        data: { "counterVal": counter},
+        dataType: 'json',
+        async: true,
+        success: function (data) {
+
+            //Add enough input labels to the map
+            var inputClicks = data.length - 2;
+
+            if (inputClicks > 0) {
+
+                for (var j = 0; j < inputClicks; ++j) {
+                    $('.leaflet-routing-add-waypoint').trigger('click');
+                }
+            }
+
+            //Add text to label
+            var itr = 0;
+            $('.leaflet-control-container input').each(function () {
+
+                this.value = data[itr];
+
+                // create enter key press
+                e = jQuery.Event("keypress");
+                e.which = 13; //choose the one you want
+                //this.keypress(function () {
+                    //alert('keypress triggered')
+                //}).trigger(e);
+
+                itr = itr + 1;
+            });
+        },
+        failure: function (data) {
+            alert(data.d);
+        },
+        error: function (data) {
+            alert(data.d);
+        }
+        });
+    });
 </script>
+<script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+<script src="~/Scripts/leaflet-routing-machine.js"></script>
+<script src="~/Scripts/Control.Geocoder.js"></script>
+<script src="~/Scripts/config.js"></script>
+<script src="~/Scripts/index_route.js"></script>
 

@@ -880,7 +880,19 @@ namespace FitnessBourneV2.Controllers
                 // Append address string to list
                 locationString.Add(locTble.AddressTable.Adr_FullAddress);
             }
-            return Json(locationString, JsonRequestBehavior.AllowGet);
+
+            List<List<double>> latlongList = new List<List<double>>();
+
+            foreach (LocationTable locTble in eventTable.LocationTables)
+            {
+                List<double> latList = new List<double>();
+                latList.Add(locTble.AddressTable.Adr_Lat);
+                latList.Add(locTble.AddressTable.Adr_Long);
+
+                latlongList.Add(latList);
+            }
+
+            return Json(latlongList, JsonRequestBehavior.AllowGet);
 
         }
 
