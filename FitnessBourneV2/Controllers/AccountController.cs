@@ -200,7 +200,7 @@ namespace FitnessBourneV2.Controllers
                     {
                         unitNum = model.UnitNo;
                     }
-            
+
                     AddressTable adrObj = new AddressTable()
                     {
                         Adr_Unit_No = unitNum,
@@ -210,6 +210,7 @@ namespace FitnessBourneV2.Controllers
                         Adr_City_Name = model.CityName,
                         Adr_State_Name = model.StateName,
                         Adr_Zipcode = model.Zipcode,
+                        Adr_FullAddress = "",
                         Adr_Lat = -37.85,
                         Adr_Long = 144.03
                     };

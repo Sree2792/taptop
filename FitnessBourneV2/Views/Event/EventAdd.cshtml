@@ -123,8 +123,15 @@
                     locationList.push(this.value);
                 }
             });
+            //Add error string
+            var errorDispString = "Provide both start and end location to register the event";
 
-            //Keep copy of locations only
+            if (locationList.length < 2) {
+
+                // Start and End location required
+                alert(errorDispString)
+            } else {
+                //Keep copy of locations only
             var locRefList = locationList;
 
             //Direction string list after placing a delimiter in locationList (;;;;)
@@ -141,16 +148,8 @@
                 locationList.push(directionTxtSTR)
             });
 
-            //Add error string
-            var errorDispString = "Provide both start and end location to register the event";
 
-            if (locRefList.length < 2) {
-
-                // Start and End location required
-                alert(errorDispString)
-            } else {
-
-                $.ajax({
+            $.ajax({
                     type: "POST",
                     url: '@Url.Action("setLocation", "Event")',
                     data: {"anchorname": locationList},
@@ -165,11 +164,12 @@
                     }
                 });
             }
+
         } else {
             //not valid
             alert("Validation Error");
         }
-        
+
 
     }
 </script>

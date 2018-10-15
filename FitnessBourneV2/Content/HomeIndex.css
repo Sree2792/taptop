@@ -1,60 +1,10 @@
 ﻿body, html {
-    height: 200%;
-    color:white;
-}
-
-#two {
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 40%;
-    position: absolute;
-    background-color: white;
     color:black;
-}
-
-#four {
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 60%;
-    position: absolute;
     background-color: white;
-    color: black;
 }
 
-#one, #three {
-    top: 0px;
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 60%;
-    position: absolute;
-}
-
-#five {
-    top: 0px;
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 40%;
-    position: absolute;
-}
-
-#two {
-    top: 60%;
-}
-
-#three {
-    top: 100%;
-}
-
-#four {
-    top: 160%;
-}
-
-#five {
-    top: 220%;
+#first, #second, #third {
+    background-color: black;
 }
 
 #contactUsBtn {
@@ -65,17 +15,6 @@
 .eventBtn {
     background-color: #5f1616 !important;
     color: white;
-}
-
-#six {
-    top: 365%;
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 35%;
-    position: absolute;
-    background-color: white;
-    color: black;
 }
 .contactUs {
     background-color: white;

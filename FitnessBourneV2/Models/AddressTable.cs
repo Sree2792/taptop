@@ -24,6 +24,7 @@ namespace FitnessBourneV2.Models
         public string Adr_City_Name { get; set; }
         public string Adr_Zipcode { get; set; }
         public string Adr_State_Name { get; set; }
+        public string Adr_FullAddress { get; set; }
     
         public virtual FitnessClub FitnessClub { get; set; }
         public virtual MemberTable MemberTable { get; set; }

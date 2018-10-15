@@ -109,6 +109,7 @@
     <Property Name="Adr_City_Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Adr_Zipcode" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Adr_State_Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Adr_FullAddress" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="MemberTables">
     <Key>
@@ -509,6 +510,7 @@
           <NavigationProperty Name="FitnessClub" Relationship="fbmodel.AddressTableFitnessClub" FromRole="AddressTable" ToRole="FitnessClub" />
           <NavigationProperty Name="MemberTable" Relationship="fbmodel.AddressTableMemberTable" FromRole="AddressTable" ToRole="MemberTable" />
           <NavigationProperty Name="LocationTable" Relationship="fbmodel.AddressTableLocationTable" FromRole="AddressTable" ToRole="LocationTable" />
+          <Property Name="Adr_FullAddress" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="MemberTable">
           <Key>
@@ -721,6 +723,7 @@
           <ScalarProperty Name="Adr_City_Name" ColumnName="Adr_City_Name" />
           <ScalarProperty Name="Adr_Zipcode" ColumnName="Adr_Zipcode" />
           <ScalarProperty Name="Adr_State_Name" ColumnName="Adr_State_Name" />
+          <ScalarProperty Name="Adr_FullAddress" ColumnName="Adr_FullAddress" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

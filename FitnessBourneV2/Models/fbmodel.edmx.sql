@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/07/2018 07:05:49
+-- Date Created: 10/15/2018 17:36:07
 -- Generated from EDMX file: \\ad.monash.edu\home\User046\sjay0010\Desktop\VS-2018\FitnessBourneV2\Models\fbmodel.edmx
 -- --------------------------------------------------
 
@@ -62,6 +62,9 @@ IF OBJECT_ID(N'[dbo].[FK_NotificationActionTableMemberTable]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_NotificationTableNotificationActionTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[NotificationActionTables] DROP CONSTRAINT [FK_NotificationTableNotificationActionTable];
+GO
+IF OBJECT_ID(N'[dbo].[FK_NotificationActionTableEventTable]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[NotificationActionTables] DROP CONSTRAINT [FK_NotificationActionTableEventTable];
 GO
 
 -- --------------------------------------------------
@@ -126,7 +129,8 @@ CREATE TABLE [dbo].[AddressTables] (
     [Adr_Suburb_Name] nvarchar(max)  NOT NULL,
     [Adr_City_Name] nvarchar(max)  NOT NULL,
     [Adr_Zipcode] nvarchar(max)  NOT NULL,
-    [Adr_State_Name] nvarchar(max)  NOT NULL
+    [Adr_State_Name] nvarchar(max)  NOT NULL,
+    [Adr_FullAddress] nvarchar(max)  NOT NULL
 );
 GO
 

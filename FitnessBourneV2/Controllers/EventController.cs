@@ -274,17 +274,48 @@ namespace FitnessBourneV2.Controllers
 
                 AddressTable tableAdr = new AddressTable()
                 {
-                    Adr_Street_Name = adressObj[0],
-                    Adr_Suburb_Name = adressObj[1] + ", " + adressObj[2],
-                    Adr_City_Name = adressObj[3],
-                    Adr_State_Name = adressObj[4],
-                    Adr_Zipcode = adressObj[5],
+                    Adr_Street_Name = "",
+                    Adr_Suburb_Name = "",
+                    Adr_City_Name = "",
+                    Adr_State_Name = "",
+                    Adr_Zipcode = "",
                     Adr_House_No = "",
                     Adr_Unit_No = "",
+                    Adr_FullAddress = mapResponseData.results[0].formatted_address,
                     Adr_Lat = Convert.ToDouble(mapResponseData.results[0].geometry.location.lat),
                     Adr_Long = Convert.ToDouble(mapResponseData.results[0].geometry.location.lng)
 
                 };
+
+                int counter = 0;
+                for (int i = mapResponseData.results[0].address_components.Length; i > 0; i--)
+                {
+                    if (counter == 0)
+                    {
+                        tableAdr.Adr_Zipcode = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                    }
+                    else if (counter == 2)
+                    {
+                        tableAdr.Adr_State_Name = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                    }
+                    else if (counter == 3)
+                    {
+                        tableAdr.Adr_City_Name = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                    }
+                    else if (counter == 4)
+                    {
+                        tableAdr.Adr_Suburb_Name = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                    }
+                    else if (counter == 5)
+                    {
+                        tableAdr.Adr_Street_Name = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                    }
+                    else if (counter == 6)
+                    {
+                        tableAdr.Adr_House_No = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                    }
+                    counter = counter + 1;
+                }
 
                 db.AddressTables.Add(tableAdr);
                 db.SaveChanges();
@@ -564,22 +595,52 @@ namespace FitnessBourneV2.Controllers
                     string responseFromServer = reader.ReadToEnd();
                     var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
                     MapResponse mapResponseData  =  JsonConvert.DeserializeObject<MapResponse>(responseFromServer);
-                    
+
+            
                     response.Close();
 
                     AddressTable tableAdr = new AddressTable()
                     {
-                        Adr_Street_Name = adressObj[0],
-                        Adr_Suburb_Name = adressObj[1] + ", " + adressObj[2],
-                        Adr_City_Name = adressObj[3],
-                        Adr_State_Name = adressObj[4],
-                        Adr_Zipcode = adressObj[5],
+                        Adr_Street_Name = "",
+                        Adr_Suburb_Name = "",
+                        Adr_City_Name = "",
+                        Adr_State_Name = "",
+                        Adr_Zipcode = "",
                         Adr_House_No = "",
                         Adr_Unit_No = "",
+                        Adr_FullAddress = mapResponseData.results[0].formatted_address,
                         Adr_Lat = Convert.ToDouble(mapResponseData.results[0].geometry.location.lat),
                         Adr_Long = Convert.ToDouble(mapResponseData.results[0].geometry.location.lng)
 
                     };
+
+                    int counter = 0;
+                    for(int i = mapResponseData.results[0].address_components.Length; i > 0; i--)
+                    {
+                        if(counter == 0)
+                        {
+                            tableAdr.Adr_Zipcode = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                        }else if(counter == 2)
+                        {
+                            tableAdr.Adr_State_Name = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                        }else if (counter == 3)
+                        {
+                            tableAdr.Adr_City_Name = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                        }
+                        else if (counter == 4)
+                        {
+                            tableAdr.Adr_Suburb_Name = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                        }
+                        else if (counter == 5)
+                        {
+                            tableAdr.Adr_Street_Name = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                        }
+                        else if (counter == 6)
+                        {
+                            tableAdr.Adr_House_No = mapResponseData.results[0].address_components[i - 1].long_name.ToString();
+                        }
+                        counter = counter + 1;
+                    }
 
                     //Add address to DB
                     db.AddressTables.Add(tableAdr);
@@ -767,23 +828,23 @@ namespace FitnessBourneV2.Controllers
             foreach (LocationTable locTble in subRec.LocationTables)
             {
                 // Address string
-                var addrStr = "";
+                //var addrStr = "";
 
-                if (locTble.AddressTable.Adr_Unit_No != "")
-                {
-                    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
-                }
+                //if (locTble.AddressTable.Adr_Unit_No != "")
+                //{
+                //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
+                //}
 
-                if (locTble.AddressTable.Adr_House_No != "")
-                {
-                    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
-                }
+                //if (locTble.AddressTable.Adr_House_No != "")
+                //{
+                //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
+                //}
 
-                addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
-                    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
+                //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
+                //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
 
                 // Append address string to list
-                locationString.Add(addrStr);
+                locationString.Add(locTble.AddressTable.Adr_FullAddress);
             }
 
             return Json(locationString, JsonRequestBehavior.AllowGet);
@@ -801,23 +862,23 @@ namespace FitnessBourneV2.Controllers
             foreach (LocationTable locTble in eventTable.LocationTables)
             {
                 // Address string
-                var addrStr = "";
+                //var addrStr = "";
 
-                if (locTble.AddressTable.Adr_Unit_No != "")
-                {
-                    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
-                }
+                //if (locTble.AddressTable.Adr_Unit_No != "")
+                //{
+                //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
+                //}
 
-                if (locTble.AddressTable.Adr_House_No != "")
-                {
-                    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
-                }
+                //if (locTble.AddressTable.Adr_House_No != "")
+                //{
+                //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
+                //}
 
-                addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
-                    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
+                //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
+                //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
 
                 // Append address string to list
-                locationString.Add(addrStr);
+                locationString.Add(locTble.AddressTable.Adr_FullAddress);
             }
             return Json(locationString, JsonRequestBehavior.AllowGet);
 

@@ -61,7 +61,8 @@ namespace FitnessBourneV2.Controllers
                     Adr_State_Name = "Victoria",
                     Adr_Zipcode = "3145",
                     Adr_Lat = -37.874,
-                    Adr_Long = 145.08
+                    Adr_Long = 145.08,
+                    Adr_FullAddress = ""
                 };
 
                 fClub.AddressTable = adrTable;
@@ -85,7 +86,8 @@ namespace FitnessBourneV2.Controllers
                     Adr_State_Name = "Victoria",
                     Adr_Zipcode = "3141",
                     Adr_Lat = -37.8424,
-                    Adr_Long = 144.9874
+                    Adr_Long = 144.9874,
+                    Adr_FullAddress = ""
                 };
 
                 fClub2.AddressTable = adrTable2;
@@ -108,7 +110,8 @@ namespace FitnessBourneV2.Controllers
                     Adr_State_Name = "Victoria",
                     Adr_Zipcode = "3207",
                     Adr_Lat = -37.8368,
-                    Adr_Long = 144.9337
+                    Adr_Long = 144.9337,
+                    Adr_FullAddress = ""
                 };
 
                 fClub3.AddressTable = adrTable3;
@@ -131,7 +134,8 @@ namespace FitnessBourneV2.Controllers
                     Adr_State_Name = "Victoria",
                     Adr_Zipcode = "3106",
                     Adr_Lat = -37.8561,
-                    Adr_Long = 144.883
+                    Adr_Long = 144.883,
+                    Adr_FullAddress = ""
                 };
 
                 fClub4.AddressTable = adrTable4;
@@ -154,7 +158,8 @@ namespace FitnessBourneV2.Controllers
                     Adr_State_Name = "Victoria",
                     Adr_Zipcode = "3031",
                     Adr_Lat = -37.7867,
-                    Adr_Long = 144.9296
+                    Adr_Long = 144.9296,
+                    Adr_FullAddress = ""
                 };
 
                 fClub5.AddressTable = adrTable5;
@@ -177,7 +182,8 @@ namespace FitnessBourneV2.Controllers
                     Adr_State_Name = "Victoria",
                     Adr_Zipcode = "3182",
                     Adr_Lat = -37.8566,
-                    Adr_Long = 144.9834
+                    Adr_Long = 144.9834,
+                    Adr_FullAddress = ""
                 };
 
                 fClub6.AddressTable = adrTable6;
@@ -200,7 +206,8 @@ namespace FitnessBourneV2.Controllers
                     Adr_State_Name = "Victoria",
                     Adr_Zipcode = "3104",
                     Adr_Lat = -37.7934,
-                    Adr_Long = 145.06413
+                    Adr_Long = 145.06413,
+                    Adr_FullAddress = ""
                 };
 
                 fClub7.AddressTable = adrTable7;
