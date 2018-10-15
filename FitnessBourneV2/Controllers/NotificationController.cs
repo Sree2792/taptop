@@ -144,7 +144,15 @@ namespace FitnessBourneV2.Controllers
             else
             {
                 // Nothing created yet
-                Session["AlertMessage"] = "You do not have any notification to approve!!!";
+                if (Session["NotifList"] != null)
+                {
+                    Session["AlertMessage"] = "All notifications are cleared!!!";
+                }
+                else
+                {
+                    Session["AlertMessage"] = "You do not have any notification!!!";
+                }
+                
                 return RedirectToAction("Index", "Home");
             }
 
@@ -216,7 +224,7 @@ namespace FitnessBourneV2.Controllers
                     // Participant notification
                     NotificationTable notifTble = new NotificationTable()
                     {
-                        Notif_Type = "p",
+                        Notif_Type = "P",
                         Notif_Message = "The " + eventType + " event you registered on " + eventTbleOrginal.Evnt_Start_DateTime.ToString() + " from " + startLoc + " to " + stopLoc + " has changed."
                     };
 
@@ -278,6 +286,35 @@ namespace FitnessBourneV2.Controllers
             }
             else if (Session["NotificationStatus"].ToString() == "delete")
             {
+                // if admin deleted notification
+                if(notifObj.Notif_Type == "A")
+                {
+                    string message = notifObj.Notif_Message;
+                    MemberTable notifCreatedPart = notifObj.EventEdit.Creator;
+
+                    // create delete notification for participant whose notification has been deleted
+                    NotificationTable notifCreate = new NotificationTable()
+                    {
+                        Notif_Type = "P",
+                        Notif_Message = "'" + message + "' -: This request you generated got deleted",
+                    };
+                    db.NotificationTables.Add(notifCreate);
+                    db.SaveChanges();
+                  
+                    EventTable tble = db.EventTables.Find(notifObj.NotificationActionTables.ToList()[0].EventTable.Evnt_Id);
+
+                    NotificationActionTable actTble = new NotificationActionTable()
+                    {
+                        NA_Decision = "NO",
+                        MemberTable = notifCreatedPart,
+                        NotificationTable = notifCreate,
+                        EventTable = tble
+                    };
+
+                    db.NotificationActionTables.Add(actTble);
+                    db.SaveChanges();
+                }
+                
                 //Erase or delete the notification
                 //Notification delete
                 db.NotificationTables.Remove(notifObj);

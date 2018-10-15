@@ -336,8 +336,14 @@
     <Content Include="Image\Logo.png" />
     <Content Include="Image\Map_Pin.png" />
     <Content Include="Image\Motiv_Image1.jpg" />
+    <Content Include="Image\Motiv_Image1_320.jpg" />
+    <Content Include="Image\Motiv_Image1_640.jpg" />
     <Content Include="Image\Motiv_Image2.jpg" />
+    <Content Include="Image\Motiv_Image2_320.jpg" />
+    <Content Include="Image\Motiv_Image2_640.jpg" />
     <Content Include="Image\Motiv_Image3.jpg" />
+    <Content Include="Image\Motiv_Image3_320.jpg" />
+    <Content Include="Image\Motiv_Image3_640.jpg" />
     <Content Include="Image\routing-icon.png" />
     <Content Include="Image\running.jpg" />
     <Content Include="Image\walking.jpg" />

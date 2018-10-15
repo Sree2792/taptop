@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <button class="deleteEditBtn" type="button" onclick="deleteEvent(@Model.listOfEventJoined[j].eventID)">   Remove   </button>
+                                        <button class="deleteEditBtn" type="button" onclick="deleteEvent(@Model.listOfEventJoined[j].eventID)">   Withdraw   </button>
                                     </div>
                                     <div class="col-md-3">
                                         <button class="deleteEditBtn" type="button" onclick="location.href='@Url.Action("EventEdit","Event",  new {eventID = @Model.listOfEventJoined[j].eventID})'">   Edit   </button>
@@ -162,25 +162,12 @@
 <script src="~/Scripts/config.js"></script>
 
 <script>
-
-    
-</script>
-
-
-<script>
     var mapMain = L.map('mapRoute').setView([-37.89, 145.00], 11);
     var control;
-
-    function routeMap() {
-
-        //$('.leaflet-routing-reverse-waypoints').trigger('click');
-        //$('.leaflet-routing-reverse-waypoints').trigger('click');
-    }
 
     // delete event
     function deleteEvent(eventNum) {
 
-        alert(eventNum)
         $.ajax({
             type: "POST",
             url: '@Url.Action("deleteEvent", "EventJoined")',
@@ -237,30 +224,13 @@
         async: true,
         success: function (data) {
 
-            //Add enough input labels to the map
-            /*var inputClicks = data.length - 2;
-
-            if (inputClicks > 0) {
-
-                for (var j = 0; j < inputClicks; ++j) {
-                    $('.leaflet-routing-add-waypoint').trigger('click');
-                }
-            }
-
-            //Add text to label
-            var itr = 0;
-            $('.leaflet-control-container input').each(function () {
-
-                this.value = data[itr];
-
-                itr = itr + 1;
-            });*/
             mapMain.removeControl(control);
 
             control = L.Routing.control(L.extend(window.lrmConfig, {
                 waypoints: data,
                 geocoder: L.Control.Geocoder.nominatim(),
                 draggableWaypoints: false,
+                addWaypoints: false,
                 altLineOptions: {
                     styles: [
                         { color: 'black', opacity: 0.15, weight: 9 },
@@ -286,10 +256,7 @@
 
         var counter = @Model.listOfEventJoined[0].eventID;
 
-        //hide add and edit points
-        //document.getElementsByClassName('leaflet-routing-add-waypoint')[0].style.visibility = 'hidden';
-
-         //get data for map
+        //get data for map
         $.ajax({
         type: "POST",
         url: '@Url.Action("GetLocationOnEdit", "Event")',
@@ -297,28 +264,6 @@
         dataType: 'json',
         async: true,
         success: function (data) {
-
-
-
-
-            //Add enough input labels to the map
-            /*var inputClicks = data.length - 2;
-
-            if (inputClicks > 0) {
-
-                for (var j = 0; j < inputClicks; ++j) {
-                    $('.leaflet-routing-add-waypoint').trigger('click');
-                }
-            }
-
-            //Add text to label
-            var itr = 0;
-            $('.leaflet-control-container input').each(function () {
-
-                itr = itr + 1;
-            });*/
-
-
             
             var mapIcon = L.icon({
                 iconUrl: '../Image/Map_Pin.png',
@@ -334,6 +279,7 @@
                 waypoints: data,
                 geocoder: L.Control.Geocoder.nominatim(),
                 draggableWaypoints: false,
+                addWaypoints: false,
                 altLineOptions: {
                     styles: [
                         { color: 'black', opacity: 0.15, weight: 9 },
@@ -354,7 +300,5 @@
         });
     });
 </script>
-
-<!--<script src="~/Scripts/index_route.js"></script>-->
 
 

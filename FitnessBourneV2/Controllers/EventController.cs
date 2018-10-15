@@ -824,30 +824,41 @@ namespace FitnessBourneV2.Controllers
             // Event table in view
             EventTable subRec = eventsFiltered[counterVal];
 
-            List<string> locationString = new List<string>();
+            //List<string> locationString = new List<string>();
+            //foreach (LocationTable locTble in subRec.LocationTables)
+            //{
+            //    // Address string
+            //    //var addrStr = "";
+
+            //    //if (locTble.AddressTable.Adr_Unit_No != "")
+            //    //{
+            //    //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
+            //    //}
+
+            //    //if (locTble.AddressTable.Adr_House_No != "")
+            //    //{
+            //    //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
+            //    //}
+
+            //    //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
+            //    //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
+
+            //    // Append address string to list
+            //    locationString.Add(locTble.AddressTable.Adr_FullAddress);
+            //}
+
+            List<List<double>> latlongList = new List<List<double>>();
+
             foreach (LocationTable locTble in subRec.LocationTables)
             {
-                // Address string
-                //var addrStr = "";
+                List<double> latList = new List<double>();
+                latList.Add(locTble.AddressTable.Adr_Lat);
+                latList.Add(locTble.AddressTable.Adr_Long);
 
-                //if (locTble.AddressTable.Adr_Unit_No != "")
-                //{
-                //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
-                //}
-
-                //if (locTble.AddressTable.Adr_House_No != "")
-                //{
-                //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
-                //}
-
-                //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
-                //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
-
-                // Append address string to list
-                locationString.Add(locTble.AddressTable.Adr_FullAddress);
+                latlongList.Add(latList);
             }
 
-            return Json(locationString, JsonRequestBehavior.AllowGet);
+            return Json(latlongList, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -858,28 +869,28 @@ namespace FitnessBourneV2.Controllers
             // Event table on edit
             EventTable eventTable = db.EventTables.Find(counterVal);
 
-            List<string> locationString = new List<string>();
-            foreach (LocationTable locTble in eventTable.LocationTables)
-            {
-                // Address string
-                //var addrStr = "";
+            //List<string> locationString = new List<string>();
+            //foreach (LocationTable locTble in eventTable.LocationTables)
+            //{
+            //    // Address string
+            //    //var addrStr = "";
 
-                //if (locTble.AddressTable.Adr_Unit_No != "")
-                //{
-                //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
-                //}
+            //    //if (locTble.AddressTable.Adr_Unit_No != "")
+            //    //{
+            //    //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
+            //    //}
 
-                //if (locTble.AddressTable.Adr_House_No != "")
-                //{
-                //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
-                //}
+            //    //if (locTble.AddressTable.Adr_House_No != "")
+            //    //{
+            //    //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
+            //    //}
 
-                //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
-                //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
+            //    //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
+            //    //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
 
-                // Append address string to list
-                locationString.Add(locTble.AddressTable.Adr_FullAddress);
-            }
+            //    // Append address string to list
+            //    locationString.Add(locTble.AddressTable.Adr_FullAddress);
+            //}
 
             List<List<double>> latlongList = new List<List<double>>();
 

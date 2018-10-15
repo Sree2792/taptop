@@ -118,7 +118,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <button class="deleteEditBtn" type="button" onclick="deleteEvent(@Model.eventList[i].eventID)">   Remove   </button>
+                                        <button class="deleteEditBtn" type="button" onclick="deleteEvent(@Model.eventList[i].eventID)">   Delete   </button>
                                     </div>
                                     <div class="col-md-3">
                                         <button class="deleteEditBtn" type="button" onclick="location.href='@Url.Action("EventEdit", "Event", new { eventID = @Model.eventList[i].eventID })'">   Edit   </button>
@@ -129,8 +129,8 @@
                             @if (Model.eventList[i].EventMembers.Count > 0)
     {
                         <div class="row" id="EventMembers">
-                            <div class="col-md-4">
-                                <table id="example" class="table table-bordered" style="width:100%">
+                            <div class="col-md-4 col-md-offset-2" style="margin-left:20%; color:white;">
+                                <table id="example" class="table table-bordered" style="width:70%">
                                     <thead>
                                         <tr>
                                             <th>Member Email</th>
@@ -229,8 +229,6 @@ else
 
     // delete event
     function deleteEvent(eventNum) {
-
-        alert(eventNum)
         $.ajax({
             type: "POST",
             url: '@Url.Action("deleteEvent", "EventsCreated")',

@@ -32,12 +32,15 @@
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map1);
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(success);
-
+       /* if ("geolocation" in navigator) { //check geolocation available
+            //try to get user current location using getCurrentPosition() method
+            navigator.geolocation.getCurrentPosition(function (position) {
+                alert("Found your location  Lat : " + position.coords.latitude + " Long :" + position.coords.longitude)
+                $("#result").html();
+            });
         } else {
-            alert("Geo Location is not supported on your current browser!");
-        }
+            console.log("Browser doesn't support geolocation!");
+        }*/
 
         $.ajax({
             type: "POST",

@@ -181,7 +181,15 @@ namespace FitnessBourneV2.Controllers
             else
             {
                 // Nothing created yet
-                Session["AlertMessage"] = "You did not create any events yet!!!";
+                if (Session["CreatedEvents"] != null)
+                {
+                    Session["AlertMessage"] = "No More Created Events!!!";
+                }
+                else
+                {
+                    Session["AlertMessage"] = "No Events Created!!!";
+                }
+                
                 return RedirectToAction("Index", "Home");
             }
         }

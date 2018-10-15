@@ -148,28 +148,26 @@
         </div>
     </div>
 }
-    <div class="row" id="MapPane">
-        <div class="col-md-10 col-md-offset-1" id="MapOuterContainer">
-            <div id="mapRoute" class="mapRouteClass"></div>
-        </div>
+<div class="row" id="MapPane">
+    <div class="col-md-10 col-md-offset-1" id="MapOuterContainer">
+        <div id="mapRoute" class="mapRouteClass"></div>
     </div>
+</div>
 
-    <script>
-    function routeMap() {
 
-        //$('.leaflet-routing-reverse-waypoints').trigger('click');
-        //$('.leaflet-routing-reverse-waypoints').trigger('click');
-    }
+<script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+<script src="~/Scripts/leaflet-routing-machine.js"></script>
+<script src="~/Scripts/Control.Geocoder.js"></script>
+<script src="~/Scripts/config.js"></script>
 
-    function changeToMapView(eventType) {
 
-        // event type
+<script>
 
-    }
+    var mapMain = L.map('mapRoute').setView([-37.89, 145.00], 11);
+    var control;
 
     function joinEvent(eventNum) {
 
-        alert(eventNum)
         $.ajax({
             type: "POST",
             url: '@Url.Action("joinEvent", "Event")',
@@ -229,23 +227,23 @@
         async: true,
         success: function (data) {
 
-            //Add enough input labels to the map
-            var inputClicks = data.length - 2;
+            mapMain.removeControl(control);
 
-            if (inputClicks > 0) {
-
-                for (var j = 0; j < inputClicks; ++j) {
-                    $('.leaflet-routing-add-waypoint').trigger('click');
+            control = L.Routing.control(L.extend(window.lrmConfig, {
+                waypoints: data,
+                geocoder: L.Control.Geocoder.nominatim(),
+                draggableWaypoints: false,
+                addWaypoints: false,
+                altLineOptions: {
+                    styles: [
+                        { color: 'black', opacity: 0.15, weight: 9 },
+                        { color: 'white', opacity: 0.8, weight: 6 },
+                        { color: 'blue', opacity: 0.5, weight: 2 }
+                    ]
                 }
-            }
+            })).addTo(mapMain);
 
-            //Add text to label
-            var itr = 0;
-            $('.leaflet-control-container input').each(function () {
-
-                this.value = data[itr];
-                itr = itr + 1;
-            });
+            L.Routing.errorControl(control).addTo(mapMain);
         },
         failure: function (data) {
             alert(data.d);
@@ -258,51 +256,50 @@
 
         $(document).ready(function () {
 
-            //hide add and edit points
-            document.getElementsByClassName('leaflet-routing-add-waypoint')[0].style.visibility = 'hidden';
-            document.getElementsByClassName('leaflet-routing-reverse-waypoints')[0].style.visibility = 'hidden';
+            //get data for map
+            $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetLocation", "Event")',
+            data: { "counterVal": 0},
+            dataType: 'json',
+            async: true,
+            success: function (data) {
 
-        //get data for map
-        $.ajax({
-        type: "POST",
-        url: '@Url.Action("GetLocation", "Event")',
-        data: { "counterVal": 0},
-        dataType: 'json',
-        async: true,
-        success: function (data) {
+                var mapIcon = L.icon({
+                    iconUrl: '../Image/Map_Pin.png',
+                    iconSize: [38, 95], // size of the icon
+                    popupAnchor: [0, -15]
+                });
 
-            //add enough input labels to the map
-            var inputclicks = data.length - 2;
+                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(mapMain);
 
-            if (inputclicks > 0) {
+                control = L.Routing.control(L.extend(window.lrmConfig, {
+                    waypoints: data,
+                    geocoder: L.Control.Geocoder.nominatim(),
+                    draggableWaypoints: false,
+                    addWaypoints: false,
+                    altLineOptions: {
+                        styles: [
+                            { color: 'black', opacity: 0.15, weight: 9 },
+                            { color: 'white', opacity: 0.8, weight: 6 },
+                            { color: 'blue', opacity: 0.5, weight: 2 }
+                        ]
+                    }
+                })).addTo(mapMain);
 
-                for (var j = 0; j < inputclicks; ++j) {
-                    $('.leaflet-routing-add-waypoint').trigger('click');
-                }
+                L.Routing.errorControl(control).addTo(mapMain);
+
+            },
+            failure: function (data) {
+                alert(data.d);
+            },
+            error: function (data) {
+                alert(data.d);
             }
-
-            //add text to label
-            var itr = 0;
-            $('.leaflet-control-container input').each(function () {
-
-                this.value = data[itr];
-                itr = itr + 1;
             });
-
-        },
-        failure: function (data) {
-            alert(data.d);
-        },
-        error: function (data) {
-            alert(data.d);
-        }
-        });
      });
 
 
-    </script>
-    <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
-    <script src="~/Scripts/leaflet-routing-machine.js"></script>
-    <script src="~/Scripts/Control.Geocoder.js"></script>
-    <script src="~/Scripts/config.js"></script>
-    <script src="~/Scripts/index_route.js"></script>
+</script>

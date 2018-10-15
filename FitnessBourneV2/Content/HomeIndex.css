@@ -26,22 +26,29 @@
     font-size: 50px;
     margin-top: 15%;
     margin-bottom: 10%;
+    padding-left:5%;
 }
 
 #ContactTitle {
     font-size: 50px;
     margin-top: 15%;
     margin-bottom: 15%;
+    padding-left: 5%;
 }
 
 #AboutTitle {
     font-size: 50px;
-    margin-top: 15%;
+    margin-top: 10%;
     margin-bottom: 15%;
+    padding-left: 5%;
 }
 
-#AboutContent{
-    font-size:23px;
+#AboutSection {
+    height: 350px;
+}
+
+#AboutContent {
+    font-size: 27px;
 }
 
 .eventImg {
@@ -52,8 +59,7 @@
 
 .motivBlock {
     width: 90%;
-    margin-top: 10%;
-    height: 400px;
+    height: 550px;
 }
 
 .motivBlock2 {
@@ -66,7 +72,7 @@
     top: 75%;
     left: 45%;
     transform: translate(-50%, -50%);
-    font-size: 30px;
+    font-size: 23px;
     color:#FFF;
 }
 
