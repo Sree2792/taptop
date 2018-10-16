@@ -1,0 +1,40 @@
+﻿@model FitnessBourneV2.Models.AdminDemo
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row" id="EventMembers">
+    <div class="col-md-4 col-md-offset-2" style="margin-left:20%; color:white;">
+        <table id="example" class="table table-bordered" style="width:70%">
+            <thead>
+                <tr>
+                    <th>Member Email</th>
+                    <th>Member Contact Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int j = 0; j < Model.memberList.Count; j++)
+                {
+                    <tr>
+                        <td>@Model.memberList[j].mem_EmailID</td>
+                        <td>@Model.memberList[j].mem_ContactNum</td>
+                        <td><a href="'@Url.Action("", "Admin", new { memIDVal = Model.memberList[j].mem_id })'"><span>Delete</span></a></td>
+                    </tr>
+                }
+            </tbody>
+            @if (Model.memberList.Count > 5)
+            {
+                <tfoot>
+                    <tr>
+                        <th>Member Email</th>
+                        <th>Member Contact Number</th>
+                    </tr>
+                </tfoot>
+            }
+
+        </table>
+    </div>
+
+</div>
+

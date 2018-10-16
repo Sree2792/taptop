@@ -229,6 +229,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\EventHomeMapController.cs" />
     <Compile Include="Controllers\EventJoinedController.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="Models\AddressTable.cs">
       <DependentUpon>fbmodel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminDemo.cs" />
     <Compile Include="Models\EventAddModel.cs" />
     <Compile Include="Models\EventCreated.cs" />
     <Compile Include="Models\EventEdit.cs">
@@ -512,6 +514,7 @@
     <Content Include="Views\EventsCreated\EventCreated.cshtml" />
     <Content Include="Views\EventHomeMap\MapHome.cshtml" />
     <Content Include="Views\EventHomeMap\MapEventJoin.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
