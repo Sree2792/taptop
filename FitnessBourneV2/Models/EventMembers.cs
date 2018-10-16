@@ -15,6 +15,7 @@ namespace FitnessBourneV2.Models
     public partial class EventMembers
     {
         public int EvMem_Id { get; set; }
+        public bool EvMem_IsConfirmed { get; set; }
     
         public virtual EventTable EventTable { get; set; }
         public virtual MemberTable MemberTable { get; set; }

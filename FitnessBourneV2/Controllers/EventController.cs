@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Services;
 using FitnessBourneV2.Models;
 using Newtonsoft.Json;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace FitnessBourneV2.Controllers
 {
@@ -924,12 +926,65 @@ namespace FitnessBourneV2.Controllers
             //get event joined
             EventTable eventDet = db.EventTables.Find(anchorname);
 
+            //Check capacity
+            List <EventMembers> eveMem = eventDet.EventMembers.ToList();
+
+            // confirmed event members
+            List<EventMembers> eveMemConfirmed = new List<EventMembers>();
+            //loop through
+            foreach(EventMembers obj in eveMem)
+            {
+                if (obj.EvMem_IsConfirmed)
+                {
+                    eveMemConfirmed.Add(obj);
+                }
+            }
+
+            bool isConfirmed = false;
+            var plainTextContent = "";
+            var subject = "";
+            if (eveMemConfirmed.Count <= Convert.ToInt32(eventDet.Evnt_Capacity))
+            {
+
+                isConfirmed = true;
+
+                subject = "Event Join Confirmation";
+                plainTextContent = "Your event from "+ eventDet.Evnt_Start_DateTime.ToString() + " to " + eventDet.Evnt_End_DateTime.ToString() + "has been confirmed.";
+                
+            }
+            else
+            {
+                subject = "Event Join Confirmation";
+                plainTextContent = "Your event from " + eventDet.Evnt_Start_DateTime.ToString() + " to " + eventDet.Evnt_End_DateTime.ToString() + " is in waitlist.";
+            }
+
+            // send mail
+            join(subject, plainTextContent);
+
             //get event member table
             EventMembers membEvent = new EventMembers();
             membEvent.MemberTable = loginUser;
             membEvent.EventTable = eventDet;
+            membEvent.EvMem_IsConfirmed = isConfirmed;
             db.EventMembers.Add(membEvent);
             db.SaveChanges();
+        }
+
+        
+        public void join(string subject, string plainTextContent)
+        {
+            //To install package-: Install-Package SendGrid
+            //var apiKey = Environment.GetEnvironmentVariable("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");
+            var client = new SendGridClient("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");
+
+            var from = new EmailAddress("admin@fb.gmail.com", "User");
+
+            var to = new EmailAddress("sreejith92pf@gmail.com", "Admin");
+
+            var htmlContent = "<strong>" + plainTextContent + "</strong>";
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = client.SendEmailAsync(msg);
         }
     }
 }

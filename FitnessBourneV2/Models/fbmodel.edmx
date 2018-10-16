@@ -188,6 +188,7 @@
       <PropertyRef Name="EvMem_Id" />
     </Key>
     <Property Name="EvMem_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EvMem_IsConfirmed" Type="bit" Nullable="false" />
     <Property Name="EventTable_Evnt_Id" Type="int" Nullable="true" />
     <Property Name="MemberTable_Mem_Id" Type="int" Nullable="true" />
   </EntityType>
@@ -663,6 +664,7 @@
           <Property Name="EvMem_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="EventTable" Relationship="fbmodel.EventMembersEventTable" FromRole="EventMembers" ToRole="EventTable" />
           <NavigationProperty Name="MemberTable" Relationship="fbmodel.EventMembersMemberTable" FromRole="EventMembers" ToRole="MemberTable" />
+          <Property Name="EvMem_IsConfirmed" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="EventMembersEventTable">
           <End Type="fbmodel.EventMembers" Role="EventMembers" Multiplicity="*" />
@@ -802,6 +804,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(fbmodel.EventMembers)">
         <MappingFragment StoreEntitySet="EventMembers">
           <ScalarProperty Name="EvMem_Id" ColumnName="EvMem_Id" />
+          <ScalarProperty Name="EvMem_IsConfirmed" ColumnName="EvMem_IsConfirmed" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

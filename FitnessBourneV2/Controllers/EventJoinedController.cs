@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services;
 using FitnessBourneV2.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace FitnessBourneV2.Controllers
 {
@@ -200,30 +202,6 @@ namespace FitnessBourneV2.Controllers
             // Get event table
             EventTable tableObj = db.EventTables.Find(joinedEvent.eventID);
 
-            //Location string list
-            //List<string> locationString = new List<string>();
-            //foreach (LocationTable locTble in tableObj.LocationTables)
-            //{
-            //    // Address string
-            //    //var addrStr = "";
-
-            //    //if (locTble.AddressTable.Adr_Unit_No != "")
-            //    //{
-            //    //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
-            //    //}
-
-            //    //if (locTble.AddressTable.Adr_House_No != "")
-            //    //{
-            //    //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
-            //    //}
-
-            //    //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
-            //    //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
-
-            //    // Append address string to list
-            //    locationString.Add(locTble.AddressTable.Adr_FullAddress);
-            //}
-
             
             List<List<double>> latlongList = new List<List<double>>();
 
@@ -256,19 +234,77 @@ namespace FitnessBourneV2.Controllers
             //get event joined
             EventTable eventDet = db.EventTables.Find(anchorname);
 
+            //EventMember record
+            EventMembers memObj = new EventMembers();
+
             //get event member table
             List<EventMembers> eventMembers = db.EventMembers.ToList();
 
-            //scan through to delete event
-            foreach (EventMembers memObj in eventMembers)
+            foreach (EventMembers obj in eventMembers)
             {
-                if(memObj.MemberTable.Mem_Id == loginUser.Mem_Id && memObj.EventTable.Evnt_Id == eventDet.Evnt_Id)
+                if (memObj.MemberTable.Mem_Id == loginUser.Mem_Id && memObj.EventTable.Evnt_Id == eventDet.Evnt_Id)
                 {
-                    db.EventMembers.Remove(memObj);
-                    db.SaveChanges();
+                    memObj = obj;
                     break;
                 }
             }
+
+            //check if the event of member is confirmed
+            if (memObj.EvMem_IsConfirmed)
+            {
+                // check if event capacity
+                if (Convert.ToInt32(eventDet.Evnt_Capacity) < eventDet.EventMembers.ToList().Count)
+                {
+                    // capaciy exceeded case
+                    EventMembers nextInQ = new EventMembers();
+                    foreach (EventMembers obj in eventMembers)
+                    {
+                        if (obj.EventTable.Evnt_Id == eventDet.Evnt_Id)
+                        {
+                            // first non confirmed member in list
+                            if (!obj.EvMem_IsConfirmed)
+                            {
+                                // send mail
+                                string subject = "Event status changed to Confirmation";
+                                string plainTextContent = "Your event from " + eventDet.Evnt_Start_DateTime.ToString() + " to " + eventDet.Evnt_End_DateTime.ToString() + "has been confirmed.";
+                                join(subject, plainTextContent);
+
+                                //change his status to confirmed after sending mail
+                                EventMembers changeStatus = db.EventMembers.Find(obj.EvMem_Id);
+                                changeStatus.EvMem_IsConfirmed = true;
+
+                                // update
+                                db.Entry(changeStatus).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            //delete event event member
+            db.EventMembers.Remove(memObj);
+            db.SaveChanges();
+            
+        }
+
+        public void join(string subject, string plainTextContent)
+        {
+            //To install package-: Install-Package SendGrid
+            //var apiKey = Environment.GetEnvironmentVariable("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");
+            var client = new SendGridClient("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");
+
+            var from = new EmailAddress("admin@fb.gmail.com", "User");
+
+            var to = new EmailAddress("sreejith92pf@gmail.com", "Admin");
+
+            var htmlContent = "<strong>" + plainTextContent + "</strong>";
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = client.SendEmailAsync(msg);
         }
     }
 }
