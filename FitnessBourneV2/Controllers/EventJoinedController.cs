@@ -242,7 +242,7 @@ namespace FitnessBourneV2.Controllers
 
             foreach (EventMembers obj in eventMembers)
             {
-                if (memObj.MemberTable.Mem_Id == loginUser.Mem_Id && memObj.EventTable.Evnt_Id == eventDet.Evnt_Id)
+                if (obj.MemberTable.Mem_Id == loginUser.Mem_Id && obj.EventTable.Evnt_Id == eventDet.Evnt_Id)
                 {
                     memObj = obj;
                     break;
@@ -256,7 +256,6 @@ namespace FitnessBourneV2.Controllers
                 if (Convert.ToInt32(eventDet.Evnt_Capacity) < eventDet.EventMembers.ToList().Count)
                 {
                     // capaciy exceeded case
-                    EventMembers nextInQ = new EventMembers();
                     foreach (EventMembers obj in eventMembers)
                     {
                         if (obj.EventTable.Evnt_Id == eventDet.Evnt_Id)
@@ -267,7 +266,7 @@ namespace FitnessBourneV2.Controllers
                                 // send mail
                                 string subject = "Event status changed to Confirmation";
                                 string plainTextContent = "Your event from " + eventDet.Evnt_Start_DateTime.ToString() + " to " + eventDet.Evnt_End_DateTime.ToString() + "has been confirmed.";
-                                join(subject, plainTextContent);
+                                changeStatusTo(subject, plainTextContent, obj.MemberTable.Mem_Email_Id.ToString());
 
                                 //change his status to confirmed after sending mail
                                 EventMembers changeStatus = db.EventMembers.Find(obj.EvMem_Id);
@@ -291,15 +290,15 @@ namespace FitnessBourneV2.Controllers
             
         }
 
-        public void join(string subject, string plainTextContent)
+        public void changeStatusTo(string subject, string plainTextContent, string emailTo)
         {
             //To install package-: Install-Package SendGrid
             //var apiKey = Environment.GetEnvironmentVariable("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");
             var client = new SendGridClient("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");
 
-            var from = new EmailAddress("admin@fb.gmail.com", "User");
+            var from = new EmailAddress("noreply@localhost.com", "Admin");
 
-            var to = new EmailAddress("sreejith92pf@gmail.com", "Admin");
+            var to = new EmailAddress(emailTo, "User");
 
             var htmlContent = "<strong>" + plainTextContent + "</strong>";
 

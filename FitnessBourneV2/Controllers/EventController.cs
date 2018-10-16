@@ -181,6 +181,7 @@ namespace FitnessBourneV2.Controllers
                 }
 
                 // add refined event list
+                Session["EventListPassed"] = eventListRefined;
                 modelToView.eventList = eventListRefined;
 
                 return View(modelToView);
@@ -794,18 +795,28 @@ namespace FitnessBourneV2.Controllers
                 }
             }
 
-            foreach (EventTable subRecord in eventList)
+            foreach(EventTable subRecord in eventList)
             {
                 //filter if member already joined
                 bool memToJoin = true;
+                bool notAdmin = true;
 
-                if (subRecord.EventMembers.Count > 0)
+                foreach (EventMembers memObj in subRecord.EventMembers.ToList())
                 {
-                    memToJoin = false;
+                    if (memObj.MemberTable.Mem_Id == loginUser.Mem_Id)
+                    {
+                        memToJoin = false;
+                        break;
+                    }
+                }
+
+                if (subRecord.MemberTable.Mem_Id == loginUser.Mem_Id)
+                {
+                    notAdmin = false;
                 }
 
                 //filter on event type , club if private
-                if (subRecord.EventType.ET_Name == type.ToLower() && memToJoin)
+                if (subRecord.EventType.ET_Name == type.ToLower() && memToJoin && notAdmin && !subRecord.Evnt_IsEdit)
                 {
                     if (Convert.ToBoolean(subRecord.Evnt_Is_Private))
                     {
@@ -825,29 +836,6 @@ namespace FitnessBourneV2.Controllers
 
             // Event table in view
             EventTable subRec = eventsFiltered[counterVal];
-
-            //List<string> locationString = new List<string>();
-            //foreach (LocationTable locTble in subRec.LocationTables)
-            //{
-            //    // Address string
-            //    //var addrStr = "";
-
-            //    //if (locTble.AddressTable.Adr_Unit_No != "")
-            //    //{
-            //    //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
-            //    //}
-
-            //    //if (locTble.AddressTable.Adr_House_No != "")
-            //    //{
-            //    //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
-            //    //}
-
-            //    //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
-            //    //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
-
-            //    // Append address string to list
-            //    locationString.Add(locTble.AddressTable.Adr_FullAddress);
-            //}
 
             List<List<double>> latlongList = new List<List<double>>();
 
@@ -870,29 +858,6 @@ namespace FitnessBourneV2.Controllers
         {
             // Event table on edit
             EventTable eventTable = db.EventTables.Find(counterVal);
-
-            //List<string> locationString = new List<string>();
-            //foreach (LocationTable locTble in eventTable.LocationTables)
-            //{
-            //    // Address string
-            //    //var addrStr = "";
-
-            //    //if (locTble.AddressTable.Adr_Unit_No != "")
-            //    //{
-            //    //    addrStr = locTble.AddressTable.Adr_Unit_No + ", ";
-            //    //}
-
-            //    //if (locTble.AddressTable.Adr_House_No != "")
-            //    //{
-            //    //    addrStr = addrStr + locTble.AddressTable.Adr_House_No + ", ";
-            //    //}
-
-            //    //addrStr = locTble.AddressTable.Adr_Street_Name + ", " + locTble.AddressTable.Adr_Suburb_Name + ", " + locTble.AddressTable.Adr_City_Name +
-            //    //    ", " + locTble.AddressTable.Adr_State_Name + ", " + locTble.AddressTable.Adr_Zipcode + "\n";
-
-            //    // Append address string to list
-            //    locationString.Add(locTble.AddressTable.Adr_FullAddress);
-            //}
 
             List<List<double>> latlongList = new List<List<double>>();
 
@@ -943,18 +908,18 @@ namespace FitnessBourneV2.Controllers
             bool isConfirmed = false;
             var plainTextContent = "";
             var subject = "";
-            if (eveMemConfirmed.Count <= Convert.ToInt32(eventDet.Evnt_Capacity))
+            if (eveMemConfirmed.Count < Convert.ToInt32(eventDet.Evnt_Capacity))
             {
 
                 isConfirmed = true;
 
                 subject = "Event Join Confirmation";
-                plainTextContent = "Your event from "+ eventDet.Evnt_Start_DateTime.ToString() + " to " + eventDet.Evnt_End_DateTime.ToString() + "has been confirmed.";
+                plainTextContent = "Your event from "+ eventDet.Evnt_Start_DateTime.ToString() + " to " + eventDet.Evnt_End_DateTime.ToString() + " has been confirmed.";
                 
             }
             else
             {
-                subject = "Event Join Confirmation";
+                subject = "Event Join Waitinglist";
                 plainTextContent = "Your event from " + eventDet.Evnt_Start_DateTime.ToString() + " to " + eventDet.Evnt_End_DateTime.ToString() + " is in waitlist.";
             }
 
@@ -977,9 +942,9 @@ namespace FitnessBourneV2.Controllers
             //var apiKey = Environment.GetEnvironmentVariable("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");
             var client = new SendGridClient("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");
 
-            var from = new EmailAddress("admin@fb.gmail.com", "User");
+            var from = new EmailAddress("noreply@localhost.com", "Admin");
 
-            var to = new EmailAddress("sreejith92pf@gmail.com", "Admin");
+            var to = new EmailAddress(User.Identity.Name.ToString(), "User");
 
             var htmlContent = "<strong>" + plainTextContent + "</strong>";
 
