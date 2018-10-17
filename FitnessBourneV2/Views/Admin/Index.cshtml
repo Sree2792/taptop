@@ -5,8 +5,8 @@
 }
 
 <div class="row" id="EventMembers">
-    <div class="col-md-4 col-md-offset-2" style="margin-left:20%; color:white;">
-        <table id="example" class="table table-bordered" style="width:70%">
+    <div class="col-md-4 col-md-offset-2" style="margin-left:20%; margin-top:5%; color:white;">
+        <table id="example" class="table table-bordered" style="width:70%; background-color: #5f1616;">
             <thead>
                 <tr>
                     <th>Member Email</th>
@@ -19,7 +19,7 @@
                     <tr>
                         <td>@Model.memberList[j].mem_EmailID</td>
                         <td>@Model.memberList[j].mem_ContactNum</td>
-                        <td><a href="'@Url.Action("", "Admin", new { memIDVal = Model.memberList[j].mem_id })'"><span>Delete</span></a></td>
+                        <td><a href=@Url.Action("deleteMember", "Admin", new { memIDVal = Model.memberList[j].mem_id })><span>Delete</span></a></td>
                     </tr>
                 }
             </tbody>
@@ -35,6 +35,9 @@
 
         </table>
     </div>
-
 </div>
+
+<script>
+    $("#navMenu").hide();
+</script>
 

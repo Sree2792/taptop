@@ -167,71 +167,78 @@ namespace FitnessBourneV2.Controllers
                 if (result.Succeeded)
                 {
 
-                    //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
-                    //var roleManager = new RoleManager<IdentityRole>(roleStore);
-                    //await roleManager.CreateAsync(new IdentityRole("Admin"));
-                    //await UserManager.AddToRoleAsync(user.Id, "Admin");
+                    bool isAdmin = false;
+                    if (model.ContactNum == "123456789")
+                    {
+                        //Admin
+                        var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                        var roleManager = new RoleManager<IdentityRole>(roleStore);
+                        await roleManager.CreateAsync(new IdentityRole("Admin"));
+                        await UserManager.AddToRoleAsync(user.Id, "Admin");
+                        isAdmin = true;
 
+                    }
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    // for more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?linkid=320771
+                    // send an email with this link
+                    // string code = await usermanager.generateemailconfirmationtokenasync(user.id);
+                    // var callbackurl = url.action("confirmemail", "account", new { userid = user.id, code = code }, protocol: request.url.scheme);
+                    // await usermanager.sendemailasync(user.id, "confirm your account", "please confirm your account by clicking <a href=\"" + callbackurl + "\">here</a>");
 
 
                     //Add Registered User info to local member table with name , contact number , address and Details
 
-                    MemberTable memObj = new MemberTable()
+                    if (!isAdmin)
                     {
-                        Mem_FirstName = model.FirstName,
-                        Mem_GivenName = model.GivenName,
-                        Mem_Contact_No = model.ContactNum,
-                        Mem_Email_Id = model.Email
-                    };
-
-                    FitnessClub selectdClub = new FitnessClub();
-                    foreach(var item in db.FitnessClubs.ToList())
-                    {
-                        if (item.FC_Id.ToString() == model.selectedClub)
+                        MemberTable memObj = new MemberTable()
                         {
-                            selectdClub = item;
-                            break;
+                            Mem_FirstName = model.FirstName,
+                            Mem_GivenName = model.GivenName,
+                            Mem_Contact_No = model.ContactNum,
+                            Mem_Email_Id = model.Email
+                        };
+
+                        FitnessClub selectdClub = new FitnessClub();
+                        foreach (var item in db.FitnessClubs.ToList())
+                        {
+                            if (item.FC_Id.ToString() == model.selectedClub)
+                            {
+                                selectdClub = item;
+                                break;
+                            }
                         }
+                        memObj.FitnessClub = selectdClub;
+
+                        string unitNum = "";
+                        if (model.UnitNo != null)
+                        {
+                            unitNum = model.UnitNo;
+                        }
+
+                        AddressTable adrObj = new AddressTable()
+                        {
+                            Adr_Unit_No = unitNum,
+                            Adr_House_No = model.HouseNo,
+                            Adr_Street_Name = model.StreetName,
+                            Adr_Suburb_Name = model.SuburbName,
+                            Adr_City_Name = model.CityName,
+                            Adr_State_Name = model.StateName,
+                            Adr_Zipcode = model.Zipcode,
+                            Adr_FullAddress = "",
+                            Adr_Lat = -37.85,
+                            Adr_Long = 144.03
+                        };
+
+                        memObj.AddressTable = adrObj;
+
+                        db.MemberTables.Add(memObj);
+                        db.SaveChanges();
+
+
+                        Session["UserLoggedIn"] = model.Email;
                     }
-                    memObj.FitnessClub = selectdClub;
-
-                    string unitNum = "";
-                    if (model.UnitNo != null)
-                    {
-                        unitNum = model.UnitNo;
-                    }
-
-                    AddressTable adrObj = new AddressTable()
-                    {
-                        Adr_Unit_No = unitNum,
-                        Adr_House_No = model.HouseNo,
-                        Adr_Street_Name = model.StreetName,
-                        Adr_Suburb_Name = model.SuburbName,
-                        Adr_City_Name = model.CityName,
-                        Adr_State_Name = model.StateName,
-                        Adr_Zipcode = model.Zipcode,
-                        Adr_FullAddress = "",
-                        Adr_Lat = -37.85,
-                        Adr_Long = 144.03
-                    };
-
-                    memObj.AddressTable = adrObj;
-
-                    db.MemberTables.Add(memObj);
-                    db.SaveChanges();
-
-
-                    Session["UserLoggedIn"] = model.Email;
-
-
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

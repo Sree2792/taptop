@@ -401,7 +401,7 @@ ADD CONSTRAINT [FK_AddressTableMemberTable]
     FOREIGN KEY ([AddressTable_Adr_Id])
     REFERENCES [dbo].[AddressTables]
         ([Adr_Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AddressTableMemberTable'
