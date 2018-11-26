@@ -1,3 +1,4 @@
+//Referred from http://www.liedman.net/leaflet-routing-machine/
 (function (factory) {
 	// Packaging/modules magic dance
 	var L;
