@@ -1,3 +1,4 @@
+//Referred from http://www.liedman.net/leaflet-routing-machine/
 var mapMain = L.map('mapRoute').setView([-37.89, 145.00], 11);
 var mapIcon = L.icon({
     iconUrl: '../Image/Map_Pin.png',
